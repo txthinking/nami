@@ -1,13 +1,13 @@
 # Nami
 
-A distributed binary package manager.
+A decentralized binary package manager.
 
 ### Why
 
 There are already many package managers, like apt-get, brew, but this is all centralized.
 Every time the author updates the software, they need to write complex configuration files and PRs and wait for merge.
 
-Nami is a distributed binary package manager,
+Nami is a decentralized binary package manager,
 she allows software authors to publish their software anywhere,
 without having to request a merge from a software center for each update.
 
@@ -16,7 +16,7 @@ without having to request a merge from a software center for each update.
 ### Usage
 
     NAME:
-       nami - A distributed binary package manager
+       nami - A decentralized binary package manager
 
     USAGE:
        nami [global options] command [command options] [arguments...]
