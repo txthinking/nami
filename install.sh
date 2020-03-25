@@ -1,6 +1,6 @@
 #!/bin/bash
 
-version="v20200327"
+version="v20200328"
 
 os=""
 arch=""
