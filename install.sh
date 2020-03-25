@@ -31,13 +31,13 @@ curl -L -o /tmp/nami "https://github.com/txthinking/nami/releases/download/$vers
 chmod +x /tmp/nami
 /tmp/nami install github.com/txthinking/nami
 
-rc="~/.bashrc"
+rc="$HOME/.bashrc"
 if [ "$os" = "darwin" ]; then
-    rc="~/.bash_profile"
+    rc="$HOME/.bash_profile"
 fi
 if [ $(echo $PATH | grep ".nami/bin" | wc -l) -eq 0 ]; then
-    echo 'if [ -d ~/.nami/bin ]; then' >>$rc
-    echo '    export PATH=~/.nami/bin:$PATH' >>$rc
+    echo 'if [ -d $HOME/.nami/bin ]; then' >>$rc
+    echo '    export PATH=$HOME/.nami/bin:$PATH' >>$rc
     echo 'fi' >>$rc
 fi
 
