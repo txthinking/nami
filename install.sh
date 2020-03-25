@@ -27,7 +27,7 @@ if [ "$os" = "" -o "$arch" = "" ]; then
     exit
 fi
 
-curl -L -o /tmp/nami "https://github.com/txthinking/nami/releases/download/$version/nami_$os_$arch"
+curl -L -o /tmp/nami "https://github.com/txthinking/nami/releases/download/$version/nami_${os}_$arch"
 chmod +x /tmp/nami
 /tmp/nami install github.com/txthinking/nami
 
