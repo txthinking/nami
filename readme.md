@@ -52,15 +52,13 @@ All files are stored in `~/.nami`
     {
         "version": "xxx",
         "files": [
-            "https://anydomain.com/anypath/FILENAME1_OS_ARCH",
-            "https://anydomain.com/anypath/FILENAME2_OS_ARCH",
-            "https://anydomain.com/anypath/FILENAME1_OS_ARCH.exe",
-            "https://anydomain.com/anypath/FILENAME2_OS_ARCH.exe"
+            "https://anydomain.com/anypath/BINARYNAME1_OS_ARCH",
+            "https://anydomain.com/anypath/BINARYNAME2_OS_ARCH",
+            "https://anydomain.com/anypath/BINARYNAME1_OS_ARCH.exe", // append .exe for windows
+            "https://anydomain.com/anypath/BINARYNAME2_OS_ARCH.exe"
         ]
     }
     ```
-    -   Binary file name format is `FILENAME_OS_ARCH`, such as `nami_linux_amd64`, `nami_windows_amd64.exe`(append `.exe` into windows binary file name)
-    -   Package may have multiple binary file names, such as`nami_linux_amd64`, `mina_linux_amd64`
 
 ### Built-in supported domains
 
