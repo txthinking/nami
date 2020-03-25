@@ -40,7 +40,11 @@ or download from [releases](https://github.com/txthinking/nami/releases)
 
     $ nami install github.com/txthinking/nami
 
-## Make your software support to download using nami
+### What Does Nami Do?
+
+All files are stored in `~/.nami`
+
+# Nami for Software Publisher
 
 -   Package name such as `yourdomain.com/package`
 -   Nami will send GET request to `https://yourdomain.com/package/nami.json`, `nami.json` such as:
@@ -60,9 +64,8 @@ or download from [releases](https://github.com/txthinking/nami/releases)
 
 ### Built-in supported domains
 
-#### github.com
-
-Package name such as `github.com/txthinking/nami`, put your binary files in the [github releases](https://github.com/txthinking/nami/releases)
+* github.com
+    Package name such as `github.com/txthinking/nami`, put your binary files in the [github releases](https://github.com/txthinking/nami/releases)
 
 ### OS & ARCH
 

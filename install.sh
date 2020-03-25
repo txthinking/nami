@@ -35,10 +35,6 @@ rc="$HOME/.bashrc"
 if [ "$os" = "darwin" ]; then
     rc="$HOME/.bash_profile"
 fi
-if [ $(echo $PATH | grep ".nami/bin" | wc -l) -eq 0 ]; then
-    echo 'if [ -d $HOME/.nami/bin ]; then' >>$rc
-    echo '    export PATH=$HOME/.nami/bin:$PATH' >>$rc
-    echo 'fi' >>$rc
-fi
-
-export PATH=$HOME/.nami/bin:$PATH
+echo 'if [ -d $HOME/.nami/bin ]; then' >>$rc
+echo '    export PATH=$HOME/.nami/bin:$PATH' >>$rc
+echo 'fi' >>$rc
