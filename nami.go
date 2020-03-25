@@ -224,8 +224,8 @@ func (n *Nami) Print(name string, remote bool) {
 		l = append(l, k)
 	}
 	table.Append([]string{"Installed Files", strings.Join(l, ", ")})
-	table.Append([]string{"", ""})
 	if remote {
+		table.Append([]string{"", ""})
 		d := GetDomain(name)
 		s, err := d.Version(name)
 		if err != nil {
