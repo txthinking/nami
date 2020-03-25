@@ -27,9 +27,9 @@ if [ "$os" = "" -o "$arch" = "" ]; then
     exit
 fi
 
-curl -L -o /tmp/nami "https://github.com/txthinking/nami/releases/download/$version/nami_${os}_$arch"
-chmod +x /tmp/nami
-/tmp/nami install github.com/txthinking/nami
+curl -L -o /tmp/nami0 "https://github.com/txthinking/nami/releases/download/$version/nami_${os}_$arch"
+chmod +x /tmp/nami0
+/tmp/nami0 install github.com/txthinking/nami
 
 rc="$HOME/.bashrc"
 if [ "$os" = "darwin" ]; then
