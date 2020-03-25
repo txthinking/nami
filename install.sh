@@ -41,4 +41,4 @@ if [ $(echo $PATH | grep ".nami/bin" | wc -l) -eq 0 ]; then
     echo 'fi' >>$rc
 fi
 
-export PATH=~/.nami/bin:$PATH
+export PATH=$HOME/.nami/bin:$PATH

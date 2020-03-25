@@ -17,26 +17,16 @@ package main
 import (
 	"fmt"
 	"net/http"
-	"time"
 
 	"github.com/bitly/go-simplejson"
 )
 
 type Github struct {
-	Client *http.Client
-}
-
-func NewGithub() *Github {
-	return &Github{
-		Client: &http.Client{
-			Timeout: 10 * time.Second,
-		},
-	}
 }
 
 func (g *Github) Version(name string) (string, error) {
 	s := fmt.Sprintf("https://api.github.com/repos%s/releases/latest", name[10:])
-	r, err := g.Client.Get(s)
+	r, err := http.Get(s)
 	if err != nil {
 		return "", err
 	}
@@ -54,7 +44,7 @@ func (g *Github) Version(name string) (string, error) {
 
 func (g *Github) Files(name string) ([]string, error) {
 	s := fmt.Sprintf("https://api.github.com/repos%s/releases/latest", name[10:])
-	r, err := g.Client.Get(s)
+	r, err := http.Get(s)
 	if err != nil {
 		return nil, err
 	}

@@ -24,7 +24,6 @@ import (
 	"path/filepath"
 	"runtime"
 	"strings"
-	"time"
 
 	"github.com/olekukonko/tablewriter"
 	"go.etcd.io/bbolt"
@@ -33,7 +32,6 @@ import (
 type Nami struct {
 	BinDir string
 	DB     *bbolt.DB
-	Client *http.Client
 }
 
 func NewNami() (*Nami, error) {
@@ -52,9 +50,6 @@ func NewNami() (*Nami, error) {
 	return &Nami{
 		BinDir: s1,
 		DB:     db,
-		Client: &http.Client{
-			Timeout: 10 * time.Second,
-		},
 	}, nil
 }
 
@@ -102,7 +97,7 @@ func (n *Nami) Install(name string) error {
 		return errors.New(fmt.Sprintf("No files for %s %s", runtime.GOOS, runtime.GOARCH))
 	}
 	for k, v := range m {
-		r, err := n.Client.Get(v)
+		r, err := http.Get(v)
 		if err != nil {
 			return err
 		}

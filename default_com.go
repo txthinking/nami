@@ -18,26 +18,16 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
-	"time"
 
 	"github.com/bitly/go-simplejson"
 )
 
 type Default struct {
-	Client *http.Client
-}
-
-func NewDefault() *Default {
-	return &Default{
-		Client: &http.Client{
-			Timeout: 10 * time.Second,
-		},
-	}
 }
 
 func (d *Default) Version(name string) (string, error) {
 	s := fmt.Sprintf("https://%s/nami.json", name)
-	r, err := d.Client.Get(s)
+	r, err := http.Get(s)
 	if err != nil {
 		return "", err
 	}
@@ -58,7 +48,7 @@ func (d *Default) Version(name string) (string, error) {
 
 func (d *Default) Files(name string) ([]string, error) {
 	s := fmt.Sprintf("https://%s/nami.json", name)
-	r, err := d.Client.Get(s)
+	r, err := http.Get(s)
 	if err != nil {
 		return nil, err
 	}
