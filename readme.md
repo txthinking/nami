@@ -13,7 +13,7 @@ without having to request a merge from a software center for each update.
 
 ### Install
 
-    $ curl -sL git.io/getnami | bash
+    $ curl -sL git.io/getnami | bash && exec -l $SHELL
 
 or download from [releases](https://github.com/txthinking/nami/releases)
 
@@ -64,8 +64,7 @@ All files are stored in `~/.nami`
 
 ### Built-in supported domains
 
-* github.com
-    Package name such as `github.com/txthinking/nami`, put your binary files in the [github releases](https://github.com/txthinking/nami/releases)
+* `github.com`: Package name such as `github.com/txthinking/nami`, put your binary files in the [github releases](https://github.com/txthinking/nami/releases)
 
 ### OS & ARCH
 
