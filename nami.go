@@ -111,7 +111,7 @@ func (n *Nami) Install(name string) error {
 			return err
 		}
 		r.Body.Close()
-		if err := ioutil.WriteFile(filepath.Join(n.BinDir, k), b, 0777); err != nil {
+		if err := ioutil.WriteFile(filepath.Join(n.BinDir, k), b, 0755); err != nil {
 			return err
 		}
 	}

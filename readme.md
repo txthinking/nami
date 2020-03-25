@@ -1,6 +1,6 @@
 # Nami
 
-A decentralized binary package manager.
+A decentralized binary package manager
 
 ### Why
 
@@ -12,6 +12,10 @@ she allows software authors to publish their software anywhere,
 without having to request a merge from a software center for each update.
 
 ### Install
+
+    $ curl -sL git.io/getnami | bash
+
+or download from [releases](https://github.com/txthinking/nami/releases)
 
 ### Usage
 
