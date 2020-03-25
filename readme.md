@@ -42,38 +42,27 @@ or download from [releases](https://github.com/txthinking/nami/releases)
 
 ## Make your software support to download using nami
 
--   Package such as `yourdomain.com/package`
+-   Package name such as `yourdomain.com/package`
 -   Nami will send GET request to `https://yourdomain.com/package/nami.json`, `nami.json` such as:
-        {
-        	"version": "xxx",
-        	"files": [
-        		"https://anydomain.com/anypath/FILENAME1_OS_ARCH",
-        		"https://anydomain.com/anypath/FILENAME2_OS_ARCH",
-        		"https://anydomain.com/anypath/FILENAME1_OS_ARCH.exe",
-        		"https://anydomain.com/anypath/FILENAME2_OS_ARCH.exe"
-        	]
-        }
--   Binary file name format is `FILENAME_OS_ARCH`, such as:
-    -   `nami_linux_amd64`
-    -   `nami_windows_amd64.exe`, Windows binary file name must end with `.exe`
--   Package may have multiple binary file names, such as:
-    -   `nami_linux_amd64`
-    -   `mina_linux_amd64`
+    ```
+    {
+        "version": "xxx",
+        "files": [
+            "https://anydomain.com/anypath/FILENAME1_OS_ARCH",
+            "https://anydomain.com/anypath/FILENAME2_OS_ARCH",
+            "https://anydomain.com/anypath/FILENAME1_OS_ARCH.exe",
+            "https://anydomain.com/anypath/FILENAME2_OS_ARCH.exe"
+        ]
+    }
+    ```
+    -   Binary file name format is `FILENAME_OS_ARCH`, such as `nami_linux_amd64`, `nami_windows_amd64.exe`(append `.exe` into windows binary file name)
+    -   Package may have multiple binary file names, such as`nami_linux_amd64`, `mina_linux_amd64`
 
 ### Built-in supported domains
 
 #### github.com
 
--   Package name, such as:
-    -   `github.com/txthinking/nami`
--   Put your binary files in the github releases, such as:
-    -   <https://github.com/txthinking/nami/releases>
--   Binary file name format is `FILENAME_OS_ARCH`, such as:
-    -   `nami_linux_amd64`
-    -   `nami_windows_amd64.exe`, Windows binary file name must end with `.exe`
--   Package may have multiple binary file names, such as:
-    -   `nami_linux_amd64`
-    -   `mina_linux_amd64`
+Package name such as `github.com/txthinking/nami`, put your binary files in the [github releases](https://github.com/txthinking/nami/releases)
 
 ### OS & ARCH
 
