@@ -19,8 +19,10 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"runtime"
 	"strings"
@@ -56,62 +58,53 @@ func NewNami() (*Nami, error) {
 func (n *Nami) MakeFiles(urls []string) map[string]string {
 	m := make(map[string]string, 0)
 	for _, v := range urls {
-		if runtime.GOOS != "windows" {
-			sfx := "_" + runtime.GOOS + "_" + runtime.GOARCH
-			if !strings.HasSuffix(v, sfx) {
-				continue
-			}
-			m[v[strings.LastIndex(v, "/")+1:len(v)-len(sfx)]] = v
+		sfx := "_" + runtime.GOOS + "_" + runtime.GOARCH
+		if !strings.HasSuffix(v, sfx) {
+			continue
 		}
-		if runtime.GOOS == "windows" {
-			sfx := "_" + runtime.GOOS + "_" + runtime.GOARCH + ".exe"
-			if !strings.HasSuffix(v, sfx) {
-				continue
-			}
-			m[v[strings.LastIndex(v, "/")+1:len(v)-len(sfx)]+".exe"] = v
-		}
+		m[v[strings.LastIndex(v, "/")+1:len(v)-len(sfx)]] = v
 	}
 	return m
 }
 
-func (n *Nami) Install(name string) (bool, error) {
+func (n *Nami) Install(name string) (func(), error) {
 	d := GetDomain(name)
 	p, err := n.GetInstalled(name)
 	if err != nil {
-		return false, err
+		return nil, err
 	}
 	s, err := d.Version(name)
 	if err != nil {
-		return false, err
+		return nil, err
 	}
 	if p != nil && s == p.Version {
-		return false, nil
+		return nil, nil
 	}
 
 	l, err := d.Files(name)
 	if err != nil {
-		return false, err
+		return nil, err
 	}
 	m := n.MakeFiles(l)
 	if len(m) == 0 {
-		return false, errors.New(fmt.Sprintf("No files for %s %s", runtime.GOOS, runtime.GOARCH))
+		return nil, errors.New(fmt.Sprintf("No files for %s %s", runtime.GOOS, runtime.GOARCH))
 	}
 	for k, v := range m {
 		r, err := http.Get(v)
 		if err != nil {
-			return false, err
+			return nil, err
 		}
 		b, err := ioutil.ReadAll(r.Body)
 		if err != nil {
-			return false, err
+			return nil, err
 		}
 		r.Body.Close()
 		s := filepath.Join(n.BinDir, k)
-		if name == "github.com/txthinking/nami" {
+		if name == "github.com/txthinking/nami" && k == "nami" {
 			s = "/tmp/nami"
 		}
 		if err := ioutil.WriteFile(s, b, 0755); err != nil {
-			return false, err
+			return nil, err
 		}
 	}
 
@@ -134,7 +127,18 @@ func (n *Nami) Install(name string) (bool, error) {
 		}
 		return nil
 	})
-	return true, err
+	if err != nil {
+		return nil, err
+	}
+	if name == "github.com/txthinking/nami" {
+		return func() {
+			cmd := exec.Command("sh", "-c", "sleep 3 && cp /tmp/nami "+filepath.Join(n.BinDir, "nami"))
+			if err := cmd.Start(); err != nil {
+				log.Println(err)
+			}
+		}, nil
+	}
+	return nil, nil
 }
 
 func (n *Nami) GetInstalledPackageList() ([]*Package, error) {
@@ -202,10 +206,13 @@ func (n *Nami) GetInstalled(name string) (*Package, error) {
 		}
 		return nil
 	})
+	if err != nil {
+		return nil, err
+	}
 	if p.Name == "" {
 		return nil, nil
 	}
-	return p, err
+	return p, nil
 }
 
 func (n *Nami) Print(name string, remote bool) {

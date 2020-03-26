@@ -16,11 +16,8 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
-	"os/exec"
-	"path/filepath"
 
 	"github.com/urfave/cli"
 )
@@ -28,7 +25,7 @@ import (
 func main() {
 	app := cli.NewApp()
 	app.Name = "nami"
-	app.Version = "20200328"
+	app.Version = "20200329"
 	app.Usage = "A decentralized binary package manager"
 	app.Authors = []*cli.Author{
 		{
@@ -52,22 +49,13 @@ func main() {
 					return nil
 				}
 				for _, v := range c.Args().Slice() {
-					ok, err := n.Install(v)
+					f, err := n.Install(v)
 					if err != nil {
 						return err
 					}
 					n.Print(v, false)
-					if ok && v == "github.com/txthinking/nami" {
-						defer func() {
-							if err := ioutil.WriteFile("/tmp/nami.sh", []byte("sleep 3 && cp /tmp/nami "+filepath.Join(n.BinDir, "nami")), 0777); err != nil {
-								log.Println(err)
-								return
-							}
-							cmd := exec.Command("sh", "-c", "/tmp/nami.sh")
-							if err := cmd.Start(); err != nil {
-								log.Println(err)
-							}
-						}()
+					if f != nil {
+						defer f()
 					}
 				}
 				return nil
@@ -95,22 +83,13 @@ func main() {
 						return nil
 					}
 					for _, v := range c.Args().Slice() {
-						ok, err := n.Install(v)
+						f, err := n.Install(v)
 						if err != nil {
 							return err
 						}
 						n.Print(v, false)
-						if ok && v == "github.com/txthinking/nami" {
-							defer func() {
-								if err := ioutil.WriteFile("/tmp/nami.sh", []byte("sleep 3 && cp /tmp/nami "+filepath.Join(n.BinDir, "nami")), 0777); err != nil {
-									log.Println(err)
-									return
-								}
-								cmd := exec.Command("sh", "-c", "/tmp/nami.sh")
-								if err := cmd.Start(); err != nil {
-									log.Println(err)
-								}
-							}()
+						if f != nil {
+							defer f()
 						}
 					}
 					return nil
@@ -120,23 +99,14 @@ func main() {
 					return err
 				}
 				for _, v := range l {
-					ok, err := n.Install(v.Name)
+					f, err := n.Install(v.Name)
 					if err != nil {
 						fmt.Println("Error", err)
 						continue
 					}
 					n.Print(v.Name, false)
-					if ok && v.Name == "github.com/txthinking/nami" {
-						defer func() {
-							if err := ioutil.WriteFile("/tmp/nami.sh", []byte("sleep 3 && cp /tmp/nami "+filepath.Join(n.BinDir, "nami")), 0777); err != nil {
-								log.Println(err)
-								return
-							}
-							cmd := exec.Command("sh", "-c", "/tmp/nami.sh")
-							if err := cmd.Start(); err != nil {
-								log.Println(err)
-							}
-						}()
+					if f != nil {
+						defer f()
 					}
 				}
 				return nil

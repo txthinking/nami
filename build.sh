@@ -11,8 +11,6 @@ GOOS=netbsd GOARCH=amd64 go build -o nami_netbsd_amd64
 GOOS=openbsd GOARCH=386 go build -o nami_openbsd_386
 GOOS=openbsd GOARCH=amd64 go build -o nami_openbsd_amd64
 GOOS=openbsd GOARCH=arm64 go build -o nami_openbsd_arm64
-GOOS=windows GOARCH=386 go build -o nami_windows_386.exe
-GOOS=windows GOARCH=amd64 go build -o nami_windows_amd64.exe
 
 rm nami.tgz
 tar czf nami.tgz nami_*

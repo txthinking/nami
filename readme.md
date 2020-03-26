@@ -13,7 +13,7 @@ without having to request a merge from a software center for each update.
 
 ### Install
 
-    $ curl -sL git.io/getnami | bash && exec -l $SHELL
+    $ curl -L git.io/getnami | bash && exec -l $SHELL
 
 or download from [releases](https://github.com/txthinking/nami/releases)
 
@@ -54,8 +54,6 @@ All files are stored in `~/.nami`
         "files": [
             "https://anydomain.com/anypath/BINARYNAME1_OS_ARCH",
             "https://anydomain.com/anypath/BINARYNAME2_OS_ARCH",
-            "https://anydomain.com/anypath/BINARYNAME1_OS_ARCH.exe", // append .exe for windows
-            "https://anydomain.com/anypath/BINARYNAME2_OS_ARCH.exe"
         ]
     }
     ```
@@ -80,8 +78,6 @@ All files are stored in `~/.nami`
 | openbsd   | 386      |
 | openbsd   | amd64    |
 | openbsd   | arm64    |
-| windows   | 386      |
-| windows   | amd64    |
 
 ## License
 
