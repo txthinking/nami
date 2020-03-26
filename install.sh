@@ -5,11 +5,20 @@ version="v20200330"
 os=""
 arch=""
 
+if [ $(uname -s) = "Darwin" ]; then
+    os="darwin"
+fi
+if [ $(uname -s) = "FreeBSD" ]; then
+    os="freebsd"
+fi
 if [ $(uname -s) = "Linux" ]; then
     os="linux"
 fi
-if [ $(uname -s) = "Darwin" ]; then
-    os="darwin"
+if [ $(uname -s) = "NetBSD" ]; then
+    os="netbsd"
+fi
+if [ $(uname -s) = "OpenBSD" ]; then
+    os="openbsd"
 fi
 
 if [ $(uname -m) = "x86_64" ]; then
@@ -20,6 +29,12 @@ if [ $(uname -m) = "i386" ]; then
 fi
 if [ $(uname -m) = "i686" ]; then
     arch="386"
+fi
+if [ $(uname -m) = "arm64" ]; then
+    arch="arm64"
+fi
+if [ $(uname -m) = "aarch64" ]; then
+    arch="arm64"
 fi
 
 if [ "$os" = "" -o "$arch" = "" ]; then

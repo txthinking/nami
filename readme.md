@@ -15,8 +15,6 @@ without having to request a merge from a software center for each update.
 
     $ curl -L git.io/getnami | bash && exec -l $SHELL
 
-or download from [releases](https://github.com/txthinking/nami/releases)
-
 ### Usage
 
     NAME:
