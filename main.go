@@ -114,7 +114,7 @@ func main() {
 		},
 		&cli.Command{
 			Name:  "remove",
-			Usage: "Remove package. $ nami remove github.com/txthinking/nami",
+			Usage: "Remove package. $ nami remove github.com/txthinking/joker",
 			Action: func(c *cli.Context) error {
 				n, err := NewNami()
 				if err != nil {

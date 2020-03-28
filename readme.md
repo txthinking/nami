@@ -28,7 +28,7 @@ without having to request a merge from a software center for each update.
     COMMANDS:
        install  Install package. $ nami install github.com/txthinking/nami
        upgrade  Upgrade package. $ nami upgrade github.com/txthinking/nami
-       remove   Remove package. $ nami remove github.com/txthinking/nami
+       remove   Remove package. $ nami remove github.com/txthinking/joker
        info     Print package information. $ nami info github.com/txthinking/nami
        list     Print installed packages. $ nami list
        help, h  Shows a list of commands or help for one command
