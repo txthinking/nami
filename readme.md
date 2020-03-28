@@ -4,7 +4,7 @@ A decentralized binary package manager
 
 ### Why
 
-There are already many package managers, like apt-get, brew, but this is all centralized.
+There are already many package managers, like snap, brew, but this is all centralized.
 Every time the author updates the software, they need to write complex configuration files and PRs and wait for merge.
 
 Nami is a decentralized binary package manager,
