@@ -2,6 +2,8 @@
 
 A decentralized binary package manager
 
+<p align="center"><img src="/demo.gif?raw=true"/></p>
+
 ### Why
 
 There are already many package managers, like snap, brew, but this is all centralized.
