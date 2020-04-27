@@ -15,7 +15,7 @@ without having to request a merge from a software center for each update.
 
 ### Install
 
-    $ curl -L git.io/getnami | bash && exec -l $SHELL
+    $ curl https://raw.githubusercontent.com/txthinking/nami/master/install.sh | bash && exec -l $SHELL
 
 ### Usage
 
