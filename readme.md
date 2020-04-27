@@ -4,7 +4,7 @@ A decentralized binary package manager
 
 ### Why
 
-There are already many package managers, more are centralized and often outdated software.
+There are already many package managers, more are centralized and often provide outdated softwares.
 Nami is a decentralized binary package manager,
 she allows software authors to publish their software anywhere.
 No longer have to worry about users downloading outdated software.
