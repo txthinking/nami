@@ -59,10 +59,18 @@ func (n *Nami) MakeFiles(urls []string) map[string]string {
 	m := make(map[string]string, 0)
 	for _, v := range urls {
 		sfx := "_" + runtime.GOOS + "_" + runtime.GOARCH
-		if !strings.HasSuffix(v, sfx) {
-			continue
+		if runtime.GOOS != "windows" {
+			if !strings.HasSuffix(v, sfx) {
+				continue
+			}
+			m[v[strings.LastIndex(v, "/")+1:len(v)-len(sfx)]] = v
 		}
-		m[v[strings.LastIndex(v, "/")+1:len(v)-len(sfx)]] = v
+		if runtime.GOOS == "windows" {
+			if !strings.HasSuffix(v, sfx+".exe") {
+				continue
+			}
+			m[v[strings.LastIndex(v, "/")+1:len(v)-len(sfx)]+".exe"] = v
+		}
 	}
 	return m
 }
@@ -90,6 +98,10 @@ func (n *Nami) Install(name string) (func(), error) {
 		return nil, errors.New(fmt.Sprintf("No files for %s %s", runtime.GOOS, runtime.GOARCH))
 	}
 	for k, v := range m {
+		if (k == "nami" || k == "nami.exe") && name != "github.com/txthinking/nami" {
+			log.Println("Ignore nami binary from package", name)
+			continue
+		}
 		r, err := http.Get(v)
 		if err != nil {
 			return nil, err
@@ -100,8 +112,8 @@ func (n *Nami) Install(name string) (func(), error) {
 		}
 		r.Body.Close()
 		s := filepath.Join(n.BinDir, k)
-		if name == "github.com/txthinking/nami" && k == "nami" {
-			s = "/tmp/nami"
+		if name == "github.com/txthinking/nami" {
+			s = filepath.Join(os.TempDir(), k)
 		}
 		if err := ioutil.WriteFile(s, b, 0755); err != nil {
 			return nil, err
@@ -132,7 +144,11 @@ func (n *Nami) Install(name string) (func(), error) {
 	}
 	if name == "github.com/txthinking/nami" {
 		return func() {
-			cmd := exec.Command("sh", "-c", "sleep 3 && cp /tmp/nami "+filepath.Join(n.BinDir, "nami"))
+			s := "nami"
+			if runtime.GOOS == "windows" {
+				s = "nami.exe"
+			}
+			cmd := exec.Command("sh", "-c", "sleep 3 && cp "+filepath.Join(os.TempDir(), s)+" "+filepath.Join(n.BinDir, s))
 			if err := cmd.Start(); err != nil {
 				log.Println(err)
 			}
@@ -165,6 +181,10 @@ func (n *Nami) GetInstalledPackageList() ([]*Package, error) {
 }
 
 func (n *Nami) Remove(name string) error {
+	if name == "github.com/txthinking/nami" {
+		log.Println("If you really want to remove nami and all packages, just $ rm -rf ~/.nami")
+		return nil
+	}
 	p, err := n.GetInstalled(name)
 	if err != nil {
 		return err
@@ -240,13 +260,13 @@ func (n *Nami) Print(name string, remote bool) {
 		d := GetDomain(name)
 		s, err := d.Version(name)
 		if err != nil {
-			fmt.Println(err)
+			fmt.Println(err, "maybe package doesn't exists")
 			return
 		}
 		table.Append([]string{"Latest Version", s})
 		l, err := d.Files(name)
 		if err != nil {
-			fmt.Println(err)
+			fmt.Println(err, "maybe package doesn't exists")
 			return
 		}
 		m := n.MakeFiles(l)

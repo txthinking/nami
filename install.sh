@@ -20,6 +20,9 @@ fi
 if [ $(uname -s) = "OpenBSD" ]; then
     os="openbsd"
 fi
+if [ $(uname -s | grep -P "MINGW" | wc -l) -eq 1 ]; then
+    os="windows"
+fi
 
 if [ $(uname -m) = "x86_64" ]; then
     arch="amd64"
@@ -42,9 +45,14 @@ if [ "$os" = "" -o "$arch" = "" ]; then
     exit
 fi
 
-curl -L -o /tmp/nami0 "https://github.com/txthinking/nami/releases/download/$version/nami_${os}_$arch"
-chmod +x /tmp/nami0
-/tmp/nami0 install github.com/txthinking/nami
+sfx=""
+if [ $os = "windows" ]; then
+    sfx=".exe"
+fi
+
+curl -L -o /tmp/nami0$sfx "https://github.com/txthinking/nami/releases/download/$version/nami_${os}_$arch$sfx"
+chmod +x /tmp/nami0$sfx
+/tmp/nami0$sfx install github.com/txthinking/nami
 
 rc="$HOME/.bashrc"
 if [ "$os" = "darwin" ]; then

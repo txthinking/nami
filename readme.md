@@ -2,16 +2,11 @@
 
 A decentralized binary package manager
 
-### Why
-
-There are already many package managers, more are centralized and often provide outdated softwares.
-Nami is a decentralized binary package manager,
-she allows software authors to publish their software anywhere.
-No longer have to worry about users downloading outdated software.
-
 ### Install
 
-    $ curl https://raw.githubusercontent.com/txthinking/nami/master/install.sh | bash && exec -l $SHELL
+    $ curl https://raw.githubusercontent.com/txthinking/nami/master/install.sh | bash && exec -l bash
+
+> Windows user should run in [Git Bash](https://gitforwindows.org/)
 
 ### Usage
 
@@ -24,7 +19,7 @@ No longer have to worry about users downloading outdated software.
     COMMANDS:
        install  Install package. $ nami install github.com/txthinking/nami
        upgrade  Upgrade package. $ nami upgrade github.com/txthinking/nami
-       remove   Remove package. $ nami remove github.com/txthinking/joker
+       remove   Remove package. $ nami remove github.com/txthinking/brook
        info     Print package information. $ nami info github.com/txthinking/nami
        list     Print installed packages. $ nami list
        help, h  Shows a list of commands or help for one command
@@ -42,14 +37,13 @@ All files are stored in `~/.nami`
 
 ## Nami for Software Publisher
 
--   Package name such as `yourdomain.com/package`
--   Nami will send GET request to `https://yourdomain.com/package/nami.json`, `nami.json` such as:
+-   Package name such as `any.domain.com/any/path`
+-   Nami will send GET request to `https://``any.domain.com/any/path``/nami.json`, `nami.json` such as:
     ```
     {
         "version": "xxx",
         "files": [
-            "https://anydomain.com/anypath/BINARYNAME1_OS_ARCH",
-            "https://anydomain.com/anypath/BINARYNAME2_OS_ARCH",
+            "https://any.domain.com/any/path/BINARYNAME_OS_ARCH"
         ]
     }
     ```
@@ -58,7 +52,11 @@ All files are stored in `~/.nami`
 
 * `github.com`: Package name such as `github.com/txthinking/nami`, put binary files in the [github releases](https://github.com/txthinking/nami/releases)
 
-### OS & ARCH
+### Binary file name format and OS & ARCH
+
+BINARYNAME_*OS*_*ARCH*
+
+> For Windows, append .exe to file name
 
 | OS        | ARCH     |
 | --------- | -------- |
@@ -74,6 +72,13 @@ All files are stored in `~/.nami`
 | openbsd   | 386      |
 | openbsd   | amd64    |
 | openbsd   | arm64    |
+
+### Why
+
+There are already many package managers, more are centralized and often provide outdated softwares.
+Nami is a decentralized binary package manager,
+she allows software authors to publish their software anywhere.
+No longer have to worry about users downloading outdated software.
 
 ## License
 
