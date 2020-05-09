@@ -72,6 +72,8 @@ All files are stored in `~/.nami`
 | openbsd   | 386      |
 | openbsd   | amd64    |
 | openbsd   | arm64    |
+| windows   | 386      |
+| windows   | amd64    |
 
 ### Why
 
