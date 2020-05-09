@@ -54,7 +54,7 @@ All files are stored in `~/.nami`
 
 ### Binary file name format and OS & ARCH
 
-`BINARYNAME_*OS*_*ARCH*`
+`BINARYNAME_OS_ARCH`
 
 > For Windows file, append .exe to file name
 
