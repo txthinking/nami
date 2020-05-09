@@ -15,8 +15,16 @@
 package main
 
 import (
+	"log"
+	"strings"
 	"testing"
 )
 
 func TestTest(t *testing.T) {
+	v := "https://github.com/txthinking/nami/releases/download/v20200509/nami_windows_amd64.exe"
+	sfx := "_windows_amd64"
+	if !strings.HasSuffix(v, sfx+".exe") {
+		return
+	}
+	log.Println(v[strings.LastIndex(v, "/")+1:len(v)-len(sfx)-4] + ".exe")
 }

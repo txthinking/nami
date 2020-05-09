@@ -69,7 +69,7 @@ func (n *Nami) MakeFiles(urls []string) map[string]string {
 			if !strings.HasSuffix(v, sfx+".exe") {
 				continue
 			}
-			m[v[strings.LastIndex(v, "/")+1:len(v)-len(sfx)]+".exe"] = v
+			m[v[strings.LastIndex(v, "/")+1:len(v)-len(sfx)-4]+".exe"] = v
 		}
 	}
 	return m
