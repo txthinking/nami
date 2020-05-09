@@ -50,7 +50,7 @@ if [ $os = "windows" ]; then
     sfx=".exe"
 fi
 
-curl -L -o /tmp/nami0$sfx "https://github.com/txthinking/nami/releases/download/$version/nami_${os}_$arch$sfx"
+curl -L -o /tmp/nami0$sfx "https://github.com/txthinking/nami/releases/download/$version/nami_${os}_${arch}$sfx"
 chmod +x /tmp/nami0$sfx
 /tmp/nami0$sfx install github.com/txthinking/nami
 
