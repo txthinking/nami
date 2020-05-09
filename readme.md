@@ -38,7 +38,7 @@ All files are stored in `~/.nami`
 ## Nami for Software Publisher
 
 -   Package name such as `any.domain.com/any/path`
--   Nami will send GET request to `https://``any.domain.com/any/path``/nami.json`, `nami.json` such as:
+-   Nami will send GET request to `https://` `any.domain.com/any/path` `/nami.json`, `nami.json` such as:
     ```
     {
         "version": "xxx",
@@ -54,9 +54,9 @@ All files are stored in `~/.nami`
 
 ### Binary file name format and OS & ARCH
 
-BINARYNAME_*OS*_*ARCH*
+`BINARYNAME_*OS*_*ARCH*`
 
-> For Windows, append .exe to file name
+> For Windows file, append .exe to file name
 
 | OS        | ARCH     |
 | --------- | -------- |
