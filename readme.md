@@ -4,7 +4,7 @@ A decentralized binary package manager
 
 ### Install
 
-    $ curl https://raw.githubusercontent.com/txthinking/nami/master/install.sh | bash && exec -l bash
+    $ curl https://raw.githubusercontent.com/txthinking/nami/master/install.sh | bash && sleep 6 && exec -l bash
 
 > Windows user should run in [Git Bash](https://gitforwindows.org/)
 
