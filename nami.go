@@ -113,7 +113,7 @@ func (n *Nami) Install(name string) (func(), error) {
 		r.Body.Close()
 		s := filepath.Join(n.BinDir, k)
 		if name == "github.com/txthinking/nami" {
-			s = "/tmp/" + k
+			s = filepath.Join(os.TempDir(), k)
 		}
 		if err := ioutil.WriteFile(s, b, 0755); err != nil {
 			return nil, err
@@ -144,9 +144,9 @@ func (n *Nami) Install(name string) (func(), error) {
 	}
 	if name == "github.com/txthinking/nami" {
 		return func() {
-			cmd := exec.Command("sh", "-c", "sleep 3 && cp /tmp/nami "+filepath.Join(n.BinDir, "nami"))
+			cmd := exec.Command("sh", "-c", "sleep 3 && cp "+filepath.Join(os.TempDir(), "nami")+" "+filepath.Join(n.BinDir, "nami"))
 			if runtime.GOOS == "windows" {
-				cmd = exec.Command("sh", "-c", "sleep 3 && cp /tmp/nami.exe $HOME/.nami/bin/nami.exe")
+				cmd = exec.Command("cmd", "/C", fmt.Sprintf("ping localhost -n 3 -w 1000 > NUL && copy /y %s %s", filepath.Join(os.TempDir(), "nami.exe"), filepath.Join(n.BinDir, "nami.exe"))
 			}
 			if err := cmd.Start(); err != nil {
 				log.Println(err)
