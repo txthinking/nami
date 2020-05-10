@@ -146,7 +146,7 @@ func (n *Nami) Install(name string) (func(), error) {
 		return func() {
 			cmd := exec.Command("sh", "-c", "sleep 3 && cp "+filepath.Join(os.TempDir(), "nami")+" "+filepath.Join(n.BinDir, "nami"))
 			if runtime.GOOS == "windows" {
-				cmd = exec.Command("cmd", "/C", fmt.Sprintf("ping localhost -n 3 -w 1000 > NUL && copy /y %s %s", filepath.Join(os.TempDir(), "nami.exe"), filepath.Join(n.BinDir, "nami.exe"))
+				cmd = exec.Command("cmd", "/C", fmt.Sprintf("ping localhost -n 3 -w 1000 > NUL && copy /y %s %s", filepath.Join(os.TempDir(), "nami.exe"), filepath.Join(n.BinDir, "nami.exe")))
 			}
 			if err := cmd.Start(); err != nil {
 				log.Println(err)
