@@ -14,12 +14,6 @@ A decentralized binary package manager
 $ nami install github.com/txthinking/nami
 ```
 
-```
-# With http_proxy
-$ export https_proxy=http://127.0.0.1:8888
-$ nami install github.com/txthinking/nami
-```
-
 ### Usage
 
 ```
@@ -40,9 +34,16 @@ COMMANDS:
    help, h  Shows a list of commands or help for one command
 ```
 
+### With https_proxy environment
+
+```
+$ export https_proxy=http://127.0.0.1:8888
+$ nami install github.com/txthinking/nami
+```
+
 ### What Does Nami Do?
 
-All files are stored in `~/.nami`
+All files are stored in `$HOME/.nami`
 
 ## Nami for Software Publisher
 
