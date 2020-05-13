@@ -12,6 +12,7 @@ A decentralized binary package manager
 
 ```
 $ nami install github.com/txthinking/nami
+```
 
 ```
 # With http_proxy
