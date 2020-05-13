@@ -15,51 +15,58 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 
 	"github.com/bitly/go-simplejson"
 )
 
-type Github struct {
+type SelfDomain struct {
 }
 
-func (g *Github) Version(name string) (string, error) {
-	s := fmt.Sprintf("https://api.github.com/repos%s/releases/latest", name[10:])
+func (d *SelfDomain) Version(name string) (string, error) {
+	s := fmt.Sprintf("https://%s/nami.json", name)
 	r, err := http.Get(s)
 	if err != nil {
 		return "", err
 	}
 	defer r.Body.Close()
+	if r.StatusCode == 404 {
+		return "", errors.New("This package doesn't support nami")
+	}
 	j, err := simplejson.NewFromReader(r.Body)
 	if err != nil {
 		return "", err
 	}
-	s, err = j.Get("tag_name").String()
+	s, err = j.Get("version").String()
 	if err != nil {
 		return "", err
 	}
 	return s, nil
 }
 
-func (g *Github) Files(name string) ([]string, error) {
-	s := fmt.Sprintf("https://api.github.com/repos%s/releases/latest", name[10:])
+func (d *SelfDomain) Files(name string) ([]string, error) {
+	s := fmt.Sprintf("https://%s/nami.json", name)
 	r, err := http.Get(s)
 	if err != nil {
 		return nil, err
 	}
 	defer r.Body.Close()
+	if r.StatusCode == 404 {
+		return nil, errors.New("This package doesn't support nami")
+	}
 	j, err := simplejson.NewFromReader(r.Body)
 	if err != nil {
 		return nil, err
 	}
-	l, err := j.Get("assets").Array()
+	l, err := j.Get("files").Array()
 	if err != nil {
 		return nil, err
 	}
 	l1 := make([]string, 0)
 	for i := 0; i < len(l); i++ {
-		s, err := j.Get("assets").GetIndex(i).Get("browser_download_url").String()
+		s, err := j.Get("files").GetIndex(i).String()
 		if err != nil {
 			return nil, err
 		}

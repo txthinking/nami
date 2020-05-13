@@ -15,11 +15,24 @@
 package main
 
 import (
-	"log"
-	"regexp"
-	"testing"
+	"errors"
+	"strings"
 )
 
-func TestTest(t *testing.T) {
-	log.Println(regexp.MustCompile(`^.*_(darwin|freebsd|linux|netbsd|openbsd|windows)_(386|amd64|arm64|)(.exe)?$`).MatchString("1_1.1_a_linux_amd64"))
+// Publish
+type Publish interface {
+	// Init with nami
+	Init(n *Nami) error
+	// Create or update a version with binaries directory,
+	// after running, the released files must be same as the directory.
+	Release(name, version, dir string) error
+}
+
+// Name is url without https://.
+func GetPublish(name string) (Publish, error) {
+	// Register github.com
+	if strings.HasPrefix(name, "github.com") {
+		return &GithubPublish{}, nil
+	}
+	return nil, errors.New("Unsupport to publish to site: " + name)
 }

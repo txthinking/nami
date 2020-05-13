@@ -14,6 +14,6 @@ GOOS=openbsd GOARCH=arm64 go build -o nami_openbsd_arm64
 GOOS=windows GOARCH=amd64 go build -o nami_windows_amd64.exe
 GOOS=windows GOARCH=386 go build -o nami_windows_386.exe
 
-rm nami.tgz
-tar czf nami.tgz nami_*
+nami release github.com/txthinking/nami $1 ./
+
 rm -rf nami_*

@@ -25,7 +25,7 @@ import (
 func main() {
 	app := cli.NewApp()
 	app.Name = "nami"
-	app.Version = "20200512"
+	app.Version = "20200513"
 	app.Usage = "A decentralized binary package manager"
 	app.Authors = []*cli.Author{
 		{
@@ -161,6 +161,50 @@ func main() {
 				defer n.Close()
 				n.PrintAll()
 				return nil
+			},
+		},
+		&cli.Command{
+			Name:  "config",
+			Usage: "Configure key and value. $ nami config <key> <value>. See all keys, $ nami config",
+			Action: func(c *cli.Context) error {
+				n, err := NewNami()
+				if err != nil {
+					return err
+				}
+				defer n.Close()
+				if c.Args().Len() == 0 {
+					n.PrintConfigs()
+					return nil
+				}
+				if c.Args().Len() != 2 {
+					cli.ShowCommandHelp(c, "config")
+					return nil
+				}
+				return n.SetConfig(c.Args().Slice()[0], c.Args().Slice()[1])
+			},
+		},
+		&cli.Command{
+			Name:  "release",
+			Usage: "Create or update a version with binaries directory, such as $ nami release github.com/txthinking/nami v1.1.1 ./binaries/",
+			Action: func(c *cli.Context) error {
+				n, err := NewNami()
+				if err != nil {
+					return err
+				}
+				defer n.Close()
+				if c.Args().Len() != 3 {
+					cli.ShowCommandHelp(c, "release")
+					return nil
+				}
+				p, err := GetPublish(c.Args().Slice()[0])
+				if err != nil {
+					return err
+				}
+				err = p.Init(n)
+				if err != nil {
+					return err
+				}
+				return p.Release(c.Args().Slice()[0], c.Args().Slice()[1], c.Args().Slice()[2])
 			},
 		},
 	}

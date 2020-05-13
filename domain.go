@@ -31,7 +31,7 @@ type Domain interface {
 func GetDomain(name string) Domain {
 	// Register github.com
 	if strings.HasPrefix(name, "github.com") {
-		return &Github{}
+		return &GithubDomain{}
 	}
-	return &Default{}
+	return &SelfDomain{}
 }
