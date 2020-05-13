@@ -8,6 +8,17 @@ A decentralized binary package manager
 
 > Windows user should run in [Git Bash](https://gitforwindows.org/)
 
+### Example
+
+```
+$ nami install github.com/txthinking/nami
+
+```
+# With http_proxy
+$ export https_proxy=http://127.0.0.1:8888
+$ nami install github.com/txthinking/nami
+```
+
 ### Usage
 
 ```
@@ -26,12 +37,6 @@ COMMANDS:
    config   Configure key and value. $ nami config <key> <value>. See all keys, $ nami config
    release  Create or update a version with binaries directory, such as $ nami release github.com/txthinking/nami v1.1.1 ./binaries/
    help, h  Shows a list of commands or help for one command
-```
-
-### Example
-
-```
-$ nami install github.com/txthinking/nami
 ```
 
 ### What Does Nami Do?

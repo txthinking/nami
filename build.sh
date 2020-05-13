@@ -1,4 +1,9 @@
 #!/bin/bash
+
+if [ $# -ne 1 ]; then
+	echo "./build.sh version"
+fi
+
 GOOS=darwin GOARCH=386 go build -o nami_darwin_386
 GOOS=darwin GOARCH=amd64 go build -o nami_darwin_amd64
 GOOS=freebsd GOARCH=386 go build -o nami_freebsd_386
@@ -14,6 +19,6 @@ GOOS=openbsd GOARCH=arm64 go build -o nami_openbsd_arm64
 GOOS=windows GOARCH=amd64 go build -o nami_windows_amd64.exe
 GOOS=windows GOARCH=386 go build -o nami_windows_386.exe
 
-./nami release github.com/txthinking/nami $1 ./
+nami release github.com/txthinking/nami $1 ./
 
 rm -rf nami_*
