@@ -2,6 +2,7 @@
 
 if [ $# -ne 1 ]; then
 	echo "./build.sh version"
+	exit
 fi
 
 mkdir _
@@ -21,6 +22,6 @@ GOOS=openbsd GOARCH=arm64 go build -o _/nami_openbsd_arm64
 GOOS=windows GOARCH=amd64 go build -o _/nami_windows_amd64.exe
 GOOS=windows GOARCH=386 go build -o _/nami_windows_386.exe
 
-./nami release github.com/txthinking/nami $1 _
+nami release github.com/txthinking/nami $1 _
 
 rm -rf _
