@@ -107,8 +107,7 @@ func (g *GithubPublish) Release(name, version, dir string) error {
 			continue
 		}
 		if !re.MatchString(v.Name()) {
-			fmt.Println("Ignored " + filepath.Join(dir, v.Name()))
-			continue
+			fmt.Println("Warning, not nami file name format: " + filepath.Join(dir, v.Name()))
 		}
 		fmt.Println("Uploading " + filepath.Join(dir, v.Name()))
 		f, err := os.Open(filepath.Join(dir, v.Name()))
