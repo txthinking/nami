@@ -57,8 +57,14 @@ chmod +x /tmp/nami0$sfx
 rc="$HOME/.bashrc"
 if [ "$os" = "darwin" ]; then
 	rc="$HOME/.bash_profile"
-	echo source ~/.bash_profile >>$HOME/.zshenv
 fi
 echo 'if [ -d $HOME/.nami/bin ]; then' >>$rc
 echo '    export PATH=$HOME/.nami/bin:$PATH' >>$rc
 echo 'fi' >>$rc
+
+if [ "$os" = "darwin" ]; then
+	echo source ~/.bash_profile >>$HOME/.zshenv
+fi
+if [ "$os" != "darwin" ]; then
+	echo source ~/.bashrc >>$HOME/.zshenv
+fi
