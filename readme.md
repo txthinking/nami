@@ -45,6 +45,27 @@ $ nami install github.com/txthinking/nami
 
 All files are stored in `$HOME/.nami`
 
+### sudo 
+
+If you install nami not with root, you may want to change `/etc/sudoers` to keep `PATH`
+
+```
+$ sudo visudo
+```
+
+edit two line to
+
+```
+Defaults        !env_reset
+# Defaults       secure_path=...
+```
+
+then, you can run nami or commands installed by nami
+
+```
+$ sudo nami -v
+```
+
 ## Nami for Software Publisher
 
 [wiki](https://github.com/txthinking/nami/wiki)
