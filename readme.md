@@ -34,10 +34,10 @@ COMMANDS:
    help, h  Shows a list of commands or help for one command
 ```
 
-### With https_proxy environment
+### With HTTPS_PROXY environment
 
 ```
-$ export https_proxy=http://127.0.0.1:8888
+$ export HTTPS_PROXY=http://127.0.0.1:8888
 $ nami install github.com/txthinking/nami
 ```
 
