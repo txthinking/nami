@@ -25,7 +25,9 @@ import (
 	"os/exec"
 	"path/filepath"
 	"runtime"
+	"strconv"
 	"strings"
+	"time"
 
 	"github.com/olekukonko/tablewriter"
 	"go.etcd.io/bbolt"
@@ -97,6 +99,7 @@ func (n *Nami) Install(name string) (func(), error) {
 	if len(m) == 0 {
 		return nil, errors.New(fmt.Sprintf("No files for %s %s", runtime.GOOS, runtime.GOARCH))
 	}
+	t := strconv.FormatInt(time.Now().Unix(), 10)
 	for k, v := range m {
 		if (k == "nami" || k == "nami.exe") && name != "github.com/txthinking/nami" {
 			log.Println("Ignore nami binary from package", name)
@@ -113,7 +116,7 @@ func (n *Nami) Install(name string) (func(), error) {
 		r.Body.Close()
 		s := filepath.Join(n.BinDir, k)
 		if name == "github.com/txthinking/nami" {
-			s = filepath.Join(os.TempDir(), k)
+			s = filepath.Join(os.TempDir(), k+t)
 		}
 		if err := ioutil.WriteFile(s, b, 0755); err != nil {
 			return nil, err
@@ -144,9 +147,9 @@ func (n *Nami) Install(name string) (func(), error) {
 	}
 	if name == "github.com/txthinking/nami" {
 		return func() {
-			cmd := exec.Command("sh", "-c", "sleep 3 && cp "+filepath.Join(os.TempDir(), "nami")+" "+filepath.Join(n.BinDir, "nami"))
+			cmd := exec.Command("sh", "-c", "sleep 3 && cp "+filepath.Join(os.TempDir(), "nami"+t)+" "+filepath.Join(n.BinDir, "nami"))
 			if runtime.GOOS == "windows" {
-				cmd = exec.Command("cmd", "/C", fmt.Sprintf("ping localhost -n 3 -w 1000 > NUL && copy /y %s %s", filepath.Join(os.TempDir(), "nami.exe"), filepath.Join(n.BinDir, "nami.exe")))
+				cmd = exec.Command("cmd", "/C", fmt.Sprintf("ping localhost -n 3 -w 1000 > NUL && copy /y %s %s", filepath.Join(os.TempDir(), "nami.exe"+t), filepath.Join(n.BinDir, "nami.exe")))
 			}
 			if err := cmd.Start(); err != nil {
 				log.Println(err)
