@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-version="v20200516"
+version="v20201101"
 
 os=""
 arch=""

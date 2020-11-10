@@ -1,13 +1,12 @@
 #!/bin/bash
 
 if [ $# -ne 1 ]; then
-	echo "./build.sh version"
-	exit
+    echo "./build.sh version"
+    exit
 fi
 
 mkdir _
 
-GOOS=darwin GOARCH=386 go build -o _/nami_darwin_386
 GOOS=darwin GOARCH=amd64 go build -o _/nami_darwin_amd64
 GOOS=freebsd GOARCH=386 go build -o _/nami_freebsd_386
 GOOS=freebsd GOARCH=amd64 go build -o _/nami_freebsd_amd64
