@@ -5,7 +5,6 @@
 [![捐赠](https://img.shields.io/badge/%E6%94%AF%E6%8C%81-%E6%8D%90%E8%B5%A0-ff69b4.svg)](https://www.txthinking.com/opensource-support.html)
 [![交流群](https://img.shields.io/badge/%E7%94%B3%E8%AF%B7%E5%8A%A0%E5%85%A5-%E4%BA%A4%E6%B5%81%E7%BE%A4-ff69b4.svg)](https://docs.google.com/forms/d/e/1FAIpQLSdzMwPtDue3QoezXSKfhW88BXp57wkbDXnLaqokJqLeSWP9vQ/viewform)
 
-A decentralized binary package manager
 一个分布式二进制软件包管理器
 
 ### 安装
@@ -68,7 +67,7 @@ Defaults        !env_reset
 
 然后必要的时候你就可以用sudo来运行nami安装的命令了
 
-## 开发者
+## 软件开发者
 
 [wiki](https://github.com/txthinking/nami/wiki)
 
