@@ -5,6 +5,10 @@
 [![Donate](https://img.shields.io/badge/Support-Donate-ff69b4.svg)](https://www.txthinking.com/opensource-support.html)
 [![Slack](https://img.shields.io/badge/Join-Slack-ff69b4.svg)](https://docs.google.com/forms/d/e/1FAIpQLSdzMwPtDue3QoezXSKfhW88BXp57wkbDXnLaqokJqLeSWP9vQ/viewform)
 
+<p align="center">
+    <img style="float:right;" src="nami.png" alt="Nami"/>
+</p>
+
 A decentralized binary package manager
 
 ### Install
@@ -50,22 +54,16 @@ $ nami install github.com/txthinking/nami
 
 All files are stored in `$HOME/.nami`
 
-### sudo 
-
-If you install nami not with root, you may want to change `/etc/sudoers` to keep `PATH`
+### Keep PATH with sudo 
 
 ```
 $ sudo visudo
 ```
 
-edit two line to
-
 ```
 Defaults        !env_reset
 # Defaults       secure_path=...
 ```
-
-then, you can run commands installed by nami with sudo
 
 ## Nami for Software Publisher
 
