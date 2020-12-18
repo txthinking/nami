@@ -5,6 +5,10 @@
 [![捐赠](https://img.shields.io/badge/%E6%94%AF%E6%8C%81-%E6%8D%90%E8%B5%A0-ff69b4.svg)](https://www.txthinking.com/opensource-support.html)
 [![交流群](https://img.shields.io/badge/%E7%94%B3%E8%AF%B7%E5%8A%A0%E5%85%A5-%E4%BA%A4%E6%B5%81%E7%BE%A4-ff69b4.svg)](https://docs.google.com/forms/d/e/1FAIpQLSdzMwPtDue3QoezXSKfhW88BXp57wkbDXnLaqokJqLeSWP9vQ/viewform)
 
+<p align="center">
+    <img style="float:right;" src="nami.png" alt="Nami" width="200" height="200"/>
+</p>
+
 一个分布式二进制软件包管理器
 
 ### 安装
@@ -50,22 +54,16 @@ $ nami install github.com/txthinking/nami
 
 所有的文件都存储在 `$HOME/.nami` 目录下
 
-### sudo 
-
-如果你安装nami时不是用的root, 你可能想修改`/etc/sudoers` 来保持 `PATH`
+### 保持 sudo PATH
 
 ```
 $ sudo visudo
 ```
 
-修改这两行为:
-
 ```
 Defaults        !env_reset
 # Defaults       secure_path=...
 ```
-
-然后必要的时候你就可以用sudo来运行nami安装的命令了
 
 ## 软件开发者
 

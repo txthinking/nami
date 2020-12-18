@@ -6,7 +6,7 @@
 [![Slack](https://img.shields.io/badge/Join-Slack-ff69b4.svg)](https://docs.google.com/forms/d/e/1FAIpQLSdzMwPtDue3QoezXSKfhW88BXp57wkbDXnLaqokJqLeSWP9vQ/viewform)
 
 <p align="center">
-    <img style="float:right;" src="nami.png" alt="Nami"/>
+    <img style="float:right;" src="nami.png" alt="Nami" width="200" height="200"/>
 </p>
 
 A decentralized binary package manager
