@@ -56,17 +56,13 @@ curl -L -o /tmp/nami${t}$sfx "https://github.com/txthinking/nami/releases/downlo
 chmod +x /tmp/nami${t}$sfx
 /tmp/nami${t}$sfx install github.com/txthinking/nami
 
-rc="$HOME/.bashrc"
-if [ "$os" = "darwin" ]; then
-    rc="$HOME/.bash_profile"
-fi
-echo 'if [ -d $HOME/.nami/bin ]; then' >>$rc
-echo '    export PATH=$HOME/.nami/bin:$PATH' >>$rc
-echo 'fi' >>$rc
+echo 'if [ -d $HOME/.nami/bin ]; then' >>$HOME/.bashrc
+echo '    export PATH=$HOME/.nami/bin:$PATH' >>$HOME/.bashrc
+echo 'fi' >>$HOME/.bashrc
 
-if [ "$os" = "darwin" ]; then
-    echo source ~/.bash_profile >>$HOME/.zshenv
-fi
-if [ "$os" != "darwin" ]; then
-    echo source ~/.bashrc >>$HOME/.zshenv
-fi
+echo 'if [ -d $HOME/.nami/bin ]; then' >>$HOME/.bash_profile
+echo '    export PATH=$HOME/.nami/bin:$PATH' >>$HOME/.bash_profile
+echo 'fi' >>$HOME/.bash_profile
+
+echo source ~/.bashrc >>$HOME/.zshenv
+echo source ~/.bash_profile >>$HOME/.zshenv
