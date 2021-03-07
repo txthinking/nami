@@ -20,7 +20,7 @@ fi
 if [ $(uname -s) = "OpenBSD" ]; then
     os="openbsd"
 fi
-if [ $(uname -s | grep -P "MINGW" | wc -l) -eq 1 ]; then
+if [ $(uname -s | grep "MINGW" | wc -l) -eq 1 ]; then
     os="windows"
 fi
 
