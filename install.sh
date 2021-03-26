@@ -66,3 +66,5 @@ echo 'fi' >>$HOME/.bash_profile
 
 echo source ~/.bashrc >>$HOME/.zshenv
 echo source ~/.bash_profile >>$HOME/.zshenv
+
+sleep 6
