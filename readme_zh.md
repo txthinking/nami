@@ -76,6 +76,10 @@ Nami是分布式的二进制软件包管理器, 她允许软件开发者将软�
 不用担心用户下载到的过时的软件.
 **只安装你信任的软件**.
 
+## 作者
+
+A project by [txthinking](https://www.txthinking.com)
+
 ## 开源协议
 
 基于 GPLv3 协议开源
