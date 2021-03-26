@@ -77,6 +77,10 @@ she allows software authors to publish their software anywhere.
 No longer have to worry about users downloading outdated software.
 **Only install packages you trust**.
 
+## Author
+
+A project by [txthinking](https://www.txthinking.com)
+
 ## License
 
 Licensed under The GPLv3 License
