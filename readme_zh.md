@@ -17,7 +17,7 @@
 
 > Windows 用户应该使用 [Git Bash](https://gitforwindows.org/) 运行命令
 
-### 💛[awesome-nami](https://github.com/namipkg/awesome-nami)💛 
+### 💛 [awesome-nami](https://github.com/namipkg/awesome-nami) 💛 
 
 ### 举例
 
