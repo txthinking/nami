@@ -17,13 +17,13 @@ A decentralized binary package manager
 
 > Windows user should run in [Git Bash](https://gitforwindows.org/)
 
+### 💛 [awesome-nami](https://github.com/namipkg/awesome-nami)
+
 ### Example
 
 ```
 $ nami install github.com/txthinking/nami
 ```
-
-### [awesome-nami](https://github.com/namipkg/awesome-nami)
 
 ### Usage
 
