@@ -23,9 +23,7 @@ A decentralized binary package manager
 $ nami install github.com/txthinking/nami
 ```
 
-### awesome-nami
-
-[awesome-nami](https://github.com/namipkg/awesome-nami)
+### [awesome-nami](https://github.com/namipkg/awesome-nami)
 
 ### Usage
 
