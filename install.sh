@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-version="v20201101"
+version="v20210214"
 
 os=""
 arch=""
@@ -66,3 +66,6 @@ echo 'fi' >>$HOME/.bash_profile
 
 echo source ~/.bashrc >>$HOME/.zshenv
 echo source ~/.bash_profile >>$HOME/.zshenv
+
+sleep 6
+export PATH=$HOME/.nami/bin:$PATH

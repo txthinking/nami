@@ -13,7 +13,7 @@ A decentralized binary package manager
 
 ### Install
 
-    $ curl -L https://git.io/getnami | bash && sleep 6 && exec -l $SHELL
+    $ source <(curl -L https://git.io/getnami)
 
 > Windows user should run in [Git Bash](https://gitforwindows.org/)
 
