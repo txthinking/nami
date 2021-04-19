@@ -13,7 +13,7 @@
 
 ### 安装
 
-    $ curl -L https://git.io/getnami | bash && sleep 6 && exec -l $SHELL
+    $ source <(curl -L https://git.io/getnami)
 
 > Windows 用户应该使用 [Git Bash](https://gitforwindows.org/) 运行命令
 
