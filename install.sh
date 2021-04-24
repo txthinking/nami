@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-version="v20210214"
-
 os=""
 arch=""
 
@@ -52,7 +50,7 @@ fi
 
 t=$(date +%s)
 
-curl -L -o /tmp/nami${t}$sfx "https://github.com/txthinking/nami/releases/download/$version/nami_${os}_${arch}$sfx"
+curl -L -o /tmp/nami${t}$sfx "https://github.com/txthinking/nami/releases/latest/download/nami_${os}_${arch}$sfx"
 chmod +x /tmp/nami${t}$sfx
 /tmp/nami${t}$sfx install github.com/txthinking/nami
 
