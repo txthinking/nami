@@ -7,6 +7,7 @@ fi
 
 mkdir _
 
+CGO_ENABLED=0 GOOS=darwin GOARCH=arm64 go build -ldflags="-w -s" -o _/nami_darwin_arm64
 CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -ldflags="-w -s" -o _/nami_darwin_amd64
 CGO_ENABLED=0 GOOS=freebsd GOARCH=386 go build -ldflags="-w -s" -o _/nami_freebsd_386
 CGO_ENABLED=0 GOOS=freebsd GOARCH=amd64 go build -ldflags="-w -s" -o _/nami_freebsd_amd64
