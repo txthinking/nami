@@ -19,13 +19,13 @@ import (
 	"log"
 	"os"
 
-	"github.com/urfave/cli"
+	"github.com/urfave/cli/v2"
 )
 
 func main() {
 	app := cli.NewApp()
 	app.Name = "nami"
-	app.Version = "20210214"
+	app.Version = "20210601"
 	app.Usage = "A decentralized binary package manager"
 	app.Authors = []*cli.Author{
 		{
