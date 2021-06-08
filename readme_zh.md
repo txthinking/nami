@@ -11,6 +11,8 @@
 
 一个分布式二进制软件包管理器
 
+❤️ A project by [txthinking.com](https://www.txthinking.com)
+
 ### 安装
 
     $ source <(curl -L https://git.io/getnami)
@@ -77,10 +79,6 @@ Defaults        !env_reset
 Nami是分布式的二进制软件包管理器, 她允许软件开发者将软件发布到任何地方.
 不用担心用户下载到的过时的软件.
 **只安装你信任的软件**.
-
-## 作者
-
-A project by [txthinking](https://www.txthinking.com)
 
 ## 开源协议
 
