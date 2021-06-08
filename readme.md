@@ -11,6 +11,8 @@
 
 A decentralized binary package manager
 
+❤️ A project by [txthinking.com](https://www.txthinking.com)
+
 ### Install
 
     $ source <(curl -L https://git.io/getnami)
@@ -78,10 +80,6 @@ Nami is a decentralized binary package manager,
 she allows software authors to publish their software anywhere.
 No longer have to worry about users downloading outdated software.
 **Only install packages you trust**.
-
-## Author
-
-A project by [txthinking](https://www.txthinking.com)
 
 ## License
 
