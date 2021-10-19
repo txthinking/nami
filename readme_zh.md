@@ -15,7 +15,7 @@
 
 ### 安装
 
-    $ source <(curl -L https://git.io/getnami)
+    curl -L https://git.io/getnami | bash && sleep 3 && export PATH=$HOME/.nami/bin:$PATH
 
 > Windows 用户应该使用 [Git Bash](https://gitforwindows.org/) 运行命令
 
@@ -24,7 +24,7 @@
 ### 举例
 
 ```
-$ nami install github.com/txthinking/nami
+nami install github.com/txthinking/nami
 ```
 
 ### 使用
