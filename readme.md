@@ -15,7 +15,7 @@ A decentralized binary package manager
 
 ### Install
 
-    $ source <(curl -L https://git.io/getnami)
+    curl -L https://git.io/getnami | bash && sleep 3 && export PATH=$HOME/.nami/bin:$PATH
 
 > Windows user should run in [Git Bash](https://gitforwindows.org/)
 
@@ -24,7 +24,7 @@ A decentralized binary package manager
 ### Example
 
 ```
-$ nami install github.com/txthinking/nami
+nami install github.com/txthinking/nami
 ```
 
 ### Usage
