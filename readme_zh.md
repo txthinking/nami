@@ -15,7 +15,7 @@
 
 ### 安装
 
-    curl -L https://git.io/getnami | bash && sleep 3 && export PATH=$HOME/.nami/bin:$PATH
+    curl -L https://git.io/getnami | bash && sleep 3 && exec -l $SHELL
 
 > Windows 用户应该使用 [Git Bash](https://gitforwindows.org/) 运行命令
 
