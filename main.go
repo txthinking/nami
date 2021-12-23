@@ -15,9 +15,9 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
+	"strings"
 
 	"github.com/urfave/cli/v2"
 )
@@ -25,7 +25,7 @@ import (
 func main() {
 	app := cli.NewApp()
 	app.Name = "nami"
-	app.Version = "20211226"
+	app.Version = "20211227"
 	app.Usage = "A decentralized binary package manager"
 	app.Authors = []*cli.Author{
 		{
@@ -49,11 +49,11 @@ func main() {
 					return nil
 				}
 				for _, v := range c.Args().Slice() {
-					f, err := n.Install(v)
+					f, err := n.Install(v[strings.LastIndex(v, "/")+1:])
 					if err != nil {
 						return err
 					}
-					n.Print(v, false)
+					n.Print(v[strings.LastIndex(v, "/")+1:], false)
 					if f != nil {
 						defer f()
 					}
@@ -63,48 +63,36 @@ func main() {
 		},
 		&cli.Command{
 			Name:  "upgrade",
-			Usage: "Upgrade package. $ nami upgrade nami",
-			Flags: []cli.Flag{
-				&cli.BoolFlag{
-					Name:    "all",
-					Aliases: []string{"a"},
-					Usage:   "Upgrade all packages. $ nami upgrade --all",
-				},
-			},
+			Usage: "Upgrade package. $ nami upgrade nami. Or upgrade all installed packages $ nami upgrade",
 			Action: func(c *cli.Context) error {
 				n, err := NewNami()
 				if err != nil {
 					return err
 				}
 				defer n.Close()
-				if !c.Bool("all") {
-					if c.Args().Len() == 0 {
-						cli.ShowCommandHelp(c, "upgrade")
-						return nil
+				if c.Args().Len() == 0 {
+					l, err := n.GetInstalledPackageList()
+					if err != nil {
+						return err
 					}
-					for _, v := range c.Args().Slice() {
-						f, err := n.Install(v)
+					for _, v := range l {
+						f, err := n.Install(v.Name[strings.LastIndex(v.Name, "/")+1:])
 						if err != nil {
 							return err
 						}
-						n.Print(v, false)
+						n.Print(v.Name[strings.LastIndex(v.Name, "/")+1:], false)
 						if f != nil {
 							defer f()
 						}
 					}
 					return nil
 				}
-				l, err := n.GetInstalledPackageList()
-				if err != nil {
-					return err
-				}
-				for _, v := range l {
-					f, err := n.Install(v.Name)
+				for _, v := range c.Args().Slice() {
+					f, err := n.Install(v[strings.LastIndex(v, "/")+1:])
 					if err != nil {
-						fmt.Println("Error", err)
-						continue
+						return err
 					}
-					n.Print(v.Name, false)
+					n.Print(v[strings.LastIndex(v, "/")+1:], false)
 					if f != nil {
 						defer f()
 					}

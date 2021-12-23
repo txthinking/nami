@@ -95,11 +95,6 @@ func (n *Nami) CleanCache() error {
 }
 
 func (n *Nami) Install(name string) (func(), error) {
-	// compatible
-	if strings.Contains(name, "/") {
-		name = name[strings.LastIndex(name, "/")+1:]
-	}
-
 	if err := n.CleanCache(); err != nil {
 		return nil, err
 	}

@@ -25,6 +25,10 @@
 nami install nami
 ```
 
+```
+nami install joker brook ipio nico jinbe testsocks5
+```
+
 ### 使用
 
 ```
@@ -36,7 +40,7 @@ USAGE:
 
 COMMANDS:
    install  Install package. $ nami install nami
-   upgrade  Upgrade package. $ nami upgrade nami
+   upgrade  Upgrade package. $ nami upgrade nami. Or upgrade all installed packages $ nami upgrade
    remove   Remove package. $ nami remove brook
    list     Print installed packages. $ nami list
    config   Configure key and value. $ nami config <key> <value>. See all keys, $ nami config
