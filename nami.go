@@ -60,7 +60,7 @@ func NewNami() (*Nami, error) {
 	}
 	_, err = os.Stat(filepath.Join(bin, deno))
 	if err != nil {
-		if os.IsNotExist(err) {
+		if !os.IsNotExist(err) {
 			return nil, err
 		}
 		r, err := static.Open("static/" + deno)
@@ -111,6 +111,7 @@ func (n *Nami) Install(name string) (func(), error) {
 	if s == "" {
 		s = "https://raw.githubusercontent.com/txthinking/nami/master/package/"
 	}
+	fmt.Println("Run", s+name+".js")
 	deno := filepath.Join(n.BinDir, "deno")
 	if runtime.GOOS == "windows" {
 		deno = filepath.Join(n.BinDir, "deno.exe")

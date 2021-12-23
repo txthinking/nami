@@ -1,13 +1,13 @@
 ### How to add a package
 
-0. Install nami and config `nami.deno.base` to current directory
+0. Install nami, and config `nami.deno.base` to current directory
 
     ```
     curl -L https://raw.githubusercontent.com/txthinking/nami/master/install.sh | bash && sleep 3 && exec -l $SHELL
     nami config nami.deno.base ./
     ```
 
-1. Create a `name`.js, name is the package name
+1. Create a `name`.js in current directory, name is the package name
 2. import nami
     ```
     import nami from 'https://raw.githubusercontent.com/txthinking/nami/master/nami.js';
@@ -34,7 +34,7 @@
     ```
 6. Download package commands
 
-    1. Based on OS and Arch: `Deno.build.os` and `Deno.build.arch`
+    1. Based on `Deno.build.os` and `Deno.build.arch`
         ```
         if(Deno.build.os == "linux" && Deno.build.arch == "x86_64"){
         }
@@ -52,8 +52,8 @@
 
         // download one or more commands from tgz url
         await n.download_commands_from_tgz_url("tgz file url", {
-            "command": "The relative path of the file in the zip",
-            "another command": "The relative path of the file in the zip",
+            "command": "The relative path of the file in the tgz",
+            "another command": "The relative path of the file in the tgz",
         })
         ```
 7. Tell users unsupport if no OS and Arch match
