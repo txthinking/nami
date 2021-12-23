@@ -62,9 +62,9 @@ Defaults        !env_reset
 # Defaults       secure_path=...
 ```
 
-## 软件开发者
+### 如何添加包
 
-[wiki](https://github.com/txthinking/nami/wiki)
+[package/readme.md](package/readme.md)
 
 ## 为什么
 

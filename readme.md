@@ -62,9 +62,9 @@ Defaults        !env_reset
 # Defaults       secure_path=...
 ```
 
-## Nami for Software Publisher
+### How to add package
 
-[wiki](https://github.com/txthinking/nami/wiki)
+[package/readme.md](package/readme.md)
 
 ## Why
 
