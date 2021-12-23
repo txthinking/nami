@@ -141,7 +141,7 @@ func (n *Nami) Install(name string) (func(), error) {
 			continue
 		}
 		p.Files[file.Name()] = ""
-		if file.Name() == "nami" || file.Name() == "deno" {
+		if file.Name() == "nami" || file.Name() == "nami.exe" || file.Name() == "deno" || file.Name() == "deno.exe" {
 			if err := os.Chmod(filepath.Join(n.CacheDir, file.Name()), 0755); err != nil {
 				return nil, err
 			}
