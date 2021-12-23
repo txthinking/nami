@@ -9,22 +9,20 @@
     <img style="float:right;" src="nami.png" alt="Nami" width="200" height="200"/>
 </p>
 
-A decentralized binary package manager
+A decentralized binary package manager. Nami only uses deno scripts to download commands, neither compiling nor downloading additional build chain tools, and you can specify the place of the script through `nami config`. All files are stored in `$HOME/.nami`.
 
 ❤️ A project by [txthinking.com](https://www.txthinking.com)
 
 ### Install
 
-    curl -L https://git.io/getnami | bash && sleep 3 && exec -l $SHELL
+    curl -L https://raw.githubusercontent.com/txthinking/nami/master/install.sh | bash && sleep 3 && exec -l $SHELL
 
 > Windows user should run in [Git Bash](https://gitforwindows.org/)
-
-### 💛 [awesome-nami](https://github.com/namipkg/awesome-nami) 💛 
 
 ### Example
 
 ```
-nami install github.com/txthinking/nami
+nami install nami
 ```
 
 ### Usage
@@ -37,13 +35,12 @@ USAGE:
    nami [global options] command [command options] [arguments...]
 
 COMMANDS:
-   install  Install package. $ nami install github.com/txthinking/nami
-   upgrade  Upgrade package. $ nami upgrade github.com/txthinking/nami
-   remove   Remove package. $ nami remove github.com/txthinking/brook
-   info     Print package information. $ nami info github.com/txthinking/nami
+   install  Install package. $ nami install nami
+   upgrade  Upgrade package. $ nami upgrade nami
+   remove   Remove package. $ nami remove brook
    list     Print installed packages. $ nami list
    config   Configure key and value. $ nami config <key> <value>. See all keys, $ nami config
-   release  Create or update a version with binaries directory, such as $ nami release github.com/txthinking/nami v1.1.1 ./binaries/
+   release  Create or update a version with binaries directory on your github project, such as $ nami release github.com/txthinking/nami v1.1.1 ./binaries/
    help, h  Shows a list of commands or help for one command
 ```
 
@@ -51,14 +48,10 @@ COMMANDS:
 
 ```
 $ export HTTPS_PROXY=http://127.0.0.1:8888
-$ nami install github.com/txthinking/nami
+$ nami install nami
 ```
 
-### What Does Nami Do?
-
-All files are stored in `$HOME/.nami`
-
-### Keep PATH with sudo 
+### Keep PATH with sudo
 
 ```
 $ sudo visudo

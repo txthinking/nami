@@ -9,22 +9,20 @@
     <img style="float:right;" src="nami.png" alt="Nami" width="200" height="200"/>
 </p>
 
-一个分布式二进制软件包管理器
+一个分布式二进制软件包管理器. Nami只借助deno脚本下载命令, 不编译也不下载额外的编译链工具, 并且你可以通过`nami config`来指定脚本的地方. 所有的文件都存储在 `$HOME/.nami` 目录下.
 
 ❤️ A project by [txthinking.com](https://www.txthinking.com)
 
 ### 安装
 
-    curl -L https://git.io/getnami | bash && sleep 3 && exec -l $SHELL
+    curl -L https://raw.githubusercontent.com/txthinking/nami/master/install.sh | bash && sleep 3 && exec -l $SHELL
 
 > Windows 用户应该使用 [Git Bash](https://gitforwindows.org/) 运行命令
-
-### 💛 [awesome-nami](https://github.com/namipkg/awesome-nami) 💛 
 
 ### 举例
 
 ```
-nami install github.com/txthinking/nami
+nami install nami
 ```
 
 ### 使用
@@ -37,13 +35,12 @@ USAGE:
    nami [global options] command [command options] [arguments...]
 
 COMMANDS:
-   install  Install package. $ nami install github.com/txthinking/nami
-   upgrade  Upgrade package. $ nami upgrade github.com/txthinking/nami
-   remove   Remove package. $ nami remove github.com/txthinking/brook
-   info     Print package information. $ nami info github.com/txthinking/nami
+   install  Install package. $ nami install nami
+   upgrade  Upgrade package. $ nami upgrade nami
+   remove   Remove package. $ nami remove brook
    list     Print installed packages. $ nami list
    config   Configure key and value. $ nami config <key> <value>. See all keys, $ nami config
-   release  Create or update a version with binaries directory, such as $ nami release github.com/txthinking/nami v1.1.1 ./binaries/
+   release  Create or update a version with binaries directory on your github project, such as $ nami release github.com/txthinking/nami v1.1.1 ./binaries/
    help, h  Shows a list of commands or help for one command
 ```
 
@@ -51,12 +48,8 @@ COMMANDS:
 
 ```
 $ export HTTPS_PROXY=http://127.0.0.1:8888
-$ nami install github.com/txthinking/nami
+$ nami install nami
 ```
-
-### Nami 都做了什么?
-
-所有的文件都存储在 `$HOME/.nami` 目录下
 
 ### 保持 sudo PATH
 

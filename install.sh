@@ -48,11 +48,9 @@ if [ $os = "windows" ]; then
     sfx=".exe"
 fi
 
-t=$(date +%s)
-
-curl -L -o /tmp/nami${t}$sfx "https://github.com/txthinking/nami/releases/latest/download/nami_${os}_${arch}$sfx"
-chmod +x /tmp/nami${t}$sfx
-/tmp/nami${t}$sfx install github.com/txthinking/nami
+curl -L -o /tmp/nami$sfx "https://github.com/txthinking/nami/releases/latest/download/nami_${os}_${arch}$sfx"
+chmod +x /tmp/nami$sfx
+/tmp/nami$sfx install nami
 
 echo 'if [ -d $HOME/.nami/bin ]; then' >>$HOME/.bashrc
 echo '    export PATH=$HOME/.nami/bin:$PATH' >>$HOME/.bashrc

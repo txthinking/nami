@@ -25,7 +25,7 @@ import (
 func main() {
 	app := cli.NewApp()
 	app.Name = "nami"
-	app.Version = "20210601"
+	app.Version = "20211223"
 	app.Usage = "A decentralized binary package manager"
 	app.Authors = []*cli.Author{
 		{
@@ -37,7 +37,7 @@ func main() {
 	app.Commands = []*cli.Command{
 		&cli.Command{
 			Name:  "install",
-			Usage: "Install package. $ nami install github.com/txthinking/nami",
+			Usage: "Install package. $ nami install nami",
 			Action: func(c *cli.Context) error {
 				n, err := NewNami()
 				if err != nil {
@@ -63,7 +63,7 @@ func main() {
 		},
 		&cli.Command{
 			Name:  "upgrade",
-			Usage: "Upgrade package. $ nami upgrade github.com/txthinking/nami",
+			Usage: "Upgrade package. $ nami upgrade nami",
 			Flags: []cli.Flag{
 				&cli.BoolFlag{
 					Name:    "all",
@@ -114,7 +114,7 @@ func main() {
 		},
 		&cli.Command{
 			Name:  "remove",
-			Usage: "Remove package. $ nami remove github.com/txthinking/brook",
+			Usage: "Remove package. $ nami remove brook",
 			Action: func(c *cli.Context) error {
 				n, err := NewNami()
 				if err != nil {
@@ -130,23 +130,6 @@ func main() {
 						return err
 					}
 				}
-				return nil
-			},
-		},
-		&cli.Command{
-			Name:  "info",
-			Usage: "Print package information. $ nami info github.com/txthinking/nami",
-			Action: func(c *cli.Context) error {
-				n, err := NewNami()
-				if err != nil {
-					return err
-				}
-				defer n.Close()
-				if c.Args().Len() == 0 {
-					cli.ShowCommandHelp(c, "info")
-					return nil
-				}
-				n.Print(c.Args().Slice()[0], true)
 				return nil
 			},
 		},
@@ -185,7 +168,7 @@ func main() {
 		},
 		&cli.Command{
 			Name:  "release",
-			Usage: "Create or update a version with binaries directory, such as $ nami release github.com/txthinking/nami v1.1.1 ./binaries/",
+			Usage: "Create or update a version with binaries directory on your github project, such as $ nami release github.com/txthinking/nami v1.1.1 ./binaries/",
 			Action: func(c *cli.Context) error {
 				n, err := NewNami()
 				if err != nil {
@@ -196,10 +179,7 @@ func main() {
 					cli.ShowCommandHelp(c, "release")
 					return nil
 				}
-				p, err := GetPublish(c.Args().Slice()[0])
-				if err != nil {
-					return err
-				}
+				p := &Github{}
 				err = p.Init(n)
 				if err != nil {
 					return err

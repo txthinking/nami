@@ -16,26 +16,29 @@ package main
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
-	"net/http"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"runtime"
-	"strconv"
 	"strings"
-	"time"
 
 	"github.com/olekukonko/tablewriter"
 	"go.etcd.io/bbolt"
 )
 
 type Nami struct {
-	BinDir string
-	DB     *bbolt.DB
+	CacheDir string
+	BinDir   string
+	DB       *bbolt.DB
+}
+
+type Package struct {
+	Name    string
+	Version string
+	Files   map[string]string
 }
 
 func NewNami() (*Nami, error) {
@@ -43,90 +46,119 @@ func NewNami() (*Nami, error) {
 	if err != nil {
 		return nil, err
 	}
-	s1 := filepath.Join(s, ".nami", "bin")
-	if err := os.MkdirAll(s1, 0777); err != nil {
+	bin := filepath.Join(s, ".nami", "bin")
+	if err := os.MkdirAll(bin, 0777); err != nil {
 		return nil, err
 	}
 	db, err := bbolt.Open(filepath.Join(s, ".nami", "db"), 0644, nil)
 	if err != nil {
 		return nil, err
 	}
+	deno := "deno"
+	if runtime.GOOS == "windows" {
+		deno = "deno.exe"
+	}
+	_, err = os.Stat(filepath.Join(bin, deno))
+	if err != nil {
+		if os.IsNotExist(err) {
+			return nil, err
+		}
+		r, err := static.Open("static/" + deno)
+		if err != nil {
+			return nil, err
+		}
+		defer r.Close()
+		w, err := os.OpenFile(filepath.Join(bin, deno), os.O_WRONLY|os.O_CREATE, 0755)
+		if err != nil {
+			return nil, err
+		}
+		defer w.Close()
+		if _, err := io.Copy(w, r); err != nil {
+			return nil, err
+		}
+	}
 	return &Nami{
-		BinDir: s1,
-		DB:     db,
+		CacheDir: filepath.Join(s, ".nami", "cache"),
+		BinDir:   bin,
+		DB:       db,
 	}, nil
 }
 
-func (n *Nami) MakeFiles(urls []string) map[string]string {
-	m := make(map[string]string, 0)
-	for _, v := range urls {
-		sfx := "_" + runtime.GOOS + "_" + runtime.GOARCH
-		if runtime.GOOS != "windows" {
-			if !strings.HasSuffix(v, sfx) {
-				continue
-			}
-			m[v[strings.LastIndex(v, "/")+1:len(v)-len(sfx)]] = v
-		}
-		if runtime.GOOS == "windows" {
-			if !strings.HasSuffix(v, sfx+".exe") {
-				continue
-			}
-			m[v[strings.LastIndex(v, "/")+1:len(v)-len(sfx)-4]+".exe"] = v
-		}
+func (n *Nami) CleanCache() error {
+	if err := os.RemoveAll(n.CacheDir); err != nil {
+		return err
 	}
-	return m
+	if err := os.MkdirAll(n.CacheDir, 0777); err != nil {
+		return err
+	}
+	return nil
 }
 
 func (n *Nami) Install(name string) (func(), error) {
-	d := GetDomain(name)
-	p, err := n.GetInstalled(name)
-	if err != nil {
-		return nil, err
-	}
-	s, err := d.Version(name)
-	if err != nil {
-		return nil, err
-	}
-	if p != nil && s == p.Version {
-		return nil, nil
+	// compatible
+	if strings.Contains(name, "/") {
+		name = name[strings.LastIndex(name, "/")+1:]
 	}
 
-	l, err := d.Files(name)
+	if err := n.CleanCache(); err != nil {
+		return nil, err
+	}
+
+	s, err := n.GetConfig("nami.deno.base")
 	if err != nil {
 		return nil, err
 	}
-	m := n.MakeFiles(l)
-	if len(m) == 0 {
-		return nil, errors.New(fmt.Sprintf("No files for %s %s", runtime.GOOS, runtime.GOARCH))
+	if s == "" {
+		s = "https://raw.githubusercontent.com/txthinking/nami/master/package/"
 	}
-	t := strconv.FormatInt(time.Now().Unix(), 10)
-	for k, v := range m {
-		if (k == "nami" || k == "nami.exe") && name != "github.com/txthinking/nami" {
-			log.Println("Ignore nami binary from package", name)
+	deno := filepath.Join(n.BinDir, "deno")
+	if runtime.GOOS == "windows" {
+		deno = filepath.Join(n.BinDir, "deno.exe")
+	}
+	cmd := exec.Command(deno, "run", "-r", "-A", s+name+".js")
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	if err := cmd.Run(); err != nil {
+		return nil, err
+	}
+
+	p := &Package{
+		Name:  name,
+		Files: make(map[string]string),
+	}
+	files, err := os.ReadDir(n.CacheDir)
+	if err != nil {
+		return nil, err
+	}
+	for _, file := range files {
+		if file.Name() == "version" {
+			b, err := os.ReadFile(filepath.Join(n.CacheDir, file.Name()))
+			if err != nil {
+				return nil, err
+			}
+			p.Version = string(b)
 			continue
 		}
-		r, err := http.Get(v)
+		p.Files[file.Name()] = ""
+		if file.Name() == "nami" || file.Name() == "deno" {
+			if err := os.Chmod(filepath.Join(n.CacheDir, file.Name()), 0755); err != nil {
+				return nil, err
+			}
+			continue
+		}
+		r, err := os.Open(filepath.Join(n.CacheDir, file.Name()))
 		if err != nil {
 			return nil, err
 		}
-		b, err := ioutil.ReadAll(r.Body)
+		defer r.Close()
+		w, err := os.OpenFile(filepath.Join(n.BinDir, file.Name()), os.O_TRUNC|os.O_WRONLY|os.O_CREATE, 0755)
 		if err != nil {
 			return nil, err
 		}
-		r.Body.Close()
-		s := filepath.Join(n.BinDir, k)
-		if name == "github.com/txthinking/nami" {
-			s = filepath.Join(os.TempDir(), k+t)
-		}
-		if err := ioutil.WriteFile(s, b, 0755); err != nil {
+		defer w.Close()
+		if _, err := io.Copy(w, r); err != nil {
 			return nil, err
 		}
-	}
-
-	p = &Package{
-		Name:    name,
-		Version: s,
-		Files:   m,
 	}
 	err = n.DB.Update(func(tx *bbolt.Tx) error {
 		b, err := json.Marshal(p)
@@ -145,18 +177,18 @@ func (n *Nami) Install(name string) (func(), error) {
 	if err != nil {
 		return nil, err
 	}
-	if name == "github.com/txthinking/nami" {
-		return func() {
-			cmd := exec.Command("sh", "-c", "sleep 3 && cp "+filepath.Join(os.TempDir(), "nami"+t)+" "+filepath.Join(n.BinDir, "nami"))
-			if runtime.GOOS == "windows" {
-				cmd = exec.Command("cmd", "/C", fmt.Sprintf("ping localhost -n 3 -w 1000 > NUL && copy /y %s %s", filepath.Join(os.TempDir(), "nami.exe"+t), filepath.Join(n.BinDir, "nami.exe")))
-			}
-			if err := cmd.Start(); err != nil {
-				log.Println(err)
-			}
-		}, nil
+	if name != "nami" && name != "deno" {
+		return nil, nil
 	}
-	return nil, nil
+	return func() {
+		cmd := exec.Command("sh", "-c", fmt.Sprintf("sleep 3 && cp %s %s", filepath.Join(n.CacheDir, name), filepath.Join(n.BinDir, name)))
+		if runtime.GOOS == "windows" {
+			cmd = exec.Command("cmd", "/C", fmt.Sprintf("ping localhost -n 3 -w 1000 > NUL && copy /y %s.exe %s.exe", filepath.Join(n.CacheDir, name), filepath.Join(n.BinDir, name)))
+		}
+		if err := cmd.Start(); err != nil {
+			log.Println(err)
+		}
+	}, nil
 }
 
 func (n *Nami) GetInstalledPackageList() ([]*Package, error) {
@@ -183,7 +215,7 @@ func (n *Nami) GetInstalledPackageList() ([]*Package, error) {
 }
 
 func (n *Nami) Remove(name string) error {
-	if name == "github.com/txthinking/nami" {
+	if name == "nami" {
 		log.Println("If you really want to remove nami and all packages, just $ rm -rf ~/.nami")
 		return nil
 	}
@@ -257,27 +289,6 @@ func (n *Nami) Print(name string, remote bool) {
 		l = append(l, k)
 	}
 	table.Append([]string{"Installed Files", strings.Join(l, ", ")})
-	if remote {
-		table.Append([]string{"", ""})
-		d := GetDomain(name)
-		s, err := d.Version(name)
-		if err != nil {
-			fmt.Println(err, "maybe package doesn't exists")
-			return
-		}
-		table.Append([]string{"Latest Version", s})
-		l, err := d.Files(name)
-		if err != nil {
-			fmt.Println(err, "maybe package doesn't exists")
-			return
-		}
-		m := n.MakeFiles(l)
-		l = make([]string, 0)
-		for k, _ := range m {
-			l = append(l, k)
-		}
-		table.Append([]string{"Latest Files", strings.Join(l, ", ")})
-	}
 	table.Render()
 }
 

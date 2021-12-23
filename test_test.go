@@ -16,10 +16,14 @@ package main
 
 import (
 	"log"
-	"regexp"
+	"os"
+	"os/exec"
 	"testing"
 )
 
 func TestTest(t *testing.T) {
-	log.Println(regexp.MustCompile(`^.*_(darwin|freebsd|linux|netbsd|openbsd|windows)_(386|amd64|arm64|)(.exe)?$`).MatchString("1_1.1_a_linux_amd64"))
+	cmd := exec.Command("deno", "run", "-A", "./package/brook.js")
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	log.Println(cmd.Run())
 }
