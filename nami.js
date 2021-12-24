@@ -1,5 +1,5 @@
-import ProgressBar from "https://deno.land/x/progress@v1.2.3/mod.ts";
-import {red, yellow, green} from 'https://deno.land/std@0.118.0/fmt/colors.ts';
+import ProgressBar from "https://raw.githubusercontent.com/txthinking/progress/master/mod.ts";
+import { red, yellow, green } from "https://raw.githubusercontent.com/denoland/deno_std/0.118.0/fmt/colors.ts";
 
 var download = async (url, to) => {
     console.log(`Downloading file from ${url} to ${to}`);
