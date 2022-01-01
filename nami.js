@@ -5,25 +5,19 @@ var download = async (url, to) => {
     console.log(`Downloading file from ${url} to ${to}`);
     var r = await fetch(url);
     var p = new ProgressBar({title: 'Downloading', total: r.headers.get('content-length')});
-    var chunks = [];
     var l = 0;
     var reader = r.body.getReader();
+    var f = await Deno.create(to);
     while(true) {
         var {done, value} = await reader.read();
         if (done) {
             break;
         }
-        chunks.push(value);
+        await f.write(value);
         l += value.length;
         p.render(l);
     }
-    var b = new Uint8Array(l);
-    var i = 0;
-    for(var chunk of chunks) {
-        b.set(chunk, i);
-        i += chunk.length;
-    }
-    await Deno.writeFile(to, b);
+    f.close();
 };
 
 var nami = (name) => {
