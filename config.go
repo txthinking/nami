@@ -66,7 +66,7 @@ func (n *Nami) PrintConfigs() {
 		return
 	}
 	if s == "" {
-		s = "https://raw.githubusercontent.com/txthinking/deno/master/package/"
+		s = "https://raw.githubusercontent.com/txthinking/nami/master/package/"
 	}
 	table.Append([]string{"nami.deno.base", s, "Where nami downloads the script"})
 	s, err = n.GetConfig("github.token")
