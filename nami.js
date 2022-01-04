@@ -13,7 +13,10 @@ var download = async (url, to) => {
         if (done) {
             break;
         }
-        await f.write(value);
+        var n = 0;
+        while (n < value.length) {
+            n += await f.write(value.subarray(n));
+        }
         l += value.length;
         p.render(l);
     }
