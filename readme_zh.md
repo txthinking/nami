@@ -15,7 +15,7 @@
 
 ### 安装
 
-    curl -L https://raw.githubusercontent.com/txthinking/nami/master/install.sh | bash && sleep 3 && exec -l $SHELL
+    mkdir -p $HOME/.nami/bin && curl -L https://github.com/txthinking/nami/releases/latest/download/nami_$(uname -s | cut -d_ -f1)$(uname -m) -o $HOME/.nami/bin/nami && chmod +x $HOME/.nami/bin/nami && echo 'export PATH=$HOME/.nami/bin:$PATH' >> $HOME/.bashrc && echo 'export PATH=$HOME/.nami/bin:$PATH' >> $HOME/.bash_profile && echo 'export PATH=$HOME/.nami/bin:$PATH' >> $HOME/.zshenv && exec -l $SHELL
 
 > Windows 用户应该使用 [Git Bash](https://gitforwindows.org/) 运行命令
 
@@ -26,7 +26,7 @@ nami install nami
 ```
 
 ```
-nami install joker brook ipio nico jinbe testsocks5
+nami install joker brook ipio nico jinbe testsocks5 testbrook
 ```
 
 ### 使用
