@@ -15,7 +15,7 @@ A decentralized binary package manager. Nami only uses deno scripts to download 
 
 ### Install
 
-    bash <(curl -s https://bash.ooo/nami.sh)
+    bash <(curl https://bash.ooo/nami.sh)
 
 > Windows user should run in [Git Bash](https://gitforwindows.org/)
 
