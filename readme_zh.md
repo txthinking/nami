@@ -15,7 +15,7 @@
 
 ### 安装
 
-    bash <(curl -s https://bash.ooo/nami.sh)
+    bash <(curl https://bash.ooo/nami.sh)
 
 > Windows 用户应该使用 [Git Bash](https://gitforwindows.org/) 运行命令
 
