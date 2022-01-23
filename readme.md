@@ -9,7 +9,7 @@
     <img style="float:right;" src="nami.png" alt="Nami" width="200" height="200"/>
 </p>
 
-A decentralized binary package manager. Nami only uses deno scripts to download commands, neither compiling nor downloading additional build chain tools, and you can specify the place of the script through `nami config`. All files are stored in `$HOME/.nami`.
+The easy way to download command from anywhere. Nami only uses deno scripts to download commands, neither compiling nor downloading additional build chain tools. All files are stored in `$HOME/.nami`.
 
 ❤️ A project by [txthinking.com](https://www.txthinking.com)
 
@@ -70,13 +70,6 @@ Defaults        !env_reset
 
 [package/readme.md](package/readme.md)
 
-## Why
-
-There are already many package managers, more are centralized and often provide outdated softwares.
-Nami is a decentralized binary package manager,
-she allows software authors to publish their software anywhere.
-No longer have to worry about users downloading outdated software.
-**Only install packages you trust**.
 
 ## License
 
