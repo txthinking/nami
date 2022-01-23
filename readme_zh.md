@@ -2,12 +2,10 @@
 
 [English](readme.md)
 
-[![捐赠](https://img.shields.io/badge/%E6%94%AF%E6%8C%81-%E6%8D%90%E8%B5%A0-ff69b4.svg)](https://github.com/sponsors/txthinking)
-[![交流群](https://img.shields.io/badge/%E7%94%B3%E8%AF%B7%E5%8A%A0%E5%85%A5-%E4%BA%A4%E6%B5%81%E7%BE%A4-ff69b4.svg)](https://docs.google.com/forms/d/e/1FAIpQLSdzMwPtDue3QoezXSKfhW88BXp57wkbDXnLaqokJqLeSWP9vQ/viewform)
-
-<p align="center">
-    <img style="float:right;" src="nami.png" alt="Nami" width="200" height="200"/>
-</p>
+[🗣 Talks](https://t.me/txthinking_talks)
+[💬 Join](https://join.txthinking.com)
+[🩸 Youtube](https://www.youtube.com/txthinking) 
+[❤️ Sponsor](https://github.com/sponsors/txthinking)
 
 简单的从任何地方下载命令. Nami只借助deno脚本下载命令, 不编译也不下载额外的编译链工具. 所有的文件都存储在 `$HOME/.nami` 目录下.
 
