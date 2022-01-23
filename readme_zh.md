@@ -9,7 +9,7 @@
     <img style="float:right;" src="nami.png" alt="Nami" width="200" height="200"/>
 </p>
 
-一个分布式二进制软件包管理器. Nami只借助deno脚本下载命令, 不编译也不下载额外的编译链工具, 并且你可以通过`nami config`来指定脚本的地方. 所有的文件都存储在 `$HOME/.nami` 目录下.
+简单的从任何地方下载命令. Nami只借助deno脚本下载命令, 不编译也不下载额外的编译链工具. 所有的文件都存储在 `$HOME/.nami` 目录下.
 
 ❤️ A project by [txthinking.com](https://www.txthinking.com)
 
