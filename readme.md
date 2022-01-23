@@ -2,12 +2,10 @@
 
 [中文](readme_zh.md)
 
-[![Donate](https://img.shields.io/badge/Support-Donate-ff69b4.svg)](https://github.com/sponsors/txthinking)
-[![Slack](https://img.shields.io/badge/Join-Telegram-ff69b4.svg)](https://docs.google.com/forms/d/e/1FAIpQLSdzMwPtDue3QoezXSKfhW88BXp57wkbDXnLaqokJqLeSWP9vQ/viewform)
-
-<p align="center">
-    <img style="float:right;" src="nami.png" alt="Nami" width="200" height="200"/>
-</p>
+[🗣 Talks](https://t.me/txthinking_talks)
+[💬 Join](https://join.txthinking.com)
+[🩸 Youtube](https://www.youtube.com/txthinking) 
+[❤️ Sponsor](https://github.com/sponsors/txthinking)
 
 The easy way to download command from anywhere. Nami only uses deno scripts to download commands, neither compiling nor downloading additional build chain tools. All files are stored in `$HOME/.nami`.
 
