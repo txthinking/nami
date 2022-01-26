@@ -63,7 +63,7 @@ var nami = (name) => {
         },
         // commands: {command: file_path_in_txz}
         download_commands_from_txz_url: async (url, commands) => {
-            await download(url, `/tmp/_.tgz`);
+            await download(url, `/tmp/_.txz`);
             var p = Deno.run({
                 cmd: ["sh", "-c", `rm -rf /tmp/_ && mkdir /tmp/_ && tar jxvf /tmp/_.txz -C /tmp/_`],
             });
