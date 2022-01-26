@@ -8,7 +8,7 @@ var j = await r.json();
 await n.version(j.tag_name);
 
 if(Deno.build.os == "linux" && Deno.build.arch == "x86_64"){
-    await n.download_commands_from_tgz_url(`https://github.com/upx/upx/releases/latest/download/upx-${j.tag_name.replace('v', '')}-amd64_linux.tar.xz`, {
+    await n.download_commands_from_txz_url(`https://github.com/upx/upx/releases/latest/download/upx-${j.tag_name.replace('v', '')}-amd64_linux.tar.xz`, {
         'upx': `upx-${j.tag_name.replace('v', '')}-amd64_linux/upx`,
     });
     Deno.exit(0);
