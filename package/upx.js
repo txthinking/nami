@@ -15,7 +15,7 @@ if(Deno.build.os == "linux" && Deno.build.arch == "x86_64"){
 }
 if(Deno.build.os == "windows" && Deno.build.arch == "x86_64"){
     await n.download_commands_from_zip_url(`https://github.com/upx/upx/releases/latest/download/upx-${j.tag_name.replace('v', '')}-win64.zip`, {
-        'upx.exe': 'upx-${j.tag_name.replace('v', '')}-win64/upx.exe',
+        'upx.exe': `upx-${j.tag_name.replace('v', '')}-win64/upx.exe`,
     });
     Deno.exit(0);
 }
