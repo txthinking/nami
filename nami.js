@@ -61,6 +61,29 @@ var nami = (name) => {
                 p.close();
             }
         },
+        // commands: {command: file_path_in_txz}
+        download_commands_from_txz_url: async (url, commands) => {
+            await download(url, `/tmp/_.tgz`);
+            var p = Deno.run({
+                cmd: ["sh", "-c", `rm -rf /tmp/_ && mkdir /tmp/_ && tar jxvf /tmp/_.txz -C /tmp/_`],
+            });
+            var s = await p.status();
+            if(s.code != 0){
+                Deno.exit(s.code);
+            }
+            p.close();
+            var l = Object.keys(commands);
+            for(var i=0; i<l.length; i++){
+                var p = Deno.run({
+                    cmd: ["sh", "-c", `mv '/tmp/_/${commands[l[i]]}' '${Deno.env.get("HOME")}/.nami/cache/${l[i]}'`],
+                });
+                var s = await p.status();
+                if(s.code != 0){
+                    Deno.exit(s.code);
+                }
+                p.close();
+            }
+        },
         // commands: {command: file_path_in_zip}
         download_commands_from_zip_url: async (url, commands) => {
             var p = Deno.run({
