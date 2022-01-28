@@ -8,7 +8,7 @@ var j = await r.json();
 await n.version(j.tag_name);
 
 if(Deno.build.os == "darwin" && Deno.build.arch == "aarch64"){
-    await n.download_commands_from_tgz_url(`https://github.com/shadowsocks/shadowsocks-rust/releases/latest/download/shadowsocks-${j.tag_name}.aarch64-apple-darwin.tar.xz`, {
+    await n.download_commands_from_txz_url(`https://github.com/shadowsocks/shadowsocks-rust/releases/latest/download/shadowsocks-${j.tag_name}.aarch64-apple-darwin.tar.xz`, {
         'sslocal': 'sslocal',
         'ssserver': 'ssserver',
         'ssurl': 'ssurl',
@@ -17,7 +17,7 @@ if(Deno.build.os == "darwin" && Deno.build.arch == "aarch64"){
     Deno.exit(0);
 }
 if(Deno.build.os == "darwin" && Deno.build.arch == "x86_64"){
-    await n.download_commands_from_tgz_url(`https://github.com/shadowsocks/shadowsocks-rust/releases/latest/download/shadowsocks-${j.tag_name}.x86_64-apple-darwin.tar.xz`, {
+    await n.download_commands_from_txz_url(`https://github.com/shadowsocks/shadowsocks-rust/releases/latest/download/shadowsocks-${j.tag_name}.x86_64-apple-darwin.tar.xz`, {
         'sslocal': 'sslocal',
         'ssserver': 'ssserver',
         'ssurl': 'ssurl',
@@ -26,7 +26,7 @@ if(Deno.build.os == "darwin" && Deno.build.arch == "x86_64"){
     Deno.exit(0);
 }
 if(Deno.build.os == "linux" && Deno.build.arch == "x86_64"){
-    await n.download_commands_from_tgz_url(`https://github.com/shadowsocks/shadowsocks-rust/releases/latest/download/shadowsocks-${j.tag_name}.x86_64-unknown-linux-gnu.tar.xz`, {
+    await n.download_commands_from_txz_url(`https://github.com/shadowsocks/shadowsocks-rust/releases/latest/download/shadowsocks-${j.tag_name}.x86_64-unknown-linux-gnu.tar.xz`, {
         'sslocal': 'sslocal',
         'ssserver': 'ssserver',
         'ssurl': 'ssurl',
