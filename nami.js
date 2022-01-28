@@ -27,7 +27,7 @@ var nami = (name) => {
     return {
         version: async (version)=>{
             await Deno.writeFile(`${Deno.env.get("HOME")}/.nami/cache/version`, new TextEncoder().encode(version));
-            console.log(green(`Found version: ${version}`))
+            console.log(green(`version: ${version}`))
         },
         open_sourced_on: (homepage)=>{
             console.log(green(`${name} has been open sourced on ${homepage}`))

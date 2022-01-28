@@ -30,6 +30,7 @@ import (
 )
 
 type Nami struct {
+	DenoDir  string
 	CacheDir string
 	BinDir   string
 	DB       *bbolt.DB
@@ -79,6 +80,7 @@ func NewNami() (*Nami, error) {
 	}
 	return &Nami{
 		CacheDir: filepath.Join(s, ".nami", "cache"),
+		DenoDir:  filepath.Join(s, ".nami", "deno"),
 		BinDir:   bin,
 		DB:       db,
 	}, nil
@@ -106,12 +108,14 @@ func (n *Nami) Install(name string) (func(), error) {
 	if s == "" {
 		s = "https://raw.githubusercontent.com/txthinking/nami/master/package/"
 	}
-	fmt.Println("Run", s+name+".js")
 	deno := filepath.Join(n.BinDir, "deno")
 	if runtime.GOOS == "windows" {
 		deno = filepath.Join(n.BinDir, "deno.exe")
 	}
 	cmd := exec.Command(deno, "run", "-r", "-A", s+name+".js")
+	cmd.Env = append(os.Environ(),
+		"DENO_DIR="+n.DenoDir,
+	)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	if err := cmd.Run(); err != nil {

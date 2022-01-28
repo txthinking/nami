@@ -25,8 +25,8 @@ import (
 func main() {
 	app := cli.NewApp()
 	app.Name = "nami"
-	app.Version = "20211227"
-	app.Usage = "A decentralized binary package manager"
+	app.Version = "20220128"
+	app.Usage = "The easy way to download command from anywhere"
 	app.Authors = []*cli.Author{
 		{
 			Name:  "Cloud",
