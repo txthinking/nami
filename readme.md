@@ -64,10 +64,13 @@ Defaults        !env_reset
 # Defaults       secure_path=...
 ```
 
+### All officially maintained packages
+
+[package](package)
+
 ### How to add package
 
 [package/readme.md](package/readme.md)
-
 
 ## License
 
