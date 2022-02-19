@@ -30,10 +30,11 @@ import (
 )
 
 type Nami struct {
-	DenoDir  string
-	CacheDir string
-	BinDir   string
-	DB       *bbolt.DB
+	DenoDir   string
+	CacheDir  string
+	BinDir    string
+	DB        *bbolt.DB
+	CopiedDir string
 }
 
 type Package struct {
@@ -79,10 +80,11 @@ func NewNami() (*Nami, error) {
 		}
 	}
 	return &Nami{
-		CacheDir: filepath.Join(s, ".nami", "cache"),
-		DenoDir:  filepath.Join(s, ".nami", "deno"),
-		BinDir:   bin,
-		DB:       db,
+		CacheDir:  filepath.Join(s, ".nami", "cache"),
+		DenoDir:   filepath.Join(s, ".nami", "deno"),
+		CopiedDir: filepath.Join(s, ".nami", "copied"),
+		BinDir:    bin,
+		DB:        db,
 	}, nil
 }
 
@@ -91,6 +93,12 @@ func (n *Nami) CleanCache() error {
 		return err
 	}
 	if err := os.MkdirAll(n.CacheDir, 0777); err != nil {
+		return err
+	}
+	if err := os.RemoveAll(n.CopiedDir); err != nil {
+		return err
+	}
+	if err := os.MkdirAll(n.CopiedDir, 0777); err != nil {
 		return err
 	}
 	return nil
@@ -144,6 +152,19 @@ func (n *Nami) Install(name string) (func(), error) {
 			if err := os.Chmod(filepath.Join(n.CacheDir, file.Name()), 0755); err != nil {
 				return nil, err
 			}
+			continue
+		}
+		l, err := os.ReadDir(n.CopiedDir)
+		if err != nil {
+			return nil, err
+		}
+		got := false
+		for _, v := range l {
+			if v.Name() == file.Name() {
+				got = true
+			}
+		}
+		if got {
 			continue
 		}
 		r, err := os.Open(filepath.Join(n.CacheDir, file.Name()))
