@@ -1,4 +1,5 @@
 import nami from "https://raw.githubusercontent.com/txthinking/nami/master/nami.js";
+import { join } from "https://deno.land/std@0.126.0/path/mod.ts";
 
 var n = nami("brook");
 n.open_sourced_on("https://github.com/txthinking/brook");
@@ -70,7 +71,7 @@ if (Deno.build.os == "linux" && Deno.build.arch == "x86_64") {
     }
     await n.download_command_from_url("https://github.com/txthinking/brook/releases/latest/download/brook_linux_amd64", "brook");
     var p = Deno.run({
-        cmd: ["sh", "-c", `mkdir -p ${Deno.env.get("HOME")}/.nami/copied && cp ${Deno.env.get("HOME")}/.nami/cache/brook ${Deno.env.get("HOME")}/.nami/bin/brook && cp ${Deno.env.get("HOME")}/.nami/cache/brook ${Deno.env.get("HOME")}/.nami/copied/brook && chmod +x ${Deno.env.get("HOME")}/.nami/bin/brook`],
+        cmd: ["sh", "-c", `cp '${join(Deno.env.get("HOME"), ".nami", "cache", "brook")}' '${join(Deno.env.get("HOME"), ".nami", "bin", "brook")}' && cp '${join(Deno.env.get("HOME"), ".nami", "cache", "brook")}' '${join(Deno.env.get("HOME"), ".nami", "copied", "brook")}' && chmod +x '${join(Deno.env.get("HOME"), ".nami", "bin", "brook")}'`],
     });
     var s = await p.status();
     if (s.code != 0) {

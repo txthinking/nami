@@ -3,7 +3,7 @@
 0. Install nami, and config `nami.deno.base` to current directory
 
     ```
-    curl -L https://raw.githubusercontent.com/txthinking/nami/master/install.sh | bash && sleep 3 && exec -l $SHELL
+    bash <(curl https://bash.ooo/nami.sh)
     nami config nami.deno.base ./
     ```
 
@@ -17,6 +17,7 @@
     var n = nami("exmaple");
     ```
 4. Tell users whether this package is open source and its home page url
+
     ```
     // open sourced
     n.open_sourced_on("package home page url");
@@ -24,6 +25,7 @@
     // or not open sourced
     n.not_open_sourced_on("package home page url");
     ```
+
 5. Get latest version string from anywhere and tell users
 
     ```
@@ -32,6 +34,7 @@
     // ...
     await n.version("latest version string");
     ```
+
 6. Download package commands
 
     1. Based on `Deno.build.os` and `Deno.build.arch`
@@ -40,6 +43,7 @@
         }
         ```
     2. Here are 3 convenient ways to download commands directly from URL
+
         ```
         // download one command from url
         await n.download_command_from_url("command file url", "command")
@@ -56,6 +60,7 @@
             "another command": "The relative path of the file in the tgz",
         })
         ```
+
 7. Tell users unsupport if no OS and Arch match
     ```
     n.unsupport();

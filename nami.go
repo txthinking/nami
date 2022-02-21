@@ -35,6 +35,7 @@ type Nami struct {
 	BinDir    string
 	DB        *bbolt.DB
 	CopiedDir string
+	TmpDir    string
 }
 
 type Package struct {
@@ -83,6 +84,7 @@ func NewNami() (*Nami, error) {
 		CacheDir:  filepath.Join(s, ".nami", "cache"),
 		DenoDir:   filepath.Join(s, ".nami", "deno"),
 		CopiedDir: filepath.Join(s, ".nami", "copied"),
+		TmpDir:    filepath.Join(s, ".nami", "tmp"),
 		BinDir:    bin,
 		DB:        db,
 	}, nil
@@ -99,6 +101,12 @@ func (n *Nami) CleanCache() error {
 		return err
 	}
 	if err := os.MkdirAll(n.CopiedDir, 0777); err != nil {
+		return err
+	}
+	if err := os.RemoveAll(n.TmpDir); err != nil {
+		return err
+	}
+	if err := os.MkdirAll(n.TmpDir, 0777); err != nil {
 		return err
 	}
 	return nil
