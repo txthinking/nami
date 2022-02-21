@@ -3,10 +3,6 @@ import { red, yellow, green } from "https://deno.land/std@0.126.0/fmt/colors.ts"
 import { join } from "https://deno.land/std@0.126.0/path/mod.ts";
 
 var download = async (url, to) => {
-    try {
-        await Deno.remove(join(Deno.env.get("HOME"), ".nami", "tmp"), { recursive: true });
-    } catch {}
-    await Deno.mkdir(join(Deno.env.get("HOME"), ".nami", "tmp"));
     console.log(`Downloading file from ${url} to ${to}`);
     var r = await fetch(url);
     var p = new ProgressBar({ title: "Downloading", total: r.headers.get("content-length") });
