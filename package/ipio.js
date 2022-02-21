@@ -26,10 +26,6 @@ if (Deno.build.os == "windows" && Deno.build.arch == "x86_64") {
         await Deno.remove(join(Deno.env.get("HOME"), ".nami", "bin", "wintun.dll"));
         await Deno.remove(join(Deno.env.get("HOME"), ".nami", "bin", "wintun.h"));
     }catch{}
-    var s = await p.status();
-    if (s.code != 0) {
-        Deno.exit(s.code);
-    }
     Deno.exit(0);
 }
 n.unsupport();
