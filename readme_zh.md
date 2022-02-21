@@ -15,7 +15,7 @@
 
     bash <(curl https://bash.ooo/nami.sh)
 
-> Windows 用户应该使用 [Git Bash](https://gitforwindows.org/) 运行命令
+> Windows 用户应该使用 [Git Bash](https://gitforwindows.org/) 运行命令, [视频](https://www.youtube.com/watch?v=CioIqzSlXl8)
 
 ### 举例
 
