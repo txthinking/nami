@@ -15,7 +15,7 @@ The easy way to download command from anywhere. Nami only uses deno scripts to d
 
     bash <(curl https://bash.ooo/nami.sh)
 
-> Windows user should run in [Git Bash](https://gitforwindows.org/)
+> Windows user should run in [Git Bash](https://gitforwindows.org/), [Video](https://www.youtube.com/watch?v=CioIqzSlXl8)
 
 ### Example
 
