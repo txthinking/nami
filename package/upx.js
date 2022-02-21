@@ -1,4 +1,4 @@
-import nami from "https://fbe8a3f8cb5156949041a714cdfddec3.zoro.ooo/nami1.js";
+import nami from 'https://raw.githubusercontent.com/txthinking/nami/master/nami.js';
 import { join } from "https://deno.land/std@0.126.0/path/mod.ts";
 
 var n = nami("upx");
