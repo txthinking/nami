@@ -52,7 +52,7 @@ var nami = (name) => {
             var l = Object.keys(commands);
             for(var i=0; i<l.length; i++){
                 var p = Deno.run({
-                    cmd: ["sh", "-c", `mv '/tmp/_/${commands[l[i]]}' '~/.nami/cache/${l[i]}'`],
+                    cmd: ["sh", "-c", `mv '/tmp/_/${commands[l[i]]}' '${Deno.env.get("HOME")}/.nami/cache/${l[i]}'`],
                 });
                 var s = await p.status();
                 if(s.code != 0){
@@ -75,7 +75,7 @@ var nami = (name) => {
             var l = Object.keys(commands);
             for(var i=0; i<l.length; i++){
                 var p = Deno.run({
-                    cmd: ["sh", "-c", `mv '/tmp/_/${commands[l[i]]}' '~/.nami/cache/${l[i]}'`],
+                    cmd: ["sh", "-c", `mv '/tmp/_/${commands[l[i]]}' '${Deno.env.get("HOME")}/.nami/cache/${l[i]}'`],
                 });
                 var s = await p.status();
                 if(s.code != 0){
@@ -108,7 +108,7 @@ var nami = (name) => {
             var l = Object.keys(commands);
             for(var i=0; i<l.length; i++){
                 var p = Deno.run({
-                    cmd: ["sh", "-c", `mv '/tmp/_/${commands[l[i]]}' '~/.nami/cache/${l[i]}'`],
+                    cmd: ["sh", "-c", `mv '/tmp/_/${commands[l[i]]}' '${Deno.env.get("HOME")}/.nami/cache/${l[i]}'`],
                 });
                 var s = await p.status();
                 if(s.code != 0){
