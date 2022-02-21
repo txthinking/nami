@@ -26,7 +26,7 @@ var download = async (url, to) => {
 var nami = (name) => {
     return {
         version: async (version)=>{
-            await Deno.writeFile(`~/.nami/cache/version`, new TextEncoder().encode(version));
+            await Deno.writeFile(`${Deno.env.get("HOME")}/.nami/cache/version`, new TextEncoder().encode(version));
             console.log(green(`version: ${version}`))
         },
         open_sourced_on: (homepage)=>{
@@ -36,7 +36,7 @@ var nami = (name) => {
             console.log(yellow(`${name} has NOT been open sourced on ${homepage}. Please only run commands you believe`))
         },
         download_command_from_url: async (url, command) => {
-            await download(url, `~/.nami/cache/${command}`);
+            await download(url, `${Deno.env.get("HOME")}/.nami/cache/${command}`);
         },
         // commands: {command: file_path_in_tgz}
         download_commands_from_tgz_url: async (url, commands) => {
