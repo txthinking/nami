@@ -23,7 +23,10 @@ if (Deno.build.os == "linux" && Deno.build.arch == "x86_64") {
 if (Deno.build.os == "windows" && Deno.build.arch == "x86_64") {
     await n.download_command_from_url("https://github.com/txthinking/ipio/releases/latest/download/ipio_windows_amd64.exe", "ipio.exe");
     var p = Deno.run({
-        cmd: ["sh", "-c", `rm -rf '${join(Deno.env.get("HOME"), ".nami", "bin", "wintun*")}'`],
+        cmd: ["sh", "-c", `rm -rf '${join(Deno.env.get("HOME"), ".nami", "bin", "wintun.dll")}'`],
+    });
+    var p = Deno.run({
+        cmd: ["sh", "-c", `rm -rf '${join(Deno.env.get("HOME"), ".nami", "bin", "wintun.h")}'`],
     });
     var s = await p.status();
     if (s.code != 0) {
