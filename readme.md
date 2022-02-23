@@ -24,7 +24,7 @@ nami install nami
 ```
 
 ```
-nami install joker brook ipio nico jinbe testbrook
+nami install brook ipio nico
 ```
 
 ### Usage
