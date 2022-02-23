@@ -24,7 +24,7 @@ nami install nami
 ```
 
 ```
-nami install joker brook ipio nico jinbe testsocks5 testbrook
+nami install brook ipio nico
 ```
 
 ### 使用
