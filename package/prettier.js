@@ -2,7 +2,7 @@ import nami from 'https://raw.githubusercontent.com/txthinking/nami/master/nami.
 import { join } from "https://deno.land/std@0.126.0/path/mod.ts";
 
 var n = nami("prettier");
-n.not_open_sourced_on("https://github.com/prettier/prettier");
+n.open_sourced_on("https://github.com/prettier/prettier");
 
 await n.version('unknown');
 
