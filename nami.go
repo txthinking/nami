@@ -128,7 +128,7 @@ func (n *Nami) Install(name string) (func(), error) {
 	if runtime.GOOS == "windows" {
 		deno = filepath.Join(n.BinDir, "deno.exe")
 	}
-	cmd := exec.Command(deno, "run", "-r", "-A", s+name+".js")
+	cmd := exec.Command(deno, "run", "-r", "-A", "--unstable", s+name+".js")
 	cmd.Env = append(os.Environ(),
 		"DENO_DIR="+n.DenoDir,
 	)

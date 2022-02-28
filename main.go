@@ -25,7 +25,7 @@ import (
 func main() {
 	app := cli.NewApp()
 	app.Name = "nami"
-	app.Version = "20220401"
+	app.Version = "20220404"
 	app.Usage = "The easy way to download command from anywhere"
 	app.Authors = []*cli.Author{
 		{
