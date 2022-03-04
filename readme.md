@@ -27,36 +27,25 @@ nami install nami
 nami install brook ipio nico
 ```
 
-### Usage
+```
+nami remove nico
+```
 
 ```
-NAME:
-   nami - A decentralized binary package manager
-
-USAGE:
-   nami [global options] command [command options] [arguments...]
-
-COMMANDS:
-   install  Install package. $ nami install nami
-   upgrade  Upgrade package. $ nami upgrade nami. Or upgrade all installed packages $ nami upgrade
-   remove   Remove package. $ nami remove brook
-   list     Print installed packages. $ nami list
-   config   Configure key and value. $ nami config <key> <value>. See all keys, $ nami config
-   release  Create or update a version with binaries directory on your github project, such as $ nami release github.com/txthinking/nami v1.1.1 ./binaries/
-   help, h  Shows a list of commands or help for one command
+nami list
 ```
 
 ### With HTTPS_PROXY environment
 
 ```
-$ export HTTPS_PROXY=http://127.0.0.1:8888
-$ nami install nami
+export HTTPS_PROXY=http://127.0.0.1:8888
+nami install brook
 ```
 
 ### Keep PATH with sudo
 
 ```
-$ sudo visudo
+sudo visudo
 ```
 
 ```
