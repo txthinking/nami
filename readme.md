@@ -7,7 +7,7 @@
 [🩸 Youtube](https://www.youtube.com/txthinking) 
 [❤️ Sponsor](https://github.com/sponsors/txthinking)
 
-The easy way to download command from anywhere. Nami only uses deno scripts to download commands, neither compiling nor downloading additional build chain tools. All files are stored in `$HOME/.nami`.
+The easy way to download command from anywhere. Nami only uses js scripts to download commands, neither compiling nor downloading additional build chain tools. All files are stored in `$HOME/.nami`.
 
 ❤️ A project by [txthinking.com](https://www.txthinking.com)
 
