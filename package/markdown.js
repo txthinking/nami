@@ -23,7 +23,7 @@ if (Deno.build.os == "linux" && Deno.build.arch == "x86_64") {
     await n.download_command_from_url("https://github.com/txthinking/markdown/releases/latest/download/markdown_linux_amd64", "markdown");
     await n.download_command_from_url("https://gist.githubusercontent.com/txthinking/b8915f0b15a761833bc89ee9a60bbda1/raw/f967f7565578ad64c172eeaa030f367db2a55f06/mdtoc", "mdtoc");
     await n.download_command_from_url("https://gist.githubusercontent.com/txthinking/b8915f0b15a761833bc89ee9a60bbda1/raw/f967f7565578ad64c172eeaa030f367db2a55f06/mdtoc1d", "mdtoc1d");
-    await n.download_command_from_url("https://gist.githubusercontent.com/txthinking/44b0b133a27269c183cb10fd866d949b/raw/6f9c3253ecab4f8c20959ae55b3d533ed336fcfd/sitemap", "sitemap");
+    await n.download_command_from_url("https://gist.githubusercontent.com/txthinking/44b0b133a27269c183cb10fd866d949b/raw/fd94537fafe1b0e0d2634d0cde70df9d491914f7/sitemap", "sitemap");
     Deno.exit(0);
 }
 if (Deno.build.os == "windows" && Deno.build.arch == "x86_64") {
