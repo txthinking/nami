@@ -20,8 +20,7 @@ if(Deno.build.os == "linux" && Deno.build.arch == "x86_64"){
     Deno.exit(0);
 }
 if(Deno.build.os == "windows" && Deno.build.arch == "x86_64"){
-    // await n.download_command_from_url("https://github.com/txthinking/testbrook/releases/latest/download/testbrook_windows_amd64", "testbrook.exe");
-    await n.download_command_from_url("https://github.com/txthinking/testbrook/releases/download/v20220405/testbrook_windows_amd64.exe", "testbrook.exe");
+    await n.download_command_from_url("https://github.com/txthinking/testbrook/releases/latest/download/testbrook_windows_amd64", "testbrook.exe");
     Deno.exit(0);
 }
 n.unsupport();
