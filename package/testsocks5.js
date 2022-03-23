@@ -20,7 +20,7 @@ if(Deno.build.os == "linux" && Deno.build.arch == "x86_64"){
     Deno.exit(0);
 }
 if(Deno.build.os == "windows" && Deno.build.arch == "x86_64"){
-    await n.download_command_from_url("https://github.com/txthinking/testsocks5/releases/latest/download/testsocks5_windows_amd64", "testsocks5.exe");
+    await n.download_command_from_url("https://github.com/txthinking/testsocks5/releases/latest/download/testsocks5_windows_amd64.exe", "testsocks5.exe");
     Deno.exit(0);
 }
 n.unsupport();
