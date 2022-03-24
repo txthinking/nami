@@ -20,7 +20,7 @@ if(Deno.build.os == "linux" && Deno.build.arch == "x86_64"){
     Deno.exit(0);
 }
 if(Deno.build.os == "windows" && Deno.build.arch == "x86_64"){
-    await n.download_command_from_url("https://github.com/txthinking/denobundle/releases/latest/download/denobundle_windows_amd64", "denobundle.exe");
+    await n.download_command_from_url("https://github.com/txthinking/denobundle/releases/latest/download/denobundle_windows_amd64.exe", "denobundle.exe");
     Deno.exit(0);
 }
 n.unsupport();
