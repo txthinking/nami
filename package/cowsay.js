@@ -15,7 +15,7 @@ if(Deno.build.os == "darwin" && Deno.build.arch == "aarch64"){
     Deno.exit(0);
 }
 if(Deno.build.os == "darwin" && Deno.build.arch == "x86_64"){
-    await n.download_commands_from_tgz_url(`https://github.com/junegunn/Code-Hex/Neo-cowsay/latest/download/cowsay_${j.tag_name.replace("v","")}_macOS_x86_64.tar.gz`, {
+    await n.download_commands_from_tgz_url(`https://github.com/Code-Hex/Neo-cowsay/latest/download/cowsay_${j.tag_name.replace("v","")}_macOS_x86_64.tar.gz`, {
         'cowsay': 'cowsay',
         'cowthink': 'cowthink',
     });
