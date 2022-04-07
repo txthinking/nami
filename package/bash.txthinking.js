@@ -21,8 +21,10 @@ fi
 if [ -d ~/.pub-cache ]; then
     export PATH=~/.pub-cache/bin:$PATH
 fi
-export GOPATH=~/go
-export PATH=$GOPATH/bin:$PATH
+if [ -d ~/go ]; then
+    export GOPATH=~/go
+    export PATH=$GOPATH/bin:$PATH
+fi
 `), {append: true});
 }
 
