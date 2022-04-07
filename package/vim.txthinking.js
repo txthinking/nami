@@ -175,12 +175,12 @@ endif
 filetype plugin indent on       " for vundle
 `));
 
-// if(Deno.build.os == "linux"){
-//   await sh(`sudo apt-get -y install make gcc g++ cmake vim-nox git build-essential python3-dev silversearcher-ag`);
-// }
-// await sh(`rm -rf ${home(".vim")}`);
-// await sh(`mkdir ${home(".vim")}`);
-// await sh(`git clone https://github.com/gmarik/Vundle.vim.git ${home(".vim", "bundle", "Vundle.vim")}`);
-// await sh(`rm -rf ${home(".fzf")}`);
-// await sh(`git clone --depth 1 https://github.com/junegunn/fzf.git ${home(".fzf")}`);
-// echo(`TODO:\nvim +PluginInstall +qall && vim +GoInstallBinaries +qall`);
+if(Deno.build.os == "linux"){
+  await sh(`sudo apt-get -y install make gcc g++ cmake vim-nox git build-essential python3-dev silversearcher-ag`);
+}
+await sh(`rm -rf ${home(".vim")}`);
+await sh(`mkdir ${home(".vim")}`);
+await sh(`git clone https://github.com/gmarik/Vundle.vim.git ${home(".vim", "bundle", "Vundle.vim")}`);
+await sh(`rm -rf ${home(".fzf")}`);
+await sh(`git clone --depth 1 https://github.com/junegunn/fzf.git ${home(".fzf")}`);
+echo(`TODO:\nvim +PluginInstall +qall && vim +GoInstallBinaries +qall`);
