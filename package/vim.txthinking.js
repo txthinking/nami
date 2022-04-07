@@ -1,5 +1,5 @@
 import nami from 'https://raw.githubusercontent.com/txthinking/nami/master/nami.js';
-import {sh, s2b, home} from 'https://raw.githubusercontent.com/txthinking/denolib/master/f.js';
+import {sh, s2b, home, echo} from 'https://raw.githubusercontent.com/txthinking/denolib/master/f.js';
 
 var n = nami("dotfiles.txthinking");
 n.open_sourced_on("https://github.com/txthinking/nami");
