@@ -9,7 +9,7 @@ var t = await r.text();
 await Deno.writeFile(home(".vimrc"), s2b(t));
 
 if(Deno.build.os == "linux"){
-  await sh(`sudo apt-get -y install make gcc g++ python-dev cmake vim-nox git build-essential python3-dev silversearcher-ag`);
+  await sh(`sudo apt-get -y install make gcc g++ cmake vim-nox git build-essential python3-dev silversearcher-ag`);
 }
 await sh(`rm -rf ${home(".vim")}`);
 await sh(`mkdir ${home(".vim")}`);
