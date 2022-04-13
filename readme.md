@@ -24,7 +24,7 @@ nami install nami
 ```
 
 ```
-nami install brook ipio nico
+nami install brook nico
 ```
 
 ```
