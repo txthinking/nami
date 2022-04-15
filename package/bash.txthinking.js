@@ -14,6 +14,7 @@ if(Deno.build.os != "darwin"){
 if(Deno.build.os == "darwin"){
     await Deno.writeFile(home(".bash_profile"), s2b(`
 export LANG=en_US.UTF-8
+PS1='FUCK \W $ '
 set -o vi
 if [ -d ~/flutter ]; then
     export PATH=~/flutter/bin:$PATH
