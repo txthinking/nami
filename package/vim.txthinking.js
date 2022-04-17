@@ -183,4 +183,6 @@ await sh(`mkdir ${home(".vim")}`);
 await sh(`git clone https://github.com/gmarik/Vundle.vim.git ${home(".vim", "bundle", "Vundle.vim")}`);
 await sh(`rm -rf ${home(".fzf")}`);
 await sh(`git clone --depth 1 https://github.com/junegunn/fzf.git ${home(".fzf")}`);
-echo(`TODO:\nvim +PluginInstall +qall && vim +GoInstallBinaries +qall`);
+echo(`TODO:`);
+echo(`vim +PluginInstall +qall`);
+echo(`vim +GoInstallBinaries +qall`);
