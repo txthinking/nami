@@ -5,4 +5,4 @@ var n = nami("ca.txthinking");
 n.open_sourced_on("https://github.com/txthinking/ca");
 
 await n.download_command_from_url("https://txthinking.github.io/ca/ca.pem", "ca.pem");
-await sh(`mad install --ca ${home(".nami", "cache", "ca.pem")}`);
+await sh(`mad install --ca "${home('.nami', 'cache', 'ca.pem')"}`);
