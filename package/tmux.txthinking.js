@@ -35,5 +35,6 @@ bind : command-prompt
 
 # vi-style controls for copy mode
 setw -g mode-keys vi
+set -g default-terminal "xterm-256color"
 `));
 
