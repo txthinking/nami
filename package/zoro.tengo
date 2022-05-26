@@ -1,0 +1,50 @@
+os := import("os")
+fmt := import("fmt")
+text := import("text")
+nami := import("nami")
+json := import("json")
+
+b := nami.sh1(`curl`, `-L`, `https://api.github.com/repos/txthinking/zoro/releases/latest`)
+if is_error(b) {
+    fmt.println(b)
+    os.exit(1)
+}
+v := json.decode(b).tag_name
+err := nami.write_file(text.join([nami.cache_dir, "version"], os.path_separator), v)
+if is_error(err) {
+    fmt.println(err)
+    os.exit(1)
+}
+
+if nami.os == "darwin" && nami.arch == "arm64" {
+    err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://github.com/txthinking/zoro/releases/latest/download/zoro_darwin_arm64`, `-o`, text.join([nami.cache_dir, "zoro"], os.path_separator))
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+}
+if nami.os == "darwin" && nami.arch == "amd64" {
+    err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://github.com/txthinking/zoro/releases/latest/download/zoro_darwin_amd64`, `-o`, text.join([nami.cache_dir, "zoro"], os.path_separator))
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+}
+if nami.os == "linux" && nami.arch == "amd64" {
+    err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://github.com/txthinking/zoro/releases/latest/download/zoro_linux_amd64`, `-o`, text.join([nami.cache_dir, "zoro"], os.path_separator))
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+}
+if nami.os == "windows" && nami.arch == "amd64" {
+    err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://github.com/txthinking/zoro/releases/latest/download/zoro_windows_amd64.exe`, `-o`, text.join([nami.cache_dir, "zoro.exe"], os.path_separator))
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+}
+
+
+
+

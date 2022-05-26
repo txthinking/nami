@@ -1,0 +1,93 @@
+os := import("os")
+fmt := import("fmt")
+text := import("text")
+nami := import("nami")
+json := import("json")
+
+b := nami.sh1(`curl`, `-L`, `https://api.github.com/repos/txthinking/markdown/releases/latest`)
+if is_error(b) {
+    fmt.println(b)
+    os.exit(1)
+}
+v := json.decode(b).tag_name
+err := nami.write_file(text.join([nami.cache_dir, "version"], os.path_separator), v)
+if is_error(err) {
+    fmt.println(err)
+    os.exit(1)
+}
+
+if nami.os == "darwin" && nami.arch == "arm64" {
+    err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://github.com/txthinking/markdown/releases/latest/download/markdown_darwin_arm64`, `-o`, text.join([nami.cache_dir, "markdown"], os.path_separator))
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+    err = nami.sh(`curl`, `-L`, `--progress-bar`, `https://gist.githubusercontent.com/txthinking/b8915f0b15a761833bc89ee9a60bbda1/raw/f967f7565578ad64c172eeaa030f367db2a55f06/mdtoc`, `-o`, text.join([nami.cache_dir, "mdtoc"], os.path_separator))
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+    err = nami.sh(`curl`, `-L`, `--progress-bar`, `https://gist.githubusercontent.com/txthinking/b8915f0b15a761833bc89ee9a60bbda1/raw/f967f7565578ad64c172eeaa030f367db2a55f06/mdtoc1d`, `-o`, text.join([nami.cache_dir, "mdtoc1d"], os.path_separator))
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+}
+if nami.os == "darwin" && nami.arch == "amd64" {
+    err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://github.com/txthinking/markdown/releases/latest/download/markdown_darwin_amd64`, `-o`, text.join([nami.cache_dir, "markdown"], os.path_separator))
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+    err = nami.sh(`curl`, `-L`, `--progress-bar`, `https://gist.githubusercontent.com/txthinking/b8915f0b15a761833bc89ee9a60bbda1/raw/f967f7565578ad64c172eeaa030f367db2a55f06/mdtoc`, `-o`, text.join([nami.cache_dir, "mdtoc"], os.path_separator))
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+    err = nami.sh(`curl`, `-L`, `--progress-bar`, `https://gist.githubusercontent.com/txthinking/b8915f0b15a761833bc89ee9a60bbda1/raw/f967f7565578ad64c172eeaa030f367db2a55f06/mdtoc1d`, `-o`, text.join([nami.cache_dir, "mdtoc1d"], os.path_separator))
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+}
+if nami.os == "linux" && nami.arch == "amd64" {
+    err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://github.com/txthinking/markdown/releases/latest/download/markdown_linux_amd64`, `-o`, text.join([nami.cache_dir, "markdown"], os.path_separator))
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+    err = nami.sh(`curl`, `-L`, `--progress-bar`, `https://gist.githubusercontent.com/txthinking/b8915f0b15a761833bc89ee9a60bbda1/raw/f967f7565578ad64c172eeaa030f367db2a55f06/mdtoc`, `-o`, text.join([nami.cache_dir, "mdtoc"], os.path_separator))
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+    err = nami.sh(`curl`, `-L`, `--progress-bar`, `https://gist.githubusercontent.com/txthinking/b8915f0b15a761833bc89ee9a60bbda1/raw/f967f7565578ad64c172eeaa030f367db2a55f06/mdtoc1d`, `-o`, text.join([nami.cache_dir, "mdtoc1d"], os.path_separator))
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+    err = nami.sh(`curl`, `-L`, `--progress-bar`, `https://gist.githubusercontent.com/txthinking/44b0b133a27269c183cb10fd866d949b/raw/fd94537fafe1b0e0d2634d0cde70df9d491914f7/sitemap`, `-o`, text.join([nami.cache_dir, "sitemap"], os.path_separator))
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+}
+if nami.os == "windows" && nami.arch == "amd64" {
+    err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://github.com/txthinking/markdown/releases/latest/download/markdown_windows_amd64.exe`, `-o`, text.join([nami.cache_dir, "markdown.exe"], os.path_separator))
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+    err = nami.sh(`curl`, `-L`, `--progress-bar`, `https://gist.githubusercontent.com/txthinking/b8915f0b15a761833bc89ee9a60bbda1/raw/f967f7565578ad64c172eeaa030f367db2a55f06/mdtoc`, `-o`, text.join([nami.cache_dir, "mdtoc"], os.path_separator))
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+    err = nami.sh(`curl`, `-L`, `--progress-bar`, `https://gist.githubusercontent.com/txthinking/b8915f0b15a761833bc89ee9a60bbda1/raw/f967f7565578ad64c172eeaa030f367db2a55f06/mdtoc1d`, `-o`, text.join([nami.cache_dir, "mdtoc1d"], os.path_separator))
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+}
+
+

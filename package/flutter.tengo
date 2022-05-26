@@ -1,0 +1,6 @@
+os := import("os")
+fmt := import("fmt")
+text := import("text")
+nami := import("nami")
+
+nami.sh("git", "clone", text.join([nami.home_dir, "flutter"], os.path_separator))

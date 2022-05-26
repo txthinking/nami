@@ -17,7 +17,6 @@ package main
 import (
 	"log"
 	"os"
-	"strings"
 
 	"github.com/urfave/cli/v2"
 )
@@ -25,8 +24,8 @@ import (
 func main() {
 	app := cli.NewApp()
 	app.Name = "nami"
-	app.Version = "20220404"
-	app.Usage = "The easy way to download command from anywhere"
+	app.Version = "20220601"
+	app.Usage = "The easy way to download anything from anywhere"
 	app.Authors = []*cli.Author{
 		{
 			Name:  "Cloud",
@@ -49,50 +48,15 @@ func main() {
 					return nil
 				}
 				for _, v := range c.Args().Slice() {
-					f, err := n.Install(v[strings.LastIndex(v, "/")+1:])
+					name, kind, script, err := n.Parse(v)
 					if err != nil {
 						return err
 					}
-					n.Print(v[strings.LastIndex(v, "/")+1:], false)
-					if f != nil {
-						defer f()
-					}
-				}
-				return nil
-			},
-		},
-		&cli.Command{
-			Name:  "upgrade",
-			Usage: "Upgrade package. $ nami upgrade nami. Or upgrade all installed packages $ nami upgrade",
-			Action: func(c *cli.Context) error {
-				n, err := NewNami()
-				if err != nil {
-					return err
-				}
-				defer n.Close()
-				if c.Args().Len() == 0 {
-					l, err := n.GetInstalledPackageList()
+					f, err := n.Install(name, kind, script)
 					if err != nil {
 						return err
 					}
-					for _, v := range l {
-						f, err := n.Install(v.Name[strings.LastIndex(v.Name, "/")+1:])
-						if err != nil {
-							return err
-						}
-						n.Print(v.Name[strings.LastIndex(v.Name, "/")+1:], false)
-						if f != nil {
-							defer f()
-						}
-					}
-					return nil
-				}
-				for _, v := range c.Args().Slice() {
-					f, err := n.Install(v[strings.LastIndex(v, "/")+1:])
-					if err != nil {
-						return err
-					}
-					n.Print(v[strings.LastIndex(v, "/")+1:], false)
+					n.Print(name, false)
 					if f != nil {
 						defer f()
 					}

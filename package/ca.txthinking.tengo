@@ -1,0 +1,11 @@
+os := import("os")
+fmt := import("fmt")
+text := import("text")
+nami := import("nami")
+
+err := nami.sh(`curl`, `-L`, `https://txthinking.github.io/ca/ca.pem`, `-o`, text.join([nami.cache_dir, "ca.pem"], os.path_separator))
+if is_error(err) {
+    fmt.println(err)
+    os.exit(1)
+}
+

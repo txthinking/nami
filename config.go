@@ -60,16 +60,9 @@ func (n *Nami) PrintConfigs() {
 	table.Append([]string{"nami.root", "~/.nami", "Nami root dir, can't be modified"})
 	table.Append([]string{"nami.db", "~/.nami/db", "Nami db file, can't be modified"})
 	table.Append([]string{"nami.bin", "~/.nami/bin", "Nami bin dir, can't be modified"})
-	s, err := n.GetConfig("nami.deno.base")
-	if err != nil {
-		log.Println(err)
-		return
-	}
-	if s == "" {
-		s = "https://raw.githubusercontent.com/txthinking/nami/master/package/"
-	}
-	table.Append([]string{"nami.deno.base", s, "Where nami downloads the script"})
-	s, err = n.GetConfig("github.token")
+	table.Append([]string{"nami.cache", "~/.nami/cache", "Nami cache dir, can't be modified"})
+	table.Append([]string{"nami.tmp", "~/.nami/tmp", "Nami tmp dir, can't be modified"})
+	s, err := n.GetConfig("github.token")
 	if err != nil {
 		log.Println(err)
 		return

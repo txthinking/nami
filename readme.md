@@ -4,10 +4,10 @@
 
 [🗣 News](https://t.me/txthinking_news)
 [💬 Chat](https://join.txthinking.com)
-[🩸 Youtube](https://www.youtube.com/txthinking) 
+[🩸 Youtube](https://www.youtube.com/txthinking)
 [❤️ Sponsor](https://github.com/sponsors/txthinking)
 
-The easy way to download command from anywhere. Nami only uses js scripts to download commands, neither compiling nor downloading additional build chain tools. All files are stored in `$HOME/.nami`.
+The easy way to download anything from anywhere. All files are stored in `$HOME/.nami`.
 
 ❤️ A project by [txthinking.com](https://www.txthinking.com)
 
@@ -24,11 +24,11 @@ nami install nami
 ```
 
 ```
-nami install brook nico
+nami install brook
 ```
 
 ```
-nami remove nico
+nami remove brook
 ```
 
 ```

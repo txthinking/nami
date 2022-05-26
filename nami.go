@@ -25,11 +25,14 @@ import (
 	"runtime"
 	"strings"
 
+	"github.com/d5/tengo/v2"
+	"github.com/d5/tengo/v2/stdlib"
 	"github.com/olekukonko/tablewriter"
 	"go.etcd.io/bbolt"
 )
 
 type Nami struct {
+	HomeDir   string
 	DenoDir   string
 	CacheDir  string
 	BinDir    string
@@ -57,37 +60,17 @@ func NewNami() (*Nami, error) {
 	if err != nil {
 		return nil, err
 	}
-	deno := "deno"
-	if runtime.GOOS == "windows" {
-		deno = "deno.exe"
-	}
-	_, err = os.Stat(filepath.Join(bin, deno))
-	if err != nil {
-		if !os.IsNotExist(err) {
-			return nil, err
-		}
-		r, err := static.Open("static/" + deno)
-		if err != nil {
-			return nil, err
-		}
-		defer r.Close()
-		w, err := os.OpenFile(filepath.Join(bin, deno), os.O_WRONLY|os.O_CREATE, 0755)
-		if err != nil {
-			return nil, err
-		}
-		defer w.Close()
-		if _, err := io.Copy(w, r); err != nil {
-			return nil, err
-		}
-	}
-	return &Nami{
+	n := &Nami{
+		HomeDir:   s,
 		CacheDir:  filepath.Join(s, ".nami", "cache"),
 		DenoDir:   filepath.Join(s, ".nami", "deno"),
 		CopiedDir: filepath.Join(s, ".nami", "copied"),
 		TmpDir:    filepath.Join(s, ".nami", "tmp"),
 		BinDir:    bin,
 		DB:        db,
-	}, nil
+	}
+	n.Module()
+	return n, nil
 }
 
 func (n *Nami) CleanCache() error {
@@ -112,30 +95,32 @@ func (n *Nami) CleanCache() error {
 	return nil
 }
 
-func (n *Nami) Install(name string) (func(), error) {
+func (n *Nami) Install(name, kind, script string) (func(), error) {
 	if err := n.CleanCache(); err != nil {
 		return nil, err
 	}
 
-	s, err := n.GetConfig("nami.deno.base")
-	if err != nil {
-		return nil, err
+	if kind == "tengo" {
+		ts := tengo.NewScript([]byte(script))
+		ts.SetImports(stdlib.GetModuleMap(stdlib.AllModuleNames()...))
+		if _, err := ts.Run(); err != nil {
+			return nil, err
+		}
 	}
-	if s == "" {
-		s = "https://raw.githubusercontent.com/txthinking/nami/master/package/"
-	}
-	deno := filepath.Join(n.BinDir, "deno")
-	if runtime.GOOS == "windows" {
-		deno = filepath.Join(n.BinDir, "deno.exe")
-	}
-	cmd := exec.Command(deno, "run", "-r", "-A", "--unstable", s+name+".js")
-	cmd.Env = append(os.Environ(),
-		"DENO_DIR="+n.DenoDir,
-	)
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
-	if err := cmd.Run(); err != nil {
-		return nil, err
+	if kind == "deno" {
+		deno := filepath.Join(n.BinDir, "deno")
+		if runtime.GOOS == "windows" {
+			deno = filepath.Join(n.BinDir, "deno.exe")
+		}
+		cmd := exec.Command(deno, "run", "-r", "-A", "--unstable", script)
+		cmd.Env = append(os.Environ(),
+			"DENO_DIR="+n.DenoDir,
+		)
+		cmd.Stdout = os.Stdout
+		cmd.Stderr = os.Stderr
+		if err := cmd.Run(); err != nil {
+			return nil, err
+		}
 	}
 
 	p := &Package{

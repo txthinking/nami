@@ -1,0 +1,11 @@
+os := import("os")
+fmt := import("fmt")
+text := import("text")
+nami := import("nami")
+json := import("json")
+
+err := nami.sh(`curl`, `-L`, `--progress-bar`, `http://ix.io/client`, `-o`, text.join([nami.cache_dir, "ix"], os.path_separator))
+if is_error(err) {
+    fmt.println(err)
+    os.exit(1)
+}

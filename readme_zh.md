@@ -4,10 +4,10 @@
 
 [🗣 News](https://t.me/txthinking_news)
 [💬 Chat](https://join.txthinking.com)
-[🩸 Youtube](https://www.youtube.com/txthinking) 
+[🩸 Youtube](https://www.youtube.com/txthinking)
 [❤️ Sponsor](https://github.com/sponsors/txthinking)
 
-简单的从任何地方下载命令. Nami只借助js脚本下载命令, 不编译也不下载额外的编译链工具. 所有的文件都存储在 `$HOME/.nami` 目录下.
+从任何地方下载任何东西. 所有的文件都存储在 `$HOME/.nami` 目录下.
 
 ❤️ A project by [txthinking.com](https://www.txthinking.com)
 
@@ -24,11 +24,11 @@ nami install nami
 ```
 
 ```
-nami install brook nico
+nami install brook
 ```
 
 ```
-nami remove nico
+nami remove brook
 ```
 
 ```
@@ -60,7 +60,6 @@ Defaults        !env_reset
 ### 如何添加包
 
 [package/readme.md](package/readme.md)
-
 
 ## 开源协议
 

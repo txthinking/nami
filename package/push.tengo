@@ -1,0 +1,11 @@
+os := import("os")
+fmt := import("fmt")
+text := import("text")
+nami := import("nami")
+
+err := nami.write_file(text.join([nami.cache_dir, "push"], os.path_separator), `git add . && git commit -m null && git push origin master`)
+if is_error(err) {
+    fmt.println(err)
+    os.exit(1)
+}
+

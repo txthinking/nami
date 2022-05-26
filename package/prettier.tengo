@@ -1,0 +1,10 @@
+os := import("os")
+fmt := import("fmt")
+text := import("text")
+nami := import("nami")
+
+err := nami.write_file(text.join([nami.cache_dir, "prettier"], os.path_separator), `sh -c "npx --yes prettier $*"`)
+if is_error(err) {
+    fmt.println(err)
+    os.exit(1)
+}

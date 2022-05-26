@@ -1,17 +1,40 @@
-### How to add `exmaple` package
+# How to add `exmaple` package
 
-#### Step 0: Install nami, and config `nami.deno.base` to current directory
+### Step 1: Create `exmaple.tengo`
 
-    bash <(curl https://bash.ooo/nami.sh)
-    nami config
-    nami config nami.deno.base ./
+Write script to save commands into `$HOME/.nami/cache/`
 
-#### Step 1: Create a `exmaple.js` in current directory
+### Step 2: test `exmaple.js`
 
-    write what you want
+    nami install ./exmaple.tengo
 
-#### Step 2: est `exmaple.js`
+### Step 3
 
-    nami install exmaple
-    
-#### Step 3: Fork nami project, put your `exmaple.js` to package directory, create a PR
+Fork nami project, put `exmaple.tengo` to package directory, create a PR
+
+OR
+
+Put `exmaple.tengo` to your own http server, then you can `nami install https://yourserver.com/exmaple.tengo`
+
+# Module - "nami"
+
+```
+nami := import("nami")
+```
+
+### Constants
+
+-   `os`
+-   `arch`
+-   `home_dir`
+-   `bin_dir`
+-   `cache_dir`
+-   `copied_dir`
+-   `tmp_dir`
+
+### Functions
+
+-   `append_file(file string, text string) => error`: append data to file.
+-   `write_file(file string, text string) => error`: write data to file.
+-   `sh(name string, args...) => error`: run command
+-   `sh1(name string, args...) => bytes/error`: run command and return stdout, 1
