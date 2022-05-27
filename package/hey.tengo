@@ -16,7 +16,10 @@ if is_error(err) {
     os.exit(1)
 }
 
-if nami.os == "darwin" && nami.arch == "amd64" {
+if nami.os == "darwin" {
+    if && nami.arch == "arm64" {
+        fmt.println("There is no arm64 version, will download amd64 version for you!")
+    }
     err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://hey-release.s3.us-east-2.amazonaws.com/hey_darwin_amd64`, `-o`, text.join([nami.cache_dir, "hey"], os.path_separator))
     if is_error(err) {
         fmt.println(err)
