@@ -16,7 +16,10 @@ if is_error(err) {
     os.exit(1)
 }
 
-if nami.os == "darwin" && nami.arch == "amd64" {
+if nami.os == "darwin" {
+    if nami.arch == "arm64" {
+        fmt.println("There is no arm64 version, will download amd64 version for you!")
+    }
     err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://github.com/stedolan/jq/releases/latest/download/jq-osx-amd64`, `-o`, text.join([nami.cache_dir, "jq"], os.path_separator))
     if is_error(err) {
         fmt.println(err)
