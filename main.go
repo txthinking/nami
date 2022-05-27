@@ -39,16 +39,19 @@ func main() {
 	app.Before = func(*cli.Context) error {
 		res, err := http.Get("https://api.github.com/repos/txthinking/nami/releases/latest")
 		if err != nil {
-			return err
+			log.Println("Check nami version", err)
+			return nil
 		}
 		defer res.Body.Close()
 		j, err := simplejson.NewFromReader(res.Body)
 		if err != nil {
-			return err
+			log.Println("Check nami version", err)
+			return nil
 		}
 		s, err := j.Get("tag_name").String()
 		if err != nil {
-			return err
+			log.Println("Check nami version", err)
+			return nil
 		}
 		if s > "v20220601" {
 			return errors.New("New version: " + s + ", please upgrade nami first: $ nami install nami")
