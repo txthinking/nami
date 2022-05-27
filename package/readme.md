@@ -6,7 +6,7 @@ Write script to save commands into `$HOME/.nami/cache/`
 
 ### Step 2: test `exmaple.js`
 
-nami install ./exmaple.tengo
+`nami install ./exmaple.tengo`
 
 ### Step 3
 
