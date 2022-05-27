@@ -1,12 +1,12 @@
 # How to add `exmaple` package
 
-### Step 1: Create `exmaple.tengo`
+### Step 1
 
-Write script to save commands into `$HOME/.nami/cache/`
+Create `exmaple.tengo`, write script to save commands into `$HOME/.nami/cache/`
 
-### Step 2: test `exmaple.js`
+### Step 2
 
-`nami install ./exmaple.tengo`
+Test `exmaple.tengo`, `nami install ./exmaple.tengo`
 
 ### Step 3
 
