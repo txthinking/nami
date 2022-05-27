@@ -141,7 +141,7 @@ func (n *Nami) Install(name, kind, script string) (func(), error) {
 			continue
 		}
 		p.Files[file.Name()] = ""
-		if file.Name() == "nami" || file.Name() == "nami.exe" || file.Name() == "deno" || file.Name() == "deno.exe" {
+		if file.Name() == "nami" || file.Name() == "nami.exe" {
 			if err := os.Chmod(filepath.Join(n.CacheDir, file.Name()), 0755); err != nil {
 				return nil, err
 			}
@@ -191,7 +191,7 @@ func (n *Nami) Install(name, kind, script string) (func(), error) {
 	if err != nil {
 		return nil, err
 	}
-	if name != "nami" && name != "deno" {
+	if name != "nami" {
 		return nil, nil
 	}
 	return func() {

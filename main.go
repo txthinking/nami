@@ -15,9 +15,12 @@
 package main
 
 import (
+	"errors"
 	"log"
+	"net/http"
 	"os"
 
+	"github.com/bitly/go-simplejson"
 	"github.com/urfave/cli/v2"
 )
 
@@ -33,6 +36,25 @@ func main() {
 		},
 	}
 	app.Copyright = "https://github.com/txthinking/nami"
+	app.Before = func(*cli.Context) error {
+		res, err := http.Get("https://api.github.com/repos/txthinking/nami/releases/latest")
+		if err != nil {
+			return err
+		}
+		defer res.Body.Close()
+		j, err := simplejson.NewFromReader(res.Body)
+		if err != nil {
+			return err
+		}
+		s, err := j.Get("tag_name").String()
+		if err != nil {
+			return err
+		}
+		if s > "v20220601" {
+			return errors.New("New version: " + s + ", please upgrade nami first: $ nami install nami")
+		}
+		return nil
+	}
 	app.Commands = []*cli.Command{
 		&cli.Command{
 			Name:  "install",

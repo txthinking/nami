@@ -20,25 +20,21 @@
 ### 举例
 
 ```
-nami install nami
-```
-
-```
 nami install brook
-```
-
-```
+nami list
 nami remove brook
 ```
 
+你也可以用 nami 升级 nami
+
 ```
-nami list
+nami install nami
 ```
 
 ### 支持 HTTPS_PROXY 环境变量
 
 ```
-export HTTPS_PROXY=http://127.0.0.1:8888
+export HTTPS_PROXY=http://127.0.0.1:8010
 nami install brook
 ```
 

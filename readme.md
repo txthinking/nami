@@ -20,25 +20,21 @@ The easy way to download anything from anywhere. All files are stored in `$HOME/
 ### Example
 
 ```
-nami install nami
-```
-
-```
 nami install brook
-```
-
-```
+nami list
 nami remove brook
 ```
 
+You can also upgrade nami by nami
+
 ```
-nami list
+nami install nami
 ```
 
 ### With HTTPS_PROXY environment
 
 ```
-export HTTPS_PROXY=http://127.0.0.1:8888
+export HTTPS_PROXY=http://127.0.0.1:8010
 nami install brook
 ```
 

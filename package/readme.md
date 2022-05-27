@@ -6,11 +6,11 @@ Write script to save commands into `$HOME/.nami/cache/`
 
 ### Step 2: test `exmaple.js`
 
-    nami install ./exmaple.tengo
+nami install ./exmaple.tengo
 
 ### Step 3
 
-Fork nami project, put `exmaple.tengo` to package directory, create a PR
+Fork nami project, put `exmaple.tengo` to package directory, create PR, then you can `nami install example`
 
 OR
 
