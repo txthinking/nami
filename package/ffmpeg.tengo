@@ -1,0 +1,115 @@
+os := import("os")
+fmt := import("fmt")
+text := import("text")
+nami := import("nami")
+json := import("json")
+
+if nami.os == "darwin" {
+    if err := nami.sh("which", "unzip"); is_error(err){
+        fmt.println("Please install unzip first, such as on Ubuntu: $ sudo apt-get install unzip")
+        os.exit(1)
+    }
+    if nami.arch == "arm64" {
+        fmt.println("There is no arm64 version, will download amd64 version for you!")
+    }
+    b := nami.sh1("curl", "-L", "https://evermeet.cx/ffmpeg/info/ffmpeg/release")
+    if is_error(b) {
+        fmt.println(b)
+        os.exit(1)
+    }
+    v := json.decode(b).version
+    err := nami.write_file(text.join([nami.cache_dir, "version"], os.path_separator), v)
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+    err = nami.sh("curl", "-L", "--progress-bar", "https://evermeet.cx/ffmpeg/getrelease/ffmpeg/zip", "-o", text.join([nami.tmp_dir, "_.zip"], os.path_separator))
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+    nami.sh("rm", "-rf", text.join([nami.tmp_dir, "_"], os.path_separator))
+    nami.sh("mkdir", text.join([nami.tmp_dir, "_"], os.path_separator))
+    nami.sh("unzip", text.join([nami.tmp_dir, "_.zip"], os.path_separator), "-d", text.join([nami.tmp_dir, "_"], os.path_separator))
+    nami.sh("mv", text.join([nami.tmp_dir, "_", "bin", "ffmpeg"], os.path_separator), text.join([nami.cache_dir, "ffmpeg"], os.path_separator))
+    err = nami.sh("curl", "-L", "--progress-bar", "https://evermeet.cx/ffmpeg/getrelease/ffprobe/zip", "-o", text.join([nami.tmp_dir, "_.zip"], os.path_separator))
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+    nami.sh("rm", "-rf", text.join([nami.tmp_dir, "_"], os.path_separator))
+    nami.sh("mkdir", text.join([nami.tmp_dir, "_"], os.path_separator))
+    nami.sh("unzip", text.join([nami.tmp_dir, "_.zip"], os.path_separator), "-d", text.join([nami.tmp_dir, "_"], os.path_separator))
+    nami.sh("mv", text.join([nami.tmp_dir, "_", "bin", "ffprobe"], os.path_separator), text.join([nami.cache_dir, "ffprobe"], os.path_separator))
+    err = nami.sh("curl", "-L", "--progress-bar", "https://evermeet.cx/ffmpeg/getrelease/ffplay/zip", "-o", text.join([nami.tmp_dir, "_.zip"], os.path_separator))
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+    nami.sh("rm", "-rf", text.join([nami.tmp_dir, "_"], os.path_separator))
+    nami.sh("mkdir", text.join([nami.tmp_dir, "_"], os.path_separator))
+    nami.sh("unzip", text.join([nami.tmp_dir, "_.zip"], os.path_separator), "-d", text.join([nami.tmp_dir, "_"], os.path_separator))
+    nami.sh("mv", text.join([nami.tmp_dir, "_", "bin", "ffplay"], os.path_separator), text.join([nami.cache_dir, "ffplay"], os.path_separator))
+    err = nami.sh("curl", "-L", "--progress-bar", "https://evermeet.cx/ffmpeg/getrelease/ffserver/zip", "-o", text.join([nami.tmp_dir, "_.zip"], os.path_separator))
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+    nami.sh("rm", "-rf", text.join([nami.tmp_dir, "_"], os.path_separator))
+    nami.sh("mkdir", text.join([nami.tmp_dir, "_"], os.path_separator))
+    nami.sh("unzip", text.join([nami.tmp_dir, "_.zip"], os.path_separator), "-d", text.join([nami.tmp_dir, "_"], os.path_separator))
+    nami.sh("mv", text.join([nami.tmp_dir, "_", "bin", "ffserver"], os.path_separator), text.join([nami.cache_dir, "ffserver"], os.path_separator))
+}
+if nami.os == "linux" && nami.arch == "amd64" {
+    b := nami.sh1("sh", "-c", "curl https://johnvansickle.com/ffmpeg/release-readme.txt | grep -oP 'version: \S+' | cut -d: -f2")
+    if is_error(b){
+        fmt.println(b)
+        os.exit(1)
+    }
+    v := text.trim_space(string(b))
+    err := nami.write_file(text.join([nami.cache_dir, "version"], os.path_separator), v)
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+    err = nami.sh("curl", "-L", "--progress-bar", "https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz", "-o", text.join([nami.tmp_dir, "_.txz"], os.path_separator))
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+    nami.sh("rm", "-rf", text.join([nami.tmp_dir, "_"], os.path_separator))
+    nami.sh("mkdir", text.join([nami.tmp_dir, "_"], os.path_separator))
+    nami.sh("tar", "Jxvf", text.join([nami.tmp_dir, "_.txz"], os.path_separator), "-C", text.join([nami.tmp_dir, "_"], os.path_separator))
+    nami.sh("mv", text.join([nami.tmp_dir, "_", "ffmpeg-"+v+"-amd64-static", "ffmpeg"], os.path_separator), text.join([nami.cache_dir, "ffmpeg"], os.path_separator))
+    nami.sh("mv", text.join([nami.tmp_dir, "_", "ffmpeg-"+v+"-amd64-static", "ffprobe"], os.path_separator), text.join([nami.cache_dir, "ffprobe"], os.path_separator))
+}
+if nami.os == "windows" && nami.arch == "amd64" {
+    if err := nami.sh("which", "7z"); is_error(err){
+        fmt.println("Please install 7z first: $ nami install 7z")
+        os.exit(1)
+    }
+    b := nami.sh1("curl", "https://www.gyan.dev/ffmpeg/builds/last-build-update")
+    if is_error(b){
+        fmt.println(b)
+        os.exit(1)
+    }
+    v := text.trim_space(string(b))
+    err := nami.write_file(text.join([nami.cache_dir, "version"], os.path_separator), v)
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+    err := nami.sh("curl", "-L", "--progress-bar", "https://www.gyan.dev/ffmpeg/builds/ffmpeg-git-full.7z", "-o", text.join([nami.tmp_dir, "_.7z"], os.path_separator))
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+    nami.sh("rm", "-rf", text.join([nami.tmp_dir, "_"], os.path_separator))
+    nami.sh("mkdir", text.join([nami.tmp_dir, "_"], os.path_separator))
+    nami.sh("7z", "x", "-o"+text.join([nami.tmp_dir, "_"], os.path_separator), text.join([nami.tmp_dir, "_.7z"], os.path_separator))
+    nami.sh("mv", text.join([nami.tmp_dir, "_", "*"], os.path_separator), text.join([nami.tmp_dir, "_", "ffmpeg"], os.path_separator))
+    nami.sh("mv", text.join([nami.tmp_dir, "_", "ffmpeg", "bin", "ffmpeg.exe"], os.path_separator), text.join([nami.cache_dir, "ffmpeg.exe"], os.path_separator))
+    nami.sh("mv", text.join([nami.tmp_dir, "_", "ffmpeg", "bin", "ffplay.exe"], os.path_separator), text.join([nami.cache_dir, "ffplay.exe"], os.path_separator))
+    nami.sh("mv", text.join([nami.tmp_dir, "_", "ffmpeg", "bin", "ffprobe.exe"], os.path_separator), text.join([nami.cache_dir, "ffprobe.exe"], os.path_separator))
+}
+
