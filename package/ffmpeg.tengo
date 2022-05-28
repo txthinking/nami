@@ -84,6 +84,10 @@ if nami.os == "linux" && nami.arch == "amd64" {
     nami.sh("mv", text.join([nami.tmp_dir, "_", "ffmpeg-"+v+"-amd64-static", "ffprobe"], os.path_separator), text.join([nami.cache_dir, "ffprobe"], os.path_separator))
 }
 if nami.os == "windows" && nami.arch == "amd64" {
+    if err := nami.sh("which", "7z"); is_error(err){
+        fmt.println("Please install 7z first: $ nami install 7z")
+        os.exit(1)
+    }
     b := nami.sh1("curl", "https://www.gyan.dev/ffmpeg/builds/last-build-update")
     if is_error(b){
         fmt.println(b)
@@ -102,7 +106,7 @@ if nami.os == "windows" && nami.arch == "amd64" {
     }
     nami.sh("rm", "-rf", text.join([nami.tmp_dir, "_"], os.path_separator))
     nami.sh("mkdir", text.join([nami.tmp_dir, "_"], os.path_separator))
-    nami.sh("unzip", text.join([nami.tmp_dir, "_.zip"], os.path_separator), "-d", text.join([nami.tmp_dir, "_"], os.path_separator))
+    nami.sh("7z", "x", text.join([nami.tmp_dir, "_.7z"], os.path_separator), "-o" + text.join([nami.tmp_dir, "_"], os.path_separator))
     b = nami.sh1("sh", "-c", "ls $HOME/.nami/tmp/_ | cut -d/ -f1")
     if is_error(b){
         fmt.println(b)
