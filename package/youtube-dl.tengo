@@ -1,0 +1,32 @@
+os := import("os")
+fmt := import("fmt")
+text := import("text")
+nami := import("nami")
+json := import("json")
+
+b := nami.sh1(`curl`, `-L`, `https://api.github.com/repos/ytdl-org/youtube-dl/releases/latest`)
+if is_error(b) {
+    fmt.println(b)
+    os.exit(1)
+}
+v := json.decode(b).tag_name
+err := nami.write_file(text.join([nami.cache_dir, "version"], os.path_separator), v)
+if is_error(err) {
+    fmt.println(err)
+    os.exit(1)
+}
+
+if nami.os == "linux" || nami.os == "darwin" {
+    err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://yt-dl.org/downloads/latest/youtube-dl`, `-o`, text.join([nami.cache_dir, "youtube-dl"], os.path_separator))
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+}
+if nami.os == "windows" {
+    err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://yt-dl.org/latest/youtube-dl.exe`, `-o`, text.join([nami.cache_dir, "youtube-dl.exe"], os.path_separator))
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+}
