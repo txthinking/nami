@@ -31,7 +31,7 @@ if nami.os == "darwin" {
     nami.sh("rm", "-rf", text.join([nami.tmp_dir, "_"], os.path_separator))
     nami.sh("mkdir", text.join([nami.tmp_dir, "_"], os.path_separator))
     nami.sh("unzip", text.join([nami.tmp_dir, "_.zip"], os.path_separator), "-d", text.join([nami.tmp_dir, "_"], os.path_separator))
-    nami.sh("mv", text.join([nami.tmp_dir, "_", "bin", "ffmpeg"], os.path_separator), text.join([nami.cache_dir, "ffmpeg"], os.path_separator))
+    nami.sh("mv", text.join([nami.tmp_dir, "_", "ffmpeg"], os.path_separator), text.join([nami.cache_dir, "ffmpeg"], os.path_separator))
     err = nami.sh("curl", "-L", "--progress-bar", "https://evermeet.cx/ffmpeg/getrelease/ffprobe/zip", "-o", text.join([nami.tmp_dir, "_.zip"], os.path_separator))
     if is_error(err) {
         fmt.println(err)
@@ -40,7 +40,7 @@ if nami.os == "darwin" {
     nami.sh("rm", "-rf", text.join([nami.tmp_dir, "_"], os.path_separator))
     nami.sh("mkdir", text.join([nami.tmp_dir, "_"], os.path_separator))
     nami.sh("unzip", text.join([nami.tmp_dir, "_.zip"], os.path_separator), "-d", text.join([nami.tmp_dir, "_"], os.path_separator))
-    nami.sh("mv", text.join([nami.tmp_dir, "_", "bin", "ffprobe"], os.path_separator), text.join([nami.cache_dir, "ffprobe"], os.path_separator))
+    nami.sh("mv", text.join([nami.tmp_dir, "_", "ffprobe"], os.path_separator), text.join([nami.cache_dir, "ffprobe"], os.path_separator))
     err = nami.sh("curl", "-L", "--progress-bar", "https://evermeet.cx/ffmpeg/getrelease/ffplay/zip", "-o", text.join([nami.tmp_dir, "_.zip"], os.path_separator))
     if is_error(err) {
         fmt.println(err)
@@ -49,7 +49,7 @@ if nami.os == "darwin" {
     nami.sh("rm", "-rf", text.join([nami.tmp_dir, "_"], os.path_separator))
     nami.sh("mkdir", text.join([nami.tmp_dir, "_"], os.path_separator))
     nami.sh("unzip", text.join([nami.tmp_dir, "_.zip"], os.path_separator), "-d", text.join([nami.tmp_dir, "_"], os.path_separator))
-    nami.sh("mv", text.join([nami.tmp_dir, "_", "bin", "ffplay"], os.path_separator), text.join([nami.cache_dir, "ffplay"], os.path_separator))
+    nami.sh("mv", text.join([nami.tmp_dir, "_", "ffplay"], os.path_separator), text.join([nami.cache_dir, "ffplay"], os.path_separator))
     err = nami.sh("curl", "-L", "--progress-bar", "https://evermeet.cx/ffmpeg/getrelease/ffserver/zip", "-o", text.join([nami.tmp_dir, "_.zip"], os.path_separator))
     if is_error(err) {
         fmt.println(err)
@@ -58,7 +58,7 @@ if nami.os == "darwin" {
     nami.sh("rm", "-rf", text.join([nami.tmp_dir, "_"], os.path_separator))
     nami.sh("mkdir", text.join([nami.tmp_dir, "_"], os.path_separator))
     nami.sh("unzip", text.join([nami.tmp_dir, "_.zip"], os.path_separator), "-d", text.join([nami.tmp_dir, "_"], os.path_separator))
-    nami.sh("mv", text.join([nami.tmp_dir, "_", "bin", "ffserver"], os.path_separator), text.join([nami.cache_dir, "ffserver"], os.path_separator))
+    nami.sh("mv", text.join([nami.tmp_dir, "_", "ffserver"], os.path_separator), text.join([nami.cache_dir, "ffserver"], os.path_separator))
 }
 if nami.os == "linux" && nami.arch == "amd64" {
     b := nami.sh1("sh", "-c", "curl https://johnvansickle.com/ffmpeg/release-readme.txt | grep -oP 'version: \\S+' | cut -d: -f2")
