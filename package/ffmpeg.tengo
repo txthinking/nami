@@ -107,9 +107,14 @@ if nami.os == "windows" && nami.arch == "amd64" {
     nami.sh("rm", "-rf", text.join([nami.tmp_dir, "_"], os.path_separator))
     nami.sh("mkdir", text.join([nami.tmp_dir, "_"], os.path_separator))
     nami.sh("7z", "x", "-o"+text.join([nami.tmp_dir, "_"], os.path_separator), text.join([nami.tmp_dir, "_.7z"], os.path_separator))
-    nami.sh("mv", text.join([nami.tmp_dir, "_", "*"], os.path_separator), text.join([nami.tmp_dir, "_", "ffmpeg"], os.path_separator))
-    nami.sh("mv", text.join([nami.tmp_dir, "_", "ffmpeg", "bin", "ffmpeg.exe"], os.path_separator), text.join([nami.cache_dir, "ffmpeg.exe"], os.path_separator))
-    nami.sh("mv", text.join([nami.tmp_dir, "_", "ffmpeg", "bin", "ffplay.exe"], os.path_separator), text.join([nami.cache_dir, "ffplay.exe"], os.path_separator))
-    nami.sh("mv", text.join([nami.tmp_dir, "_", "ffmpeg", "bin", "ffprobe.exe"], os.path_separator), text.join([nami.cache_dir, "ffprobe.exe"], os.path_separator))
+    b = nami.sh1("sh", "-c", "ls "+text.join([nami.tmp_dir, "_"], os.path_separator)+" | cut -d/ -f1")
+    if is_error(b){
+        fmt.println(b)
+        os.exit(1)
+    }
+    s := text.trim_space(string(b))
+    nami.sh("mv", text.join([nami.tmp_dir, "_", s, "bin", "ffmpeg.exe"], os.path_separator), text.join([nami.cache_dir, "ffmpeg.exe"], os.path_separator))
+    nami.sh("mv", text.join([nami.tmp_dir, "_", s, "bin", "ffplay.exe"], os.path_separator), text.join([nami.cache_dir, "ffplay.exe"], os.path_separator))
+    nami.sh("mv", text.join([nami.tmp_dir, "_", s, "bin", "ffprobe.exe"], os.path_separator), text.join([nami.cache_dir, "ffprobe.exe"], os.path_separator))
 }
 
