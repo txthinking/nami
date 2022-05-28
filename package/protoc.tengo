@@ -16,10 +16,13 @@ if is_error(err) {
     os.exit(1)
 }
 
-if nami.os == "darwin" && nami.arch == "amd64" {
+if nami.os == "darwin" {
     if err := nami.sh("which", "unzip"); is_error(err){
         fmt.println("Please install unzip first, such as on Ubuntu: $ sudo apt-get install unzip")
         os.exit(1)
+    }
+    if nami.arch == "arm64" {
+        fmt.println("There is no arm64 version, will download amd64 version for you!")
     }
     err := nami.sh("curl", "-L", "--progress-bar", "https://github.com/protocolbuffers/protobuf/releases/latest/download/protoc-"+v[1:]+"-osx-x86_64.zip", "-o", text.join([nami.tmp_dir, "_.zip"], os.path_separator))
     if is_error(err) {
