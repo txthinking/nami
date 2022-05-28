@@ -61,7 +61,7 @@ if nami.os == "darwin" {
     nami.sh("mv", text.join([nami.tmp_dir, "_", "bin", "ffserver"], os.path_separator), text.join([nami.cache_dir, "ffserver"], os.path_separator))
 }
 if nami.os == "linux" && nami.arch == "amd64" {
-    b := nami.sh1("sh", "-c", "curl https://johnvansickle.com/ffmpeg/release-readme.txt | grep -oP 'version: \S+' | cut -d: -f2")
+    b := nami.sh1("sh", "-c", "curl https://johnvansickle.com/ffmpeg/release-readme.txt | grep -oP 'version: \\S+' | cut -d: -f2")
     if is_error(b){
         fmt.println(b)
         os.exit(1)
@@ -99,7 +99,7 @@ if nami.os == "windows" && nami.arch == "amd64" {
         fmt.println(err)
         os.exit(1)
     }
-    err := nami.sh("curl", "-L", "--progress-bar", "https://www.gyan.dev/ffmpeg/builds/ffmpeg-git-full.7z", "-o", text.join([nami.tmp_dir, "_.7z"], os.path_separator))
+    err = nami.sh("curl", "-L", "--progress-bar", "https://www.gyan.dev/ffmpeg/builds/ffmpeg-git-full.7z", "-o", text.join([nami.tmp_dir, "_.7z"], os.path_separator))
     if is_error(err) {
         fmt.println(err)
         os.exit(1)
