@@ -17,8 +17,8 @@ if is_error(err) {
 }
 
 if nami.os == "darwin" && nami.arch == "arm64" {
-    if err := nami.sh("which", "unzip"); is_error(err){
-        fmt.println("Please install unzip first, such as on Ubuntu: $ sudo apt-get install unzip")
+    if err := nami.sh("which", "7z"); is_error(err){
+        fmt.println("Please install 7z first: $ nami install 7z")
         os.exit(1)
     }
     err := nami.sh("curl", "-L", "--progress-bar", "https://github.com/junegunn/fzf/releases/latest/download/fzf-"+v+"-darwin_arm64.zip", "-o", text.join([nami.tmp_dir, "_.zip"], os.path_separator))
@@ -28,13 +28,13 @@ if nami.os == "darwin" && nami.arch == "arm64" {
     }
     nami.sh("rm", "-rf", text.join([nami.tmp_dir, "_"], os.path_separator))
     nami.sh("mkdir", text.join([nami.tmp_dir, "_"], os.path_separator))
-    nami.sh("unzip", text.join([nami.tmp_dir, "_.zip"], os.path_separator), "-d", text.join([nami.tmp_dir, "_"], os.path_separator))
+    nami.sh("7z", "x", text.join([nami.tmp_dir, "_.zip"], os.path_separator), "-o" + text.join([nami.tmp_dir, "_"], os.path_separator))
     nami.sh("mv", text.join([nami.tmp_dir, "_", "fzf"], os.path_separator), text.join([nami.cache_dir, "fzf"], os.path_separator))
     nami.write_file(text.join([nami.cache_dir, "vimf"], os.path_separator), "#!/bin/bash\nvim $(fzf)\n")
 }
 if nami.os == "darwin" && nami.arch == "amd64" {
-    if err := nami.sh("which", "unzip"); is_error(err){
-        fmt.println("Please install unzip first, such as on Ubuntu: $ sudo apt-get install unzip")
+    if err := nami.sh("which", "7z"); is_error(err){
+        fmt.println("Please install 7z first: $ nami install 7z")
         os.exit(1)
     }
     err := nami.sh("curl", "-L", "--progress-bar", "https://github.com/junegunn/fzf/releases/latest/download/fzf-"+v+"-darwin_amd64.zip", "-o", text.join([nami.tmp_dir, "_.zip"], os.path_separator))
@@ -44,7 +44,7 @@ if nami.os == "darwin" && nami.arch == "amd64" {
     }
     nami.sh("rm", "-rf", text.join([nami.tmp_dir, "_"], os.path_separator))
     nami.sh("mkdir", text.join([nami.tmp_dir, "_"], os.path_separator))
-    nami.sh("unzip", text.join([nami.tmp_dir, "_.zip"], os.path_separator), "-d", text.join([nami.tmp_dir, "_"], os.path_separator))
+    nami.sh("7z", "x", text.join([nami.tmp_dir, "_.zip"], os.path_separator), "-o" + text.join([nami.tmp_dir, "_"], os.path_separator))
     nami.sh("mv", text.join([nami.tmp_dir, "_", "fzf"], os.path_separator), text.join([nami.cache_dir, "fzf"], os.path_separator))
     nami.write_file(text.join([nami.cache_dir, "vimf"], os.path_separator), "#!/bin/bash\nvim $(fzf)\n")
 }
@@ -61,8 +61,8 @@ if nami.os == "linux" && nami.arch == "amd64" {
     nami.write_file(text.join([nami.cache_dir, "vimf"], os.path_separator), "#!/bin/bash\nvim $(fzf)\n")
 }
 if nami.os == "windows" && nami.arch == "amd64" {
-    if err := nami.sh("which", "unzip"); is_error(err){
-        fmt.println("Please install unzip first, such as on Ubuntu: $ sudo apt-get install unzip")
+    if err := nami.sh("which", "7z"); is_error(err){
+        fmt.println("Please install 7z first: $ nami install 7z")
         os.exit(1)
     }
     err := nami.sh("curl", "-L", "--progress-bar", "https://github.com/junegunn/fzf/releases/latest/download/fzf-"+v+"-windows_amd64.zip", "-o", text.join([nami.tmp_dir, "_.zip"], os.path_separator))
@@ -72,6 +72,6 @@ if nami.os == "windows" && nami.arch == "amd64" {
     }
     nami.sh("rm", "-rf", text.join([nami.tmp_dir, "_"], os.path_separator))
     nami.sh("mkdir", text.join([nami.tmp_dir, "_"], os.path_separator))
-    nami.sh("unzip", text.join([nami.tmp_dir, "_.zip"], os.path_separator), "-d", text.join([nami.tmp_dir, "_"], os.path_separator))
+    nami.sh("7z", "x", text.join([nami.tmp_dir, "_.zip"], os.path_separator), "-o" + text.join([nami.tmp_dir, "_"], os.path_separator))
     nami.sh("mv", text.join([nami.tmp_dir, "_", "fzf.exe"], os.path_separator), text.join([nami.cache_dir, "fzf.exe"], os.path_separator))
 }
