@@ -1,0 +1,30 @@
+os := import("os")
+fmt := import("fmt")
+text := import("text")
+nami := import("nami")
+json := import("json")
+
+v := "3.7"
+err := nami.write_file(text.join([nami.cache_dir, "version"], os.path_separator), v)
+if is_error(err) {
+    fmt.println(err)
+    os.exit(1)
+}
+
+if nami.os == "darwin" {
+    s := "https://mirrors.ustc.edu.cn/homebrew-bottles/grep-"+v+".monterey.bottle.tar.gz"
+    if nami.arch == "arm64" {
+        s = "https://mirrors.ustc.edu.cn/homebrew-bottles/grep-"+v+".arm64_monterey.bottle.tar.gz"
+    }
+    err := nami.sh("curl", "-L", "--progress-bar", s, "-o", text.join([nami.tmp_dir, "_.tgz"], os.path_separator))
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+    nami.sh("rm", "-rf", text.join([nami.tmp_dir, "_"], os.path_separator))
+    nami.sh("mkdir", text.join([nami.tmp_dir, "_"], os.path_separator))
+    nami.sh("tar", "zxvf", text.join([nami.tmp_dir, "_.tgz"], os.path_separator), "-C", text.join([nami.tmp_dir, "_"], os.path_separator))
+    nami.sh("mv", text.join([nami.tmp_dir, "_", "grep", v, "bin", "ggrep"], os.path_separator), text.join([nami.cache_dir, "ggrep"], os.path_separator))
+    nami.sh("mv", text.join([nami.tmp_dir, "_", "grep", v, "bin", "gegrep"], os.path_separator), text.join([nami.cache_dir, "gegrep"], os.path_separator))
+    nami.sh("mv", text.join([nami.tmp_dir, "_", "grep", v, "bin", "gfgrep"], os.path_separator), text.join([nami.cache_dir, "gfgrep"], os.path_separator))
+}
