@@ -39,7 +39,7 @@ if nami.os == "linux" && nami.arch == "amd64" {
     nami.sh("rm", "-rf", text.join([nami.tmp_dir, "_"], os.path_separator))
     nami.sh("mkdir", text.join([nami.tmp_dir, "_"], os.path_separator))
     nami.sh("tar", "zxvf", text.join([nami.tmp_dir, "_.tgz"], os.path_separator), "-C", text.join([nami.tmp_dir, "_"], os.path_separator))
-    nami.sh("mv", text.join([nami.tmp_dir, "_", "fd-"+v+"-x86_64-unknown-linux-gnu"， "fd"], os.path_separator), text.join([nami.cache_dir, "fd"], os.path_separator))
+    nami.sh("mv", text.join([nami.tmp_dir, "_", "fd-"+v+"-x86_64-unknown-linux-gnu", "fd"], os.path_separator), text.join([nami.cache_dir, "fd"], os.path_separator))
 }
 if nami.os == "windows" && nami.arch == "amd64" {
     err := nami.sh("curl", "-L", "--progress-bar", "https://github.com/sharkdp/fd/releases/latest/download/fd-"+v+"-x86_64-pc-windows-gnu.zip", "-o", text.join([nami.tmp_dir, "_.zip"], os.path_separator))
