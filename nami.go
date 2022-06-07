@@ -95,34 +95,16 @@ func (n *Nami) CleanCache() error {
 	return nil
 }
 
-func (n *Nami) Install(name, kind, script string) (func(), error) {
+func (n *Nami) Install(name, script string) (func(), error) {
 	if err := n.CleanCache(); err != nil {
 		return nil, err
 	}
 
-	if kind == "tengo" {
-		ts := tengo.NewScript([]byte(script))
-		ts.SetImports(stdlib.GetModuleMap(stdlib.AllModuleNames()...))
-		if _, err := ts.Run(); err != nil {
-			return nil, err
-		}
+	ts := tengo.NewScript([]byte(script))
+	ts.SetImports(stdlib.GetModuleMap(stdlib.AllModuleNames()...))
+	if _, err := ts.Run(); err != nil {
+		return nil, err
 	}
-	if kind == "deno" {
-		deno := filepath.Join(n.BinDir, "deno")
-		if runtime.GOOS == "windows" {
-			deno = filepath.Join(n.BinDir, "deno.exe")
-		}
-		cmd := exec.Command(deno, "run", "-r", "-A", "--unstable", script)
-		cmd.Env = append(os.Environ(),
-			"DENO_DIR="+n.DenoDir,
-		)
-		cmd.Stdout = os.Stdout
-		cmd.Stderr = os.Stderr
-		if err := cmd.Run(); err != nil {
-			return nil, err
-		}
-	}
-
 	p := &Package{
 		Name:  name,
 		Files: make(map[string]string),

@@ -19,75 +19,47 @@ import (
 	"io"
 	"io/ioutil"
 	"net/http"
-	"os"
-	"path/filepath"
-	"runtime"
 	"strings"
 )
 
-func (nm *Nami) Parse(input string) (string, string, string, error) {
-	n := input[strings.LastIndex(input, "/")+1:]
-	n = strings.TrimSuffix(n, ".tengo")
-	n = strings.TrimSuffix(n, ".js")
-	n = strings.TrimSuffix(n, ".ts")
-	k := "tengo"
-	if strings.HasSuffix(input, ".js") || strings.HasSuffix(input, ".ts") {
-		k = "deno"
-		deno := "deno"
-		if runtime.GOOS == "windows" {
-			deno = "deno.exe"
-		}
-		_, err := os.Stat(filepath.Join(nm.BinDir, deno))
-		if err != nil {
-			if !os.IsNotExist(err) {
-				return "", "", "", err
-			}
-			return "", "", "", errors.New("Install deno first $ nami install deno")
-		}
-	}
-	s := input
-	if k == "tengo" && (strings.HasPrefix(input, "http://") || strings.HasPrefix(input, "https://")) {
+func (nm *Nami) Parse(input string) (string, string, error) {
+	if strings.HasSuffix(input, ".tengo") && (strings.HasPrefix(input, "http://") || strings.HasPrefix(input, "https://")) {
+		n := input[strings.LastIndex(input, "/")+1:]
+		n = strings.TrimSuffix(n, ".tengo")
 		res, err := http.Get(input)
 		if err != nil {
-			return "", "", "", err
+			return "", "", err
 		}
 		defer res.Body.Close()
 		b, err := io.ReadAll(res.Body)
 		if err != nil {
-			return "", "", "", err
+			return "", "", err
 		}
-		s = string(b)
 		if res.StatusCode != 200 {
-			return "", "", "", errors.New("Package not found")
+			return "", "", errors.New("Package not found")
 		}
+		return n, string(b), nil
 	}
-	if k == "tengo" && !(strings.HasPrefix(input, "http://") || strings.HasPrefix(input, "https://")) {
-		st, err0 := os.Stat(input)
-		if err0 != nil && !os.IsNotExist(err0) {
-			return "", "", "", err0
+	if strings.HasSuffix(input, ".tengo") && !(strings.HasPrefix(input, "http://") || strings.HasPrefix(input, "https://")) {
+		n := input[strings.LastIndex(input, "/")+1:]
+		n = strings.TrimSuffix(n, ".tengo")
+		b, err := ioutil.ReadFile(input)
+		if err != nil {
+			return "", "", err
 		}
-		if err0 != nil || st.IsDir() {
-			res, err := http.Get("https://raw.githubusercontent.com/txthinking/nami/master/package/" + n + ".tengo")
-			if err != nil {
-				return "", "", "", err
-			}
-			defer res.Body.Close()
-			b, err := io.ReadAll(res.Body)
-			if err != nil {
-				return "", "", "", err
-			}
-			s = string(b)
-			if res.StatusCode != 200 {
-				return "", "", "", errors.New("Package not found")
-			}
-		}
-		if err0 == nil && !st.IsDir() {
-			b, err := ioutil.ReadFile(input)
-			if err != nil {
-				return "", "", "", err
-			}
-			s = string(b)
-		}
+		return n, string(b), nil
 	}
-	return n, k, s, nil
+	res, err := http.Get("https://raw.githubusercontent.com/txthinking/nami/master/package/" + input + ".tengo")
+	if err != nil {
+		return "", "", err
+	}
+	defer res.Body.Close()
+	b, err := io.ReadAll(res.Body)
+	if err != nil {
+		return "", "", err
+	}
+	if res.StatusCode != 200 {
+		return "", "", errors.New(res.Status + " " + string(b))
+	}
+	return input, string(b), nil
 }
