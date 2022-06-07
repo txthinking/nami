@@ -36,7 +36,11 @@ func main() {
 		},
 	}
 	app.Copyright = "https://github.com/txthinking/nami"
-	app.Before = func(*cli.Context) error {
+	app.Before = func(c *cli.Context) error {
+		if len(os.Args) == 3 && os.Args[1] == "install" && os.Args[2] == "nami" {
+			log.Println(1)
+			return nil
+		}
 		res, err := http.Get("https://api.github.com/repos/txthinking/nami/releases/latest")
 		if err != nil {
 			log.Println("Check nami version", err)
@@ -53,7 +57,7 @@ func main() {
 			log.Println("Check nami version", err)
 			return nil
 		}
-		if s > "v20220601" {
+		if s > "v20220606" {
 			return errors.New("New version: " + s + ", please upgrade nami first: $ nami install nami")
 		}
 		return nil

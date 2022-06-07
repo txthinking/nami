@@ -59,7 +59,7 @@ func (nm *Nami) Parse(input string) (string, string, error) {
 		return "", "", err
 	}
 	if res.StatusCode != 200 {
-		return "", "", errors.New(res.Status + " " + string(b))
+		return "", "", errors.New(res.Status + ": " + string(b))
 	}
 	return input, string(b), nil
 }
