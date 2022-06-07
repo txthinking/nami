@@ -38,7 +38,6 @@ func main() {
 	app.Copyright = "https://github.com/txthinking/nami"
 	app.Before = func(c *cli.Context) error {
 		if len(os.Args) == 3 && os.Args[1] == "install" && os.Args[2] == "nami" {
-			log.Println(1)
 			return nil
 		}
 		res, err := http.Get("https://api.github.com/repos/txthinking/nami/releases/latest")
