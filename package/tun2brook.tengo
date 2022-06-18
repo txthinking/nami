@@ -43,6 +43,8 @@ if nami.os == "windows" && nami.arch == "amd64" {
         fmt.println(err)
         os.exit(1)
     }
+    nami.sh(`rm`, `-rf`, text.join([nami.bin_dir, "wintun.dll"], os.path_separator))
+    nami.sh(`rm`, `-rf`, text.join([nami.bin_dir, "wintun.h"], os.path_separator))
 }
 
 
