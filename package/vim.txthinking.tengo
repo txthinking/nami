@@ -80,6 +80,9 @@ let g:prettier#autoformat = 1
 let g:prettier#autoformat_require_pragma = 0
 let g:prettier#config#print_width = 10000
 
+Plugin 'rust-lang/rust.vim'       
+let g:rustfmt_autosave = 1
+
 call vundle#end()
 
 set history=700             " Sets how many lines of history VIM has to remember
