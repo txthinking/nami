@@ -10,6 +10,9 @@ if is_error(b) {
     os.exit(1)
 }
 v := text.trim_space(string(b))
+if nami.os == "darwin" {
+    v = "21.07"
+}
 err := nami.write_file(text.join([nami.cache_dir, "version"], os.path_separator), v)
 if is_error(err) {
     fmt.println(err)
