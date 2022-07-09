@@ -22,7 +22,7 @@ if err := nami.sh("which", "7z"); is_error(err){
 }
     
 if nami.os == "darwin" && nami.arch == "arm64" {
-    err := nami.sh("curl", "-L", "--progress-bar", "https://github.com/Jarred-Sumner/bun/releases/latest/bun-darwin-aarch64.zip", "-o", text.join([nami.tmp_dir, "_.zip"], os.path_separator))
+    err := nami.sh("curl", "-L", "--progress-bar", "https://github.com/Jarred-Sumner/bun/releases/latest/download/bun-darwin-aarch64.zip", "-o", text.join([nami.tmp_dir, "_.zip"], os.path_separator))
     if is_error(err) {
         fmt.println(err)
         os.exit(1)
