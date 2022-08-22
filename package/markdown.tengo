@@ -66,11 +66,6 @@ if nami.os == "linux" && nami.arch == "amd64" {
         fmt.println(err)
         os.exit(1)
     }
-    err = nami.sh(`curl`, `-L`, `--progress-bar`, `https://gist.githubusercontent.com/txthinking/44b0b133a27269c183cb10fd866d949b/raw/fd94537fafe1b0e0d2634d0cde70df9d491914f7/sitemap`, `-o`, text.join([nami.cache_dir, "sitemap"], os.path_separator))
-    if is_error(err) {
-        fmt.println(err)
-        os.exit(1)
-    }
 }
 if nami.os == "windows" && nami.arch == "amd64" {
     err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://github.com/txthinking/markdown/releases/latest/download/markdown_windows_amd64.exe`, `-o`, text.join([nami.cache_dir, "markdown.exe"], os.path_separator))
