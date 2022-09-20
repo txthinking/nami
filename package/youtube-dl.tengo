@@ -16,7 +16,9 @@ if is_error(err) {
     os.exit(1)
 }
 
+got := false
 if nami.os == "linux" || nami.os == "darwin" {
+    got = true
     err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://yt-dl.org/downloads/latest/youtube-dl`, `-o`, text.join([nami.cache_dir, "youtube-dl"], os.path_separator))
     if is_error(err) {
         fmt.println(err)
@@ -24,9 +26,14 @@ if nami.os == "linux" || nami.os == "darwin" {
     }
 }
 if nami.os == "windows" {
+    got = true
     err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://yt-dl.org/latest/youtube-dl.exe`, `-o`, text.join([nami.cache_dir, "youtube-dl.exe"], os.path_separator))
     if is_error(err) {
         fmt.println(err)
         os.exit(1)
     }
+}
+if !got {
+    fmt.println("youtube-dl does not support your OS or Arch now. PR welcome: https://github.com/txthinking/nami/blob/master/package")
+    os.exit(1)
 }

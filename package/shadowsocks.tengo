@@ -16,7 +16,9 @@ if is_error(err) {
     os.exit(1)
 }
 
+got := false
 if nami.os == "darwin" && nami.arch == "arm64" {
+    got = true
     err := nami.sh("curl", "-L", "--progress-bar", "https://github.com/shadowsocks/shadowsocks-rust/releases/latest/download/shadowsocks-"+v+".aarch64-apple-darwin.tar.xz", "-o", text.join([nami.tmp_dir, "_.txz"], os.path_separator))
     if is_error(err) {
         fmt.println(err)
@@ -31,6 +33,7 @@ if nami.os == "darwin" && nami.arch == "arm64" {
     nami.sh("mv", text.join([nami.tmp_dir, "_", "ssservice"], os.path_separator), text.join([nami.cache_dir, "ssservice"], os.path_separator))
 }
 if nami.os == "darwin" && nami.arch == "amd64" {
+    got = true
     err := nami.sh("curl", "-L", "--progress-bar", "https://github.com/shadowsocks/shadowsocks-rust/releases/latest/download/shadowsocks-"+v+".x86_64-apple-darwin.tar.xz", "-o", text.join([nami.tmp_dir, "_.txz"], os.path_separator))
     if is_error(err) {
         fmt.println(err)
@@ -45,6 +48,7 @@ if nami.os == "darwin" && nami.arch == "amd64" {
     nami.sh("mv", text.join([nami.tmp_dir, "_", "ssservice"], os.path_separator), text.join([nami.cache_dir, "ssservice"], os.path_separator))
 }
 if nami.os == "linux" && nami.arch == "amd64" {
+    got = true
     err := nami.sh("curl", "-L", "--progress-bar", "https://github.com/shadowsocks/shadowsocks-rust/releases/latest/download/shadowsocks-"+v+".x86_64-unknown-linux-gnu.tar.xz", "-o", text.join([nami.tmp_dir, "_.txz"], os.path_separator))
     if is_error(err) {
         fmt.println(err)
@@ -60,6 +64,7 @@ if nami.os == "linux" && nami.arch == "amd64" {
     nami.sh("mv", text.join([nami.tmp_dir, "_", "ssmanager"], os.path_separator), text.join([nami.cache_dir, "ssmanager"], os.path_separator))
 }
 if nami.os == "windows" && nami.arch == "amd64" {
+    got = true
     err := nami.sh("curl", "-L", "--progress-bar", "https://github.com/shadowsocks/shadowsocks-rust/releases/latest/download/shadowsocks-"+v+".x86_64-pc-windows-msvc.zip", "-o", text.join([nami.tmp_dir, "_.zip"], os.path_separator))
     if is_error(err) {
         fmt.println(err)
@@ -73,4 +78,8 @@ if nami.os == "windows" && nami.arch == "amd64" {
     nami.sh("mv", text.join([nami.tmp_dir, "_", "ssurl.exe"], os.path_separator), text.join([nami.cache_dir, "ssurl.exe"], os.path_separator))
     nami.sh("mv", text.join([nami.tmp_dir, "_", "ssmanager.exe"], os.path_separator), text.join([nami.cache_dir, "ssmanager.exe"], os.path_separator))
     nami.sh("mv", text.join([nami.tmp_dir, "_", "ssservice.exe"], os.path_separator), text.join([nami.cache_dir, "ssservice.exe"], os.path_separator))
+}
+if !got {
+    fmt.println("shadowsocks does not support your OS or Arch now. PR welcome: https://github.com/txthinking/nami/blob/master/package")
+    os.exit(1)
 }

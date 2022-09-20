@@ -4,7 +4,9 @@ text := import("text")
 nami := import("nami")
 json := import("json")
 
+got := false
 if nami.os == "darwin" {
+    got = true
     if err := nami.sh("which", "7z"); is_error(err){
         fmt.println("Please install 7z first: $ nami install 7z")
         os.exit(1)
@@ -61,6 +63,7 @@ if nami.os == "darwin" {
     nami.sh("mv", text.join([nami.tmp_dir, "_", "ffserver"], os.path_separator), text.join([nami.cache_dir, "ffserver"], os.path_separator))
 }
 if nami.os == "linux" && nami.arch == "amd64" {
+    got = true
     b := nami.sh1("sh", "-c", "curl https://johnvansickle.com/ffmpeg/release-readme.txt | grep -oP 'version: \\S+' | cut -d: -f2")
     if is_error(b){
         fmt.println(b)
@@ -84,6 +87,7 @@ if nami.os == "linux" && nami.arch == "amd64" {
     nami.sh("mv", text.join([nami.tmp_dir, "_", "ffmpeg-"+v+"-amd64-static", "ffprobe"], os.path_separator), text.join([nami.cache_dir, "ffprobe"], os.path_separator))
 }
 if nami.os == "windows" && nami.arch == "amd64" {
+    got = true
     if err := nami.sh("which", "7z"); is_error(err){
         fmt.println("Please install 7z first: $ nami install 7z")
         os.exit(1)
@@ -116,5 +120,9 @@ if nami.os == "windows" && nami.arch == "amd64" {
     nami.sh("mv", text.join([nami.tmp_dir, "_", s, "bin", "ffmpeg.exe"], os.path_separator), text.join([nami.cache_dir, "ffmpeg.exe"], os.path_separator))
     nami.sh("mv", text.join([nami.tmp_dir, "_", s, "bin", "ffplay.exe"], os.path_separator), text.join([nami.cache_dir, "ffplay.exe"], os.path_separator))
     nami.sh("mv", text.join([nami.tmp_dir, "_", s, "bin", "ffprobe.exe"], os.path_separator), text.join([nami.cache_dir, "ffprobe.exe"], os.path_separator))
+}
+if !got {
+    fmt.println("ffmpeg does not support your OS or Arch now. PR welcome: https://github.com/txthinking/nami/blob/master/package")
+    os.exit(1)
 }
 

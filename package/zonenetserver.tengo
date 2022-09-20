@@ -16,7 +16,9 @@ if is_error(err) {
     os.exit(1)
 }
 
+got := false
 if nami.os == "darwin" && nami.arch == "amd64" {
+    got = true
     err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://github.com/zonenetio/zonenetserver/releases/latest/download/zonenetserver_darwin_amd64`, `-o`, text.join([nami.cache_dir, "zonenetserver"], os.path_separator))
     if is_error(err) {
         fmt.println(err)
@@ -24,6 +26,7 @@ if nami.os == "darwin" && nami.arch == "amd64" {
     }
 }
 if nami.os == "linux" && nami.arch == "amd64" {
+    got = true
     err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://github.com/zonenetio/zonenetserver/releases/latest/download/zonenetserver_linux_amd64`, `-o`, text.join([nami.cache_dir, "zonenetserver"], os.path_separator))
     if is_error(err) {
         fmt.println(err)
@@ -31,11 +34,16 @@ if nami.os == "linux" && nami.arch == "amd64" {
     }
 }
 if nami.os == "windows" && nami.arch == "amd64" {
+    got = true
     err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://github.com/zonenetio/zonenetserver/releases/latest/download/zonenetserver_windows_amd64.exe`, `-o`, text.join([nami.cache_dir, "zonenetserver.exe"], os.path_separator))
     if is_error(err) {
         fmt.println(err)
         os.exit(1)
     }
+}
+if !got {
+    fmt.println("zonenetserver does not support your OS or Arch now. PR welcome: https://github.com/txthinking/nami/blob/master/package")
+    os.exit(1)
 }
 
 

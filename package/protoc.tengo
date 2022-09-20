@@ -16,7 +16,9 @@ if is_error(err) {
     os.exit(1)
 }
 
+got := false
 if nami.os == "darwin" {
+    got = true
     if err := nami.sh("which", "7z"); is_error(err){
         fmt.println("Please install 7z first: $ nami install 7z")
         os.exit(1)
@@ -35,6 +37,7 @@ if nami.os == "darwin" {
     nami.sh("mv", text.join([nami.tmp_dir, "_", "bin", "protoc"], os.path_separator), text.join([nami.cache_dir, "protoc"], os.path_separator))
 }
 if nami.os == "linux" && nami.arch == "amd64" {
+    got = true
     if err := nami.sh("which", "7z"); is_error(err){
         fmt.println("Please install 7z first: $ nami install 7z")
         os.exit(1)
@@ -50,6 +53,7 @@ if nami.os == "linux" && nami.arch == "amd64" {
     nami.sh("mv", text.join([nami.tmp_dir, "_", "bin", "protoc"], os.path_separator), text.join([nami.cache_dir, "protoc"], os.path_separator))
 }
 if nami.os == "windows" && nami.arch == "amd64" {
+    got = true
     err := nami.sh("curl", "-L", "--progress-bar", "https://github.com/protocolbuffers/protobuf/releases/latest/download/protoc-"+v[1:]+"-win64.zip", "-o", text.join([nami.tmp_dir, "_.zip"], os.path_separator))
     if is_error(err) {
         fmt.println(err)
@@ -59,5 +63,9 @@ if nami.os == "windows" && nami.arch == "amd64" {
     nami.sh("mkdir", text.join([nami.tmp_dir, "_"], os.path_separator))
     nami.sh("unzip", text.join([nami.tmp_dir, "_.zip"], os.path_separator), "-d", text.join([nami.tmp_dir, "_"], os.path_separator))
     nami.sh("mv", text.join([nami.tmp_dir, "_", "bin", "protoc.exe"], os.path_separator), text.join([nami.cache_dir, "protoc.exe"], os.path_separator))
+}
+if !got {
+    fmt.println("protoc does not support your OS or Arch now. PR welcome: https://github.com/txthinking/nami/blob/master/package")
+    os.exit(1)
 }
 

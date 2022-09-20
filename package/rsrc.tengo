@@ -15,7 +15,9 @@ if is_error(err) {
     fmt.println(err)
     os.exit(1)
 }
+got := false
 if nami.os == "darwin" {
+    got = true
     if nami.arch == "arm64" {
         fmt.println("There is no arm64 version, will download amd64 version for you!")
     }
@@ -26,6 +28,7 @@ if nami.os == "darwin" {
     }
 }
 if nami.os == "linux" && nami.arch == "amd64" {
+    got = true
     err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://github.com/akavel/rsrc/releases/latest/download/rsrc_linux_amd64`, `-o`, text.join([nami.cache_dir, "rsrc"], os.path_separator))
     if is_error(err) {
         fmt.println(err)
@@ -33,9 +36,14 @@ if nami.os == "linux" && nami.arch == "amd64" {
     }
 }
 if nami.os == "windows" && nami.arch == "amd64" {
+    got = true
     err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://github.com/akavel/rsrc/releases/latest/download/rsrc_windows_amd64.exe`, `-o`, text.join([nami.cache_dir, "rsrc.exe"], os.path_separator))
     if is_error(err) {
         fmt.println(err)
         os.exit(1)
     }
+}
+if !got {
+    fmt.println("rsrc does not support your OS or Arch now. PR welcome: https://github.com/txthinking/nami/blob/master/package")
+    os.exit(1)
 }

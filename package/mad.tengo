@@ -16,7 +16,9 @@ if is_error(err) {
     os.exit(1)
 }
 
+got := false
 if nami.os == "darwin" && nami.arch == "arm64" {
+    got = true
     err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://github.com/txthinking/mad/releases/latest/download/mad_darwin_arm64`, `-o`, text.join([nami.cache_dir, "mad"], os.path_separator))
     if is_error(err) {
         fmt.println(err)
@@ -24,6 +26,7 @@ if nami.os == "darwin" && nami.arch == "arm64" {
     }
 }
 if nami.os == "darwin" && nami.arch == "amd64" {
+    got = true
     err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://github.com/txthinking/mad/releases/latest/download/mad_darwin_amd64`, `-o`, text.join([nami.cache_dir, "mad"], os.path_separator))
     if is_error(err) {
         fmt.println(err)
@@ -31,6 +34,7 @@ if nami.os == "darwin" && nami.arch == "amd64" {
     }
 }
 if nami.os == "linux" && nami.arch == "amd64" {
+    got = true
     err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://github.com/txthinking/mad/releases/latest/download/mad_linux_amd64`, `-o`, text.join([nami.cache_dir, "mad"], os.path_separator))
     if is_error(err) {
         fmt.println(err)
@@ -38,11 +42,16 @@ if nami.os == "linux" && nami.arch == "amd64" {
     }
 }
 if nami.os == "windows" && nami.arch == "amd64" {
+    got = true
     err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://github.com/txthinking/mad/releases/latest/download/mad_windows_amd64.exe`, `-o`, text.join([nami.cache_dir, "mad.exe"], os.path_separator))
     if is_error(err) {
         fmt.println(err)
         os.exit(1)
     }
+}
+if !got {
+    fmt.println("mad does not support your OS or Arch now. PR welcome: https://github.com/txthinking/nami/blob/master/package")
+    os.exit(1)
 }
 
 

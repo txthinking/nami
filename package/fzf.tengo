@@ -16,7 +16,9 @@ if is_error(err) {
     os.exit(1)
 }
 
+got := false
 if nami.os == "darwin" && nami.arch == "arm64" {
+    got = true
     if err := nami.sh("which", "7z"); is_error(err){
         fmt.println("Please install 7z first: $ nami install 7z")
         os.exit(1)
@@ -33,6 +35,7 @@ if nami.os == "darwin" && nami.arch == "arm64" {
     nami.write_file(text.join([nami.cache_dir, "vimf"], os.path_separator), "#!/bin/bash\nvim $(fzf)\n")
 }
 if nami.os == "darwin" && nami.arch == "amd64" {
+    got = true
     if err := nami.sh("which", "7z"); is_error(err){
         fmt.println("Please install 7z first: $ nami install 7z")
         os.exit(1)
@@ -49,6 +52,7 @@ if nami.os == "darwin" && nami.arch == "amd64" {
     nami.write_file(text.join([nami.cache_dir, "vimf"], os.path_separator), "#!/bin/bash\nvim $(fzf)\n")
 }
 if nami.os == "linux" && nami.arch == "amd64" {
+    got = true
     err := nami.sh("curl", "-L", "--progress-bar", "https://github.com/junegunn/fzf/releases/latest/download/fzf-"+v+"-linux_amd64.tar.gz", "-o", text.join([nami.tmp_dir, "_.tgz"], os.path_separator))
     if is_error(err) {
         fmt.println(err)
@@ -61,6 +65,7 @@ if nami.os == "linux" && nami.arch == "amd64" {
     nami.write_file(text.join([nami.cache_dir, "vimf"], os.path_separator), "#!/bin/bash\nvim $(fzf)\n")
 }
 if nami.os == "windows" && nami.arch == "amd64" {
+    got = true
     err := nami.sh("curl", "-L", "--progress-bar", "https://github.com/junegunn/fzf/releases/latest/download/fzf-"+v+"-windows_amd64.zip", "-o", text.join([nami.tmp_dir, "_.zip"], os.path_separator))
     if is_error(err) {
         fmt.println(err)
@@ -70,4 +75,8 @@ if nami.os == "windows" && nami.arch == "amd64" {
     nami.sh("mkdir", text.join([nami.tmp_dir, "_"], os.path_separator))
     nami.sh("unzip", text.join([nami.tmp_dir, "_.zip"], os.path_separator), "-d", text.join([nami.tmp_dir, "_"], os.path_separator))
     nami.sh("mv", text.join([nami.tmp_dir, "_", "fzf.exe"], os.path_separator), text.join([nami.cache_dir, "fzf.exe"], os.path_separator))
+}
+if !got {
+    fmt.println("fzf does not support your OS or Arch now. PR welcome: https://github.com/txthinking/nami/blob/master/package")
+    os.exit(1)
 }

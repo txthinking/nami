@@ -16,11 +16,17 @@ if is_error(err) {
     os.exit(1)
 }
 
+got := false
 if nami.os == "linux" || nami.os == "darwin" {
+    got = true
     err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://github.com/txthinking/cloudflare/releases/latest/download/cloudflare_linux_amd64`, `-o`, text.join([nami.cache_dir, "cloudflare"], os.path_separator))
     if is_error(err) {
         fmt.println(err)
         os.exit(1)
     }
+}
+if !got {
+    fmt.println("cloudflare does not support your OS or Arch now. PR welcome: https://github.com/txthinking/nami/blob/master/package")
+    os.exit(1)
 }
 

@@ -16,11 +16,17 @@ if is_error(err) {
     os.exit(1)
 }
 
+got := false
 if nami.os == "linux" && nami.arch == "amd64" {
+    got = true
     err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://github.com/txthinking/bash/releases/latest/download/brookscript_linux_amd64`, `-o`, text.join([nami.cache_dir, "brookscript"], os.path_separator))
     if is_error(err) {
         fmt.println(err)
         os.exit(1)
     }
+}
+if !got {
+    fmt.println("brookscript does not support your OS or Arch now. PR welcome: https://github.com/txthinking/nami/blob/master/package")
+    os.exit(1)
 }
 

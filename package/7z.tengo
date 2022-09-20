@@ -19,7 +19,9 @@ if is_error(err) {
     os.exit(1)
 }
 
+got := false
 if nami.os == "darwin" {
+    got = true
     err := nami.sh("curl", "-L", "--progress-bar", "https://7-zip.org/a/7z"+text.replace(v, ".", "", 1)+"-mac.tar.xz", "-o", text.join([nami.tmp_dir, "_.txz"], os.path_separator))
     if is_error(err) {
         fmt.println(err)
@@ -31,6 +33,7 @@ if nami.os == "darwin" {
     nami.sh("mv", text.join([nami.tmp_dir, "_", "7zz"], os.path_separator), text.join([nami.cache_dir, "7z"], os.path_separator))
 }
 if nami.os == "linux" && nami.arch == "amd64" {
+    got = true
     err := nami.sh("curl", "-L", "--progress-bar", "https://7-zip.org/a/7z"+text.replace(v, ".", "", 1)+"-linux-x64.tar.xz", "-o", text.join([nami.tmp_dir, "_.txz"], os.path_separator))
     if is_error(err) {
         fmt.println(err)
@@ -42,6 +45,7 @@ if nami.os == "linux" && nami.arch == "amd64" {
     nami.sh("mv", text.join([nami.tmp_dir, "_", "7zzs"], os.path_separator), text.join([nami.cache_dir, "7z"], os.path_separator))
 }
 if nami.os == "linux" && nami.arch == "arm64" {
+    got = true
     err := nami.sh("curl", "-L", "--progress-bar", "https://7-zip.org/a/7z"+text.replace(v, ".", "", 1)+"-linux-arm64.tar.xz", "-o", text.join([nami.tmp_dir, "_.txz"], os.path_separator))
     if is_error(err) {
         fmt.println(err)
@@ -53,9 +57,14 @@ if nami.os == "linux" && nami.arch == "arm64" {
     nami.sh("mv", text.join([nami.tmp_dir, "_", "7zzs"], os.path_separator), text.join([nami.cache_dir, "7z"], os.path_separator))
 }
 if nami.os == "windows" && nami.arch == "amd64" {
+    got = true
     err := nami.sh("curl", "-L", "--progress-bar", "https://7-zip.org/a/7zr.exe", "-o", text.join([nami.cache_dir, "7z.exe"], os.path_separator))
     if is_error(err) {
         fmt.println(err)
         os.exit(1)
     }
+}
+if !got {
+    fmt.println("7z does not support your OS or Arch now. PR welcome: https://github.com/txthinking/nami/blob/master/package")
+    os.exit(1)
 }
