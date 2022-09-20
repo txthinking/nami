@@ -41,6 +41,14 @@ if nami.os == "linux" && nami.arch == "amd64" {
         os.exit(1)
     }
 }
+if nami.os == "linux" && nami.arch == "arm64" {
+    got = true
+    err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://github.com/txthinking/tun2brook/releases/latest/download/tun2brook_linux_arm64`, `-o`, text.join([nami.cache_dir, "tun2brook"], os.path_separator))
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+}
 if nami.os == "windows" && nami.arch == "amd64" {
     got = true
     err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://github.com/txthinking/tun2brook/releases/latest/download/tun2brook_windows_amd64.exe`, `-o`, text.join([nami.cache_dir, "tun2brook.exe"], os.path_separator))

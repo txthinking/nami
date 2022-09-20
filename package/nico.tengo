@@ -41,6 +41,14 @@ if nami.os == "linux" && nami.arch == "amd64" {
         os.exit(1)
     }
 }
+if nami.os == "linux" && nami.arch == "arm64" {
+    got = true
+    err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://github.com/txthinking/nico/releases/latest/download/nico_linux_arm64`, `-o`, text.join([nami.cache_dir, "nico"], os.path_separator))
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+}
 if nami.os == "windows" && nami.arch == "amd64" {
     got = true
     err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://github.com/txthinking/nico/releases/latest/download/nico_windows_amd64.exe`, `-o`, text.join([nami.cache_dir, "nico.exe"], os.path_separator))
