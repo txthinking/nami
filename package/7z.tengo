@@ -29,6 +29,7 @@ if nami.os == "darwin" {
     nami.sh("mkdir", text.join([nami.tmp_dir, "_"], os.path_separator))
     nami.sh("tar", "Jxvf", text.join([nami.tmp_dir, "_.txz"], os.path_separator), "-C", text.join([nami.tmp_dir, "_"], os.path_separator))
     nami.sh("mv", text.join([nami.tmp_dir, "_", "7zz"], os.path_separator), text.join([nami.cache_dir, "7z"], os.path_separator))
+    os.exit(0)
 }
 if nami.os == "linux" && nami.arch == "amd64" {
     err := nami.sh("curl", "-L", "--progress-bar", "https://7-zip.org/a/7z"+text.replace(v, ".", "", 1)+"-linux-x64.tar.xz", "-o", text.join([nami.tmp_dir, "_.txz"], os.path_separator))
@@ -40,6 +41,19 @@ if nami.os == "linux" && nami.arch == "amd64" {
     nami.sh("mkdir", text.join([nami.tmp_dir, "_"], os.path_separator))
     nami.sh("tar", "Jxvf", text.join([nami.tmp_dir, "_.txz"], os.path_separator), "-C", text.join([nami.tmp_dir, "_"], os.path_separator))
     nami.sh("mv", text.join([nami.tmp_dir, "_", "7zzs"], os.path_separator), text.join([nami.cache_dir, "7z"], os.path_separator))
+    os.exit(0)
+}
+if nami.os == "linux" && nami.arch == "arm64" {
+    err := nami.sh("curl", "-L", "--progress-bar", "https://7-zip.org/a/7z"+text.replace(v, ".", "", 1)+"-linux-arm64.tar.xz", "-o", text.join([nami.tmp_dir, "_.txz"], os.path_separator))
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+    nami.sh("rm", "-rf", text.join([nami.tmp_dir, "_"], os.path_separator))
+    nami.sh("mkdir", text.join([nami.tmp_dir, "_"], os.path_separator))
+    nami.sh("tar", "Jxvf", text.join([nami.tmp_dir, "_.txz"], os.path_separator), "-C", text.join([nami.tmp_dir, "_"], os.path_separator))
+    nami.sh("mv", text.join([nami.tmp_dir, "_", "7zzs"], os.path_separator), text.join([nami.cache_dir, "7z"], os.path_separator))
+    os.exit(0)
 }
 if nami.os == "windows" && nami.arch == "amd64" {
     err := nami.sh("curl", "-L", "--progress-bar", "https://7-zip.org/a/7zr.exe", "-o", text.join([nami.cache_dir, "7z.exe"], os.path_separator))
@@ -47,4 +61,8 @@ if nami.os == "windows" && nami.arch == "amd64" {
         fmt.println(err)
         os.exit(1)
     }
+    os.exit(0)
 }
+
+fmt.println("Your OS or Arch is not supported")
+os.exit(1)
