@@ -19,7 +19,7 @@ if is_error(err) {
 got := false
 if nami.os == "darwin" && nami.arch == "arm64" {
     got = true
-    err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://github.com/JackMordaunt/icns/releases/latest/download/icns_"+v[1:]+"_Darwin_arm64.tar.gz`, `-o`, text.join([nami.cache_dir, "_.tgz"], os.path_separator))
+    err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://github.com/JackMordaunt/icns/releases/latest/download/icns_`+v[1:]+`_Darwin_arm64.tar.gz`, `-o`, text.join([nami.cache_dir, "_.tgz"], os.path_separator))
     if is_error(err) {
         fmt.println(err)
         os.exit(1)
