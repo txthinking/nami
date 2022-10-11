@@ -41,6 +41,14 @@ if nami.os == "linux" && nami.arch == "amd64" {
         os.exit(1)
     }
 }
+if nami.os == "linux" && nami.arch == "arm64" {
+    got = true
+    err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://github.com/txthinking/jinbe/releases/latest/download/jinbe_linux_arm64`, `-o`, text.join([nami.cache_dir, "jinbe"], os.path_separator))
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+}
 if !got {
     fmt.println("jinbe does not support your OS or Arch now. PR welcome: https://github.com/txthinking/nami/blob/master/package")
     os.exit(1)
