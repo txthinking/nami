@@ -17,7 +17,10 @@ if is_error(err) {
 }
 
 got := false
-if nami.os == "darwin" && nami.arch == "amd64" {
+if nami.os == "darwin" {
+    if nami.arch == "arm64" {
+        fmt.println("There is no arm64 version, will download amd64 version for you!")
+    }
     got = true
     err := nami.sh("curl", "-L", "--progress-bar", "https://github.com/marp-team/marp-cli/releases/latest/download/marp-cli-"+v+"-mac.tar.gz", "-o", text.join([nami.tmp_dir, "_.tgz"], os.path_separator))
     if is_error(err) {
