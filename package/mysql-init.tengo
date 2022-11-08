@@ -1,3 +1,7 @@
+// apt-get install mysql-server mysql-client
+// mysql-init
+// mysql -h 127.0.0.1 -u root -p111111
+
 os := import("os")
 fmt := import("fmt")
 nami := import("nami")
