@@ -18,6 +18,7 @@ if is_error(err) {
 
 got := false
 if nami.os == "darwin" && nami.arch == "arm64" {
+    got = true
     err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://github.com/txthinking/hancock/releases/latest/download/hancock_darwin_arm64`, `-o`, text.join([nami.cache_dir, "hancock"], os.path_separator))
     if is_error(err) {
         fmt.println(err)
