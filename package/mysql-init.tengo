@@ -1,0 +1,33 @@
+os := import("os")
+fmt := import("fmt")
+nami := import("nami")
+
+got := false
+if nami.os == "linux" {
+    got = true
+    err := nami.sh(`mysql`, `-e`, `CREATE USER 'root'@'%' IDENTIFIED BY '111111'`)
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+    err = nami.sh(`mysql`, `-e`, `GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION`)
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+    err = nami.sh(`mysql`, `-e`, `delete from mysql.user where Host='localhost' and User='root'`)
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+    err = nami.sh(`mysql`, `-e`, `FLUSH PRIVILEGES`)
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+    fmt.println("mysql-init: host: % user: root password: 111111")
+}
+if !got {
+    fmt.println("mysql-init does not support your OS or Arch now. PR welcome: https://github.com/txthinking/nami/blob/master/package")
+    os.exit(1)
+}
