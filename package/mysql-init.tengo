@@ -9,7 +9,7 @@ nami := import("nami")
 got := false
 if nami.os == "linux" {
     got = true
-    err := nami.sh(`mysql`, `-e`, `CREATE USER 'root'@'%' IDENTIFIED BY '111111'`)
+    err := nami.sh(`mysql`, `-e`, `CREATE USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY '111111'`)
     if is_error(err) {
         fmt.println(err)
         os.exit(1)
