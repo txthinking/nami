@@ -13,9 +13,8 @@ mysql -e "CREATE USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY '11111
 mysql -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION"
 mysql -e "delete from mysql.user where Host='localhost' and User='root'"
 mysql -e "FLUSH PRIVILEGES"
-echo "[mysqld]" > /etc/mysql/my.cnf
-echo "default_authentication_plugin=mysql_native_password" >> /etc/mysql/my.cnf
-echo "host: % user: root password: 111111"
+echo "default_authentication_plugin=mysql_native_password" >> /etc/mysql/mysql.conf.d/mysqld.cnf
+echo "address: 127.0.0.1:3306 user: root password: 111111"
 `)
 if is_error(err) {
     fmt.println(err)
