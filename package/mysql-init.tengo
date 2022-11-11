@@ -30,6 +30,11 @@ if nami.os == "linux" {
         os.exit(1)
     }
     fmt.println("mysql-init: host: % user: root password: 111111")
+    err = nami.write_file("/etc/mysql/my.cnf", "[mysqld]\ndefault_authentication_plugin=mysql_native_password")
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
 }
 if !got {
     fmt.println("mysql-init does not support your OS or Arch now. PR welcome: https://github.com/txthinking/nami/blob/master/package")
