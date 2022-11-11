@@ -1,42 +1,22 @@
 // apt-get install mysql-server mysql-client
 // mysql-init
+// systemctl restart mysql.service
 // mysql -h 127.0.0.1 -u root -p111111
 
 os := import("os")
 fmt := import("fmt")
 nami := import("nami")
 
-got := false
-if nami.os == "linux" {
-    got = true
-    err := nami.sh(`mysql`, `-e`, `CREATE USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY '111111'`)
-    if is_error(err) {
-        fmt.println(err)
-        os.exit(1)
-    }
-    err = nami.sh(`mysql`, `-e`, `GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION`)
-    if is_error(err) {
-        fmt.println(err)
-        os.exit(1)
-    }
-    err = nami.sh(`mysql`, `-e`, `delete from mysql.user where Host='localhost' and User='root'`)
-    if is_error(err) {
-        fmt.println(err)
-        os.exit(1)
-    }
-    err = nami.sh(`mysql`, `-e`, `FLUSH PRIVILEGES`)
-    if is_error(err) {
-        fmt.println(err)
-        os.exit(1)
-    }
-    fmt.println("mysql-init: host: % user: root password: 111111")
-    err = nami.write_file("/etc/mysql/my.cnf", "[mysqld]\ndefault_authentication_plugin=mysql_native_password")
-    if is_error(err) {
-        fmt.println(err)
-        os.exit(1)
-    }
-}
-if !got {
-    fmt.println("mysql-init does not support your OS or Arch now. PR welcome: https://github.com/txthinking/nami/blob/master/package")
+err := nami.write_file(text.join([nami.cache_dir, "prettier"], os.path_separator), `#!/bin/bash
+mysql -e 'CREATE USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY '111111''
+mysql -e 'GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION'
+mysql -e 'delete from mysql.user where Host='localhost' and User='root''
+mysql -e 'FLUSH PRIVILEGES'
+echo '[mysqld]' > /etc/mysql/my.cnf
+echo 'default_authentication_plugin=mysql_native_password' >> /etc/mysql/my.cnf
+echo "host: % user: root password: 111111"
+`)
+if is_error(err) {
+    fmt.println(err)
     os.exit(1)
 }
