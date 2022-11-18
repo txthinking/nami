@@ -30,11 +30,11 @@ if joker != "" {
     l := text.split(s, "\n")
     for v in l {
         l1 := text.re_split(`\s+`, text.trim_space(v), -1)
-        if is_error(l1) || len(l1) < 4 {
+        if is_error(l1) || len(l1) < 5 {
             continue
         }
         i = append(i, l1[0])
-        c = append(c, text.join(enum.map(l1[3:], func(_, v){return "'"+v+"'"}), " "))
+        c = append(c, text.join(enum.map(l1[4:], func(_, v){return "'"+v+"'"}), " "))
     }
     for v in i {
         _ := nami.sh("joker", "stop", v)
