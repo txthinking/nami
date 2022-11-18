@@ -22,55 +22,65 @@ if (nami.os != "darwin" && nami.os != "linux") || (nami.arch != "arm64" && nami.
     os.exit(1)
 }
 
-i := []
-c := []
-joker := nami.sh1("which", "joker")
-if joker != "" {
-    s := nami.sh1("joker", "list")
-    l := text.split(s, "\n")
-    for v in l {
-        l1 := text.re_split(`\s+`, text.trim_space(v), -1)
-        if is_error(l1) || len(l1) < 5 {
-            continue
-        }
-        i = append(i, l1[0])
-        c = append(c, text.join(enum.map(l1[4:], func(_, v){return "'"+v+"'"}), " "))
-    }
-    for v in i {
-        _ := nami.sh("joker", "stop", v)
-    }
-    err := nami.sh("sleep", "3")
+if nami.os == "darwin" {
+    err = nami.sh(`curl`, `-L`, `--progress-bar`, `https://github.com/txthinking/joker/releases/latest/download/joker_`+nami.os+`_`+nami.arch, `-o`, text.join([nami.cache_dir, "joker"], os.path_separator))
     if is_error(err) {
         fmt.println(err)
         os.exit(1)
     }
 }
-err = nami.sh(`curl`, `-L`, `--progress-bar`, `https://github.com/txthinking/joker/releases/latest/download/joker_`+nami.os+`_`+nami.arch, `-o`, text.join([nami.cache_dir, "joker"], os.path_separator))
-if is_error(err) {
-    fmt.println(err)
-    os.exit(1)
-}
-err = nami.sh("cp", text.join([nami.cache_dir, "joker"], os.path_separator), text.join([nami.bin_dir, "joker"], os.path_separator))
-if is_error(err) {
-    fmt.println(err)
-    os.exit(1)
-}
-err = nami.sh("cp", text.join([nami.cache_dir, "joker"], os.path_separator), text.join([nami.copied_dir, "joker"], os.path_separator))
-if is_error(err) {
-    fmt.println(err)
-    os.exit(1)
-}
-err = nami.sh("chmod", "+x", text.join([nami.bin_dir, "joker"], os.path_separator))
-if is_error(err) {
-    fmt.println(err)
-    os.exit(1)
-}
-if joker != "" {
-    for v in c {
-        err := nami.sh("sh", "-c", "joker " + v)
+
+if nami.os == "linux" {
+    i := []
+    c := []
+    joker := nami.sh1("which", "joker")
+    if joker != "" {
+        s := nami.sh1("joker", "list")
+        l := text.split(s, "\n")
+        for v in l {
+            l1 := text.re_split(`\s+`, text.trim_space(v), -1)
+            if is_error(l1) || len(l1) < 5 {
+                continue
+            }
+            i = append(i, l1[0])
+            c = append(c, text.join(enum.map(l1[4:], func(_, v){return "'"+v+"'"}), " "))
+        }
+        for v in i {
+            _ := nami.sh("joker", "stop", v)
+        }
+        err := nami.sh("sleep", "3")
         if is_error(err) {
             fmt.println(err)
             os.exit(1)
+        }
+    }
+    err = nami.sh(`curl`, `-L`, `--progress-bar`, `https://github.com/txthinking/joker/releases/latest/download/joker_`+nami.os+`_`+nami.arch, `-o`, text.join([nami.cache_dir, "joker"], os.path_separator))
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+    err = nami.sh("cp", text.join([nami.cache_dir, "joker"], os.path_separator), text.join([nami.bin_dir, "joker"], os.path_separator))
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+    err = nami.sh("cp", text.join([nami.cache_dir, "joker"], os.path_separator), text.join([nami.copied_dir, "joker"], os.path_separator))
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+    err = nami.sh("chmod", "+x", text.join([nami.bin_dir, "joker"], os.path_separator))
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+    if joker != "" {
+        for v in c {
+            err := nami.sh("sh", "-c", "joker " + v)
+            if is_error(err) {
+                fmt.println(err)
+                os.exit(1)
+            }
         }
     }
 }
