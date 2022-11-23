@@ -17,17 +17,9 @@ if is_error(err) {
     os.exit(1)
 }
 
-if (nami.os != "darwin" && nami.os != "linux") || (nami.arch != "arm64" && nami.arch != "amd64") {
+if nami.os != "linux" || (nami.arch != "arm64" && nami.arch != "amd64") {
     fmt.println("joker does not support your OS or Arch now. PR welcome: https://github.com/txthinking/nami/blob/master/package")
     os.exit(1)
-}
-
-if nami.os == "darwin" {
-    err = nami.sh(`curl`, `-L`, `--progress-bar`, `https://github.com/txthinking/joker/releases/latest/download/joker_`+nami.os+`_`+nami.arch, `-o`, text.join([nami.cache_dir, "joker"], os.path_separator))
-    if is_error(err) {
-        fmt.println(err)
-        os.exit(1)
-    }
 }
 
 if nami.os == "linux" {
