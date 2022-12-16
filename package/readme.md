@@ -24,13 +24,13 @@ nami := import("nami")
 
 ### Constants
 
--   `os`
--   `arch`
--   `home_dir`
--   `bin_dir`
--   `cache_dir`
--   `copied_dir`
--   `tmp_dir`
+-   `os`: `linux`/`darwin`/`windows`/...
+-   `arch`: `amd64`/`arm64`/...
+-   `home_dir`: user home dir
+-   `bin_dir`: nami bin dir
+-   `cache_dir`: files in this dir will be copy to bin_dir when done
+-   `copied_dir`: if you copied some files from cache_dir to bin_dir in script, you should copy this files to this dir too
+-   `tmp_dir`: tmp dir, you can do some prepare working.
 
 ### Functions
 
