@@ -1,7 +1,0 @@
-os := import("os")
-fmt := import("fmt")
-
-fmt.println("testbrook is deprecated, try:")
-fmt.println("$ nami install brook")
-fmt.println("$ brook testbrook")
-os.exit(1)
