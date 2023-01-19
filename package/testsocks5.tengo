@@ -1,7 +1,0 @@
-os := import("os")
-fmt := import("fmt")
-
-fmt.println("testsocks5 is deprecated, try:")
-fmt.println("$ nami install brook")
-fmt.println("$ brook testsocks5")
-os.exit(1)
