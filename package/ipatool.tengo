@@ -35,7 +35,7 @@ if (nami.os == "linux" || nami.os == "darwin" || nami.os == "windows") && (nami.
         nami.sh("mv", text.join([nami.tmp_dir, "_", "bin", "ipatool"+"-"+v[1:]+"-"+s+"-"+nami.arch], os.path_separator), text.join([nami.cache_dir, "ipatool"], os.path_separator))
     }
     if nami.os == "windows" {
-        nami.sh("cd '"+nami.tmp_dir+"' && tar zxvf _.tgz && mv bin/ipatool"+"-"+v[1:]+"-"+s+"-"+nami.arch+" ../bin/ipatool.exe")
+        nami.sh("sh", "-c", "cd '"+nami.tmp_dir+"' && tar zxvf _.tgz && mv bin/ipatool"+"-"+v[1:]+"-"+s+"-"+nami.arch+" ../cache/ipatool.exe")
     }
 }
 
