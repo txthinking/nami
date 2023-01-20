@@ -30,8 +30,13 @@ if (nami.os == "linux" || nami.os == "darwin" || nami.os == "windows") && (nami.
     }
     nami.sh("rm", "-rf", text.join([nami.tmp_dir, "_"], os.path_separator))
     nami.sh("mkdir", text.join([nami.tmp_dir, "_"], os.path_separator))
-    nami.sh("tar", "zxvf", text.join([nami.tmp_dir, "_.tgz"], os.path_separator), "-C", text.join([nami.tmp_dir, "_"], os.path_separator))
-    nami.sh("mv", text.join([nami.tmp_dir, "_", "bin", "ipatool"+"-"+v[1:]+"-"+s+"-"+nami.arch], os.path_separator), text.join([nami.cache_dir, "ipatool"], os.path_separator))
+    if nami.os != "windows" {
+        nami.sh("tar", "zxvf", text.join([nami.tmp_dir, "_.tgz"], os.path_separator), "-C", text.join([nami.tmp_dir, "_"], os.path_separator))
+        nami.sh("mv", text.join([nami.tmp_dir, "_", "bin", "ipatool"+"-"+v[1:]+"-"+s+"-"+nami.arch], os.path_separator), text.join([nami.cache_dir, "ipatool"], os.path_separator))
+    }
+    if nami.os == "windows" {
+        nami.sh("cd '"+nami.tmp_dir+"' && tar zxvf _.tgz && mv bin/ipatool"+"-"+v[1:]+"-"+s+"-"+nami.arch+" ../bin/ipatool.exe")
+    }
 }
 
 if !got {
