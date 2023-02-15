@@ -70,6 +70,7 @@ map <leader>gm :GoMetaLinter<CR>
 map <leader>gp :GoPlay<CR>
 
 Plugin 'dart-lang/dart-vim-plugin'
+let g:dartfmt_options = ['--line-length', '1000']
 let dart_format_on_save = 1
 
 Plugin 'plasticboy/vim-markdown'
