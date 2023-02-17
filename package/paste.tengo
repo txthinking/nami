@@ -11,27 +11,23 @@ if is_error(os.exec_look_path("tengo")) {
     os.exit(1)
 }
 
-err := nami.write_file(text.join([nami.cache_dir, "paste"], os.path_separator), `#!/usr/bin/env tengo
-os := import("os")
-json := import("json")
-fmt := import("fmt")
-
-if len(os.args()) < 3 {
-    fmt.println("$ paste path/to/file.txt")
-    os.exit(1)
+err := nami.write_file(text.join([nami.cache_dir, "paste"], os.path_separator), `#!/usr/bin/env -S deno run -A
+if (Deno.args.length == 0) {
+    console.log("$ paste path/to/txt");
+    Deno.exit(1);
 }
-b := os.read_file(os.args()[2])
-t := 1
-if len(os.args()) >= 4 {
-    t = int(os.args()[3])
-}
-e := 600
-if len(os.args()) >= 5 {
-    e = int(os.args()[4])
-}
-b = json.encode({Times: t, ExpiredAt: e, Content: string(b)})
-b = os.exec("curl", "-d", string(b), "https://ooo.soso.ooo/set").output()
-fmt.println("https://ooo.soso.ooo/get?id="+string(b))
+var r = await fetch("https://ooo.soso.ooo/set", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+        Content: new TextDecoder().decode(await Deno.readFile(Deno.args[0])),
+        Times: parseInt(Deno.args.length >= 2 ? Deno.args[1] : 1),
+        ExpiredAt: parseInt(Deno.args.length >= 3 ? Deno.args[2] : 600),
+    }),
+});
+console.log("https://ooo.soso.ooo/get?id=" + (await r.text()));
 `)
 if is_error(err) {
     fmt.println(err)
