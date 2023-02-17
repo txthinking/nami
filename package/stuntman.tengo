@@ -1,0 +1,59 @@
+os := import("os")
+fmt := import("fmt")
+text := import("text")
+nami := import("nami")
+json := import("json")
+
+v := ""
+if nami.os == "darwin" {
+    v = "1.2.13"
+}
+if nami.os == "windows" {
+    v = "1.2.16"
+}
+if v == "" {
+    fmt.println("stuntman does not support your OS or Arch now. PR welcome: https://github.com/txthinking/nami/blob/master/package")
+    os.exit(1)
+}
+
+err := nami.write_file(text.join([nami.cache_dir, "version"], os.path_separator), v)
+if is_error(err) {
+    fmt.println(err)
+    os.exit(1)
+}
+
+if nami.os == "darwin" {
+    if err := nami.sh("which", "7z"); is_error(err){
+        fmt.println("Please install 7z first: $ nami install 7z")
+        os.exit(1)
+    }
+    err = nami.sh("curl", "-L", "--progress-bar", "https://master.dl.sourceforge.net/project/stuntman/stunserver_osx_1_2_13.zip", "-o", nami.tmp_dir + "/_.zip")
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+    nami.sh("rm", "-rf", nami.tmp_dir + "/_")
+    nami.sh("mkdir", nami.tmp_dir + "/_")
+    nami.sh("7z", "x", nami.tmp_dir + "/_.zip", "-o" + nami.tmp_dir + "/_")
+    nami.sh("mv", nami.tmp_dir + "/_/stunserver", nami.cache_dir + "/stunserver")
+    nami.sh("mv", nami.tmp_dir + "/_/stunclient", nami.cache_dir + "/stunclient")
+    nami.sh("mv", nami.tmp_dir + "/_/stuntestcode", nami.cache_dir + "/stuntestcode")
+}
+if nami.os == "windows" {
+    err = nami.sh("curl", "-L", "--progress-bar", "https://master.dl.sourceforge.net/project/stuntman/stunserver_win64_1_2_16.zip", "-o", nami.tmp_dir + "/_.zip")
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+    nami.sh("rm", "-rf", nami.tmp_dir + "/_")
+    nami.sh("mkdir", nami.tmp_dir + "/_")
+    nami.sh("unzip", nami.tmp_dir + "/_.zip", "-d", nami.tmp_dir + "/_")
+    nami.sh("mv", nami.tmp_dir + "/_/release/cygcrypto-1.1.dll", nami.cache_dir + "/cygcrypto-1.1.dll")
+    nami.sh("mv", nami.tmp_dir + "/_/release/cyggcc_s-seh-1.dll", nami.cache_dir + "/cyggcc_s-seh-1.dll")
+    nami.sh("mv", nami.tmp_dir + "/_/release/cygstdc++-6.dll", nami.cache_dir + "/cygstdc++-6.dll")
+    nami.sh("mv", nami.tmp_dir + "/_/release/cygwin1.dll", nami.cache_dir + "/cygwin1.dll")
+    nami.sh("mv", nami.tmp_dir + "/_/release/cygz.dll", nami.cache_dir + "/cygz.dll")
+    nami.sh("mv", nami.tmp_dir + "/_/release/stunserver.exe", nami.cache_dir + "/stunserver.exe")
+    nami.sh("mv", nami.tmp_dir + "/_/release/stunclient.exe", nami.cache_dir + "/stunclient.exe")
+    nami.sh("mv", nami.tmp_dir + "/_/release/stuntestcode.exe", nami.cache_dir + "/stuntestcode.exe")
+}
