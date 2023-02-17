@@ -5,9 +5,9 @@ fmt := import("fmt")
 text := import("text")
 nami := import("nami")
 
-if is_error(os.exec_look_path("tengo")) {
-    fmt.println("you need install tengo first")
-    fmt.println("$ nami install tengo")
+if is_error(os.exec_look_path("deno")) {
+    fmt.println("you need install deno first")
+    fmt.println("$ nami install deno")
     os.exit(1)
 }
 
