@@ -1,0 +1,39 @@
+// $ paste path/to/file.txt
+
+os := import("os")
+fmt := import("fmt")
+text := import("text")
+nami := import("nami")
+
+if is_error(os.exec_look_path("tengo")) {
+    fmt.println("you need install tengo first")
+    fmt.println("$ nami install tengo")
+    os.exit(1)
+}
+
+err := nami.write_file(text.join([nami.cache_dir, "paste"], os.path_separator), `#!/usr/bin/env tengo
+os := import("os")
+json := import("json")
+fmt := import("fmt")
+
+if len(os.args()) < 3 {
+    fmt.println("$ paste path/to/file.txt")
+    os.exit(1)
+}
+b := os.read_file(os.args()[2])
+t := 1
+if len(os.args()) >= 4 {
+    t = int(os.args()[3])
+}
+e := 600
+if len(os.args()) >= 5 {
+    e = int(os.args()[4])
+}
+b = json.encode({Times: t, ExpiredAt: e, Content: string(b)})
+b = os.exec("curl", "-d", string(b), "https://ooo.soso.ooo/set").output()
+fmt.println("https://ooo.soso.ooo/get?id="+string(b))
+`)
+if is_error(err) {
+    fmt.println(err)
+    os.exit(1)
+}
