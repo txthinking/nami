@@ -3,7 +3,6 @@
 [中文](readme_zh.md)
 
 [🗣 News](https://t.me/txthinking_news)
-[💬 Chat](https://join.txthinking.com)
 [🩸 Youtube](https://www.youtube.com/txthinking)
 [❤️ Sponsor](https://github.com/sponsors/txthinking)
 
@@ -15,7 +14,7 @@ The easy way to download anything from anywhere. All files are stored in `$HOME/
 
     bash <(curl https://bash.ooo/nami.sh)
 
-> Windows user should run in [Git Bash](https://gitforwindows.org/), [Video](https://www.youtube.com/watch?v=CioIqzSlXl8)
+> ⚠️ Windows user should run in [Git Bash](https://gitforwindows.org/), [Video](https://www.youtube.com/watch?v=CioIqzSlXl8)
 
 ### Example
 
