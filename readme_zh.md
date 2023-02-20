@@ -3,7 +3,6 @@
 [English](readme.md)
 
 [🗣 News](https://t.me/txthinking_news)
-[💬 Chat](https://join.txthinking.com)
 [🩸 Youtube](https://www.youtube.com/txthinking)
 [❤️ Sponsor](https://github.com/sponsors/txthinking)
 
@@ -15,7 +14,7 @@
 
     bash <(curl https://bash.ooo/nami.sh)
 
-> Windows 用户应该使用 [Git Bash](https://gitforwindows.org/) 运行命令, [视频](https://www.youtube.com/watch?v=CioIqzSlXl8)
+> ⚠️ Windows 用户应该使用 [Git Bash](https://gitforwindows.org/) 运行命令, [视频](https://www.youtube.com/watch?v=CioIqzSlXl8)
 
 ### 举例
 
