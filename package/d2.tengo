@@ -1,0 +1,41 @@
+os := import("os")
+fmt := import("fmt")
+text := import("text")
+nami := import("nami")
+json := import("json")
+
+b := nami.sh1(`curl`, `-L`, `https://api.github.com/repos/terrastruct/d2/releases/latest`)
+if is_error(b) {
+    fmt.println(b)
+    os.exit(1)
+}
+v := json.decode(b).tag_name
+err := nami.write_file(text.join([nami.cache_dir, "version"], os.path_separator), v)
+if is_error(err) {
+    fmt.println(err)
+    os.exit(1)
+}
+
+if (nami.os != "linux" && nami.os != "darwin" && nami.os != "windows") || (nami.arch != "amd64" && nami.arch != "arm64") {
+    fmt.println("d2 does not support your OS or Arch now. PR welcome: https://github.com/txthinking/nami/blob/master/package")
+    os.exit(1)
+}
+
+
+s := nami.os
+if s == "darwin" {
+    s = "macos"
+}
+err = nami.sh(`curl`, `-L`, `--progress-bar`, `https://github.com/terrastruct/d2/releases/latest/download/d2-v0.2.4-`+s+`-`+nami.arch+`.tar.gz`, `-o`, nami.tmp_dir+"/_.tgz")
+if is_error(err) {
+    fmt.println(err)
+    os.exit(1)
+}
+nami.sh("rm", "-rf", nami.tmp_dir + "/_")
+nami.sh("mkdir", nami.tmp_dir + "/_")
+nami.sh("tar", "zxvf", nami.tmp_dir + "/_.tgz", "-C", nami.tmp_dir + "/_")
+exe := ""
+if nami.os == "windows"{
+    exe = ".exe"
+}
+nami.sh("mv", nami.tmp_dir + "/_/d2-"+v+"/bin/d2"+exe, nami.cache_dir + "/d2"+exe)
