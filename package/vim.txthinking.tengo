@@ -73,9 +73,6 @@ Plugin 'dart-lang/dart-vim-plugin'
 let g:dartfmt_options = ['--line-length', '1000']
 let dart_format_on_save = 1
 
-Plugin 'plasticboy/vim-markdown'
-let g:vim_markdown_folding_disabled=1
-
 Plugin 'prettier/vim-prettier'
 let g:prettier#autoformat = 1
 let g:prettier#autoformat_require_pragma = 0
