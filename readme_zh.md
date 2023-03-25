@@ -2,9 +2,8 @@
 
 [English](readme.md)
 
-[🗣 News](https://t.me/txthinking_news)
+[🗣 News](https://t.me/s/txthinking_news)
 [🩸 Youtube](https://www.youtube.com/txthinking)
-[❤️ Sponsor](https://github.com/sponsors/txthinking)
 
 从任何地方下载任何东西. 所有的文件都存储在 `$HOME/.nami` 目录下.
 
