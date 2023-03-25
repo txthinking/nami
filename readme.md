@@ -2,9 +2,8 @@
 
 [中文](readme_zh.md)
 
-[🗣 News](https://t.me/txthinking_news)
+[🗣 News](https://t.me/s/txthinking_news)
 [🩸 Youtube](https://www.youtube.com/txthinking)
-[❤️ Sponsor](https://github.com/sponsors/txthinking)
 
 The easy way to download anything from anywhere. All files are stored in `$HOME/.nami`.
 
