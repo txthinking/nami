@@ -43,7 +43,7 @@ Plugin 'vim-scripts/matchit.zip'
 Plugin 'ntpeters/vim-better-whitespace'
 autocmd BufEnter * EnableStripWhitespaceOnSave
 
-Plugin 'ajh17/VimCompletesMe'
+Plugin 'vim-scripts/VimCompletesMe'
 
 Plugin 'vim-scripts/Align'
 Plugin 'vim-scripts/DrawIt'
