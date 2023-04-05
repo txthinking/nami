@@ -26,7 +26,7 @@ s := nami.os
 if s == "darwin" {
     s = "macos"
 }
-err = nami.sh(`curl`, `-L`, `--progress-bar`, `https://github.com/terrastruct/d2/releases/latest/download/d2-v0.2.4-`+s+`-`+nami.arch+`.tar.gz`, `-o`, nami.tmp_dir+"/_.tgz")
+err = nami.sh(`curl`, `-L`, `--progress-bar`, `https://github.com/terrastruct/d2/releases/latest/download/d2-`+v+`-`+s+`-`+nami.arch+`.tar.gz`, `-o`, nami.tmp_dir+"/_.tgz")
 if is_error(err) {
     fmt.println(err)
     os.exit(1)
