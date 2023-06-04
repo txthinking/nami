@@ -4,7 +4,7 @@ text := import("text")
 nami := import("nami")
 json := import("json")
 
-b := nami.sh1("curl", "-L", "https://api.github.com/repos/Jarred-Sumner/bun/releases/latest")
+b := nami.sh1("curl", "-L", "https://api.github.com/repos/oven-sh/bun/releases/latest")
 if is_error(b) {
     fmt.println(b)
     os.exit(1)
@@ -24,7 +24,7 @@ if err := nami.sh("which", "7z"); is_error(err){
 got := false
 if nami.os == "darwin" && nami.arch == "arm64" {
     got = true
-    err := nami.sh("curl", "-L", "--progress-bar", "https://github.com/Jarred-Sumner/bun/releases/latest/download/bun-darwin-aarch64.zip", "-o", text.join([nami.tmp_dir, "_.zip"], os.path_separator))
+    err := nami.sh("curl", "-L", "--progress-bar", "https://github.com/oven-sh/bun/releases/latest/download/bun-darwin-aarch64.zip", "-o", text.join([nami.tmp_dir, "_.zip"], os.path_separator))
     if is_error(err) {
         fmt.println(err)
         os.exit(1)
@@ -36,7 +36,7 @@ if nami.os == "darwin" && nami.arch == "arm64" {
 }
 if nami.os == "darwin" && nami.arch == "amd64" {
     got = true
-    err := nami.sh("curl", "-L", "--progress-bar", "https://github.com/Jarred-Sumner/bun/releases/latest/download/bun-darwin-x64.zip", "-o", text.join([nami.tmp_dir, "_.zip"], os.path_separator))
+    err := nami.sh("curl", "-L", "--progress-bar", "https://github.com/oven-sh/bun/releases/latest/download/bun-darwin-x64.zip", "-o", text.join([nami.tmp_dir, "_.zip"], os.path_separator))
     if is_error(err) {
         fmt.println(err)
         os.exit(1)
@@ -48,7 +48,7 @@ if nami.os == "darwin" && nami.arch == "amd64" {
 }
 if nami.os == "linux" && nami.arch == "amd64" {
     got = true
-    err := nami.sh("curl", "-L", "--progress-bar", "https://github.com/Jarred-Sumner/bun/releases/latest/download/bun-linux-x64.zip", "-o", text.join([nami.tmp_dir, "_.zip"], os.path_separator))
+    err := nami.sh("curl", "-L", "--progress-bar", "https://github.com/oven-sh/bun/releases/latest/download/bun-linux-x64.zip", "-o", text.join([nami.tmp_dir, "_.zip"], os.path_separator))
     if is_error(err) {
         fmt.println(err)
         os.exit(1)
