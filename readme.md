@@ -93,9 +93,7 @@ Defaults        !env_reset
 | yt-dlp | Command-line program to download videos from YouTube.com and other video sites | [Website](https://github.com/ytdl-org/youtube-dl/) |
 | zoro | zoro can help you expose local server to external network. Support both TCP/UDP, of course support HTTP. Zero-Configuration. zoro 帮助你将本地端口暴露在外网.支持 TCP/UDP, 当然也支持 HTTP. 内网穿透. | [Website](https://github.com/txthinking/zoro) |
 
----
-
-# How to create package
+# How to create a package
 
 ### Step 1
 
@@ -115,9 +113,7 @@ Put `exmaple.js` to your own http server, then you can `nami install https://you
 
 Checkout example [shadowsocks.js](https://github.com/txthinking/nami/blob/master/package/shadowsocks.js)
 
-# jb script `.js`
-
-The `nami` variable has built-in jb.
+# The `nami` variable has built-in jb.
 
 Most commonly used
 
