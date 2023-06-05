@@ -111,7 +111,7 @@ OR
 
 Put `exmaple.js` to your own http server, then you can `nami install https://yourserver.com/exmaple.js`
 
-Checkout example [httpserver](https://github.com/txthinking/nami/blob/master/package/httpserver.js) and [shadowsocks.js](https://github.com/txthinking/nami/blob/master/package/shadowsocks.js)
+Checkout example [httpserver.js](https://github.com/txthinking/nami/blob/master/package/httpserver.js) and [shadowsocks.js](https://github.com/txthinking/nami/blob/master/package/shadowsocks.js)
 
 # The `nami` variable has built-in jb.
 
