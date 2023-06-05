@@ -15,15 +15,13 @@
 package main
 
 import (
+	"errors"
 	"log"
-	"os"
 	"os/exec"
 	"testing"
 )
 
 func TestTest(t *testing.T) {
-	cmd := exec.Command("deno", "run", "-A", "./package/brook.js")
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
-	log.Println(cmd.Run())
+	path, err := exec.LookPath("nami")
+	log.Println(path, errors.Is(err, exec.ErrNotFound))
 }

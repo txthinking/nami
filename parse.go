@@ -22,44 +22,63 @@ import (
 	"strings"
 )
 
-func (nm *Nami) Parse(input string) (string, string, error) {
+func (nm *Nami) Parse(input string) (string, string, string, error) {
 	if strings.HasSuffix(input, ".tengo") && (strings.HasPrefix(input, "http://") || strings.HasPrefix(input, "https://")) {
 		n := input[strings.LastIndex(input, "/")+1:]
 		n = strings.TrimSuffix(n, ".tengo")
 		res, err := http.Get(input)
 		if err != nil {
-			return "", "", err
+			return "", "", "", err
 		}
 		defer res.Body.Close()
 		b, err := io.ReadAll(res.Body)
 		if err != nil {
-			return "", "", err
+			return "", "", "", err
 		}
 		if res.StatusCode != 200 {
-			return "", "", errors.New("Package not found")
+			return "", "", "", errors.New("Package not found")
 		}
-		return n, string(b), nil
+		return n, string(b), "", nil
 	}
 	if strings.HasSuffix(input, ".tengo") && !(strings.HasPrefix(input, "http://") || strings.HasPrefix(input, "https://")) {
 		n := input[strings.LastIndex(input, "/")+1:]
 		n = strings.TrimSuffix(n, ".tengo")
 		b, err := ioutil.ReadFile(input)
 		if err != nil {
-			return "", "", err
+			return "", "", "", err
 		}
-		return n, string(b), nil
+		return n, string(b), "", nil
 	}
+	if strings.HasSuffix(input, ".js") {
+		n := input[strings.LastIndex(input, "/")+1:]
+		n = strings.TrimSuffix(n, ".js")
+		return n, "", input, nil
+	}
+
+	res0, err := http.Get("https://raw.githubusercontent.com/txthinking/nami/master/package/" + input + ".js")
+	if err != nil {
+		return "", "", "", err
+	}
+	defer res0.Body.Close()
+	io.Copy(ioutil.Discard, res0.Body)
+	if res0.StatusCode == 200 {
+		return input, "", "https://raw.githubusercontent.com/txthinking/nami/master/package/" + input + ".js", nil
+	}
+	if res0.StatusCode != 404 {
+		return "", "", "", errors.New(res0.Status)
+	}
+
 	res, err := http.Get("https://raw.githubusercontent.com/txthinking/nami/master/package/" + input + ".tengo")
 	if err != nil {
-		return "", "", err
+		return "", "", "", err
 	}
 	defer res.Body.Close()
 	b, err := io.ReadAll(res.Body)
 	if err != nil {
-		return "", "", err
+		return "", "", "", err
 	}
 	if res.StatusCode != 200 {
-		return "", "", errors.New(res.Status + ": " + string(b))
+		return "", "", "", errors.New(res.Status + ": " + string(b))
 	}
-	return input, string(b), nil
+	return input, string(b), "", nil
 }

@@ -27,7 +27,7 @@ import (
 func main() {
 	app := cli.NewApp()
 	app.Name = "nami"
-	app.Version = "20220606"
+	app.Version = "20230605"
 	app.Usage = "The easy way to download anything from anywhere"
 	app.Authors = []*cli.Author{
 		{
@@ -76,11 +76,11 @@ func main() {
 					return nil
 				}
 				for _, v := range c.Args().Slice() {
-					name, script, err := n.Parse(v)
+					name, script, js, err := n.Parse(v)
 					if err != nil {
 						return err
 					}
-					f, err := n.Install(name, script)
+					f, err := n.Install(name, script, js)
 					if err != nil {
 						return err
 					}

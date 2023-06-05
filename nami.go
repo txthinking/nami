@@ -16,6 +16,7 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"log"
@@ -95,16 +96,35 @@ func (n *Nami) CleanCache() error {
 	return nil
 }
 
-func (n *Nami) Install(name, script string) (func(), error) {
+func (n *Nami) Install(name, script, js string) (func(), error) {
 	if err := n.CleanCache(); err != nil {
 		return nil, err
 	}
 
-	ts := tengo.NewScript([]byte(script))
-	ts.SetImports(stdlib.GetModuleMap(stdlib.AllModuleNames()...))
-	if _, err := ts.Run(); err != nil {
-		return nil, err
+	if script != "" {
+		ts := tengo.NewScript([]byte(script))
+		ts.SetImports(stdlib.GetModuleMap(stdlib.AllModuleNames()...))
+		if _, err := ts.Run(); err != nil {
+			return nil, err
+		}
 	}
+	if js != "" {
+		jb, err := exec.LookPath("jb")
+		if err != nil {
+			if errors.Is(err, exec.ErrNotFound) {
+				return nil, errors.New("Need install jb first: $ nami install jb")
+			}
+			return nil, err
+		}
+		cmd := exec.Command(jb, js)
+		// cmd.Env = os.Environ()
+		cmd.Stdout = os.Stdout
+		cmd.Stderr = os.Stderr
+		if err := cmd.Run(); err != nil {
+			return nil, err
+		}
+	}
+
 	p := &Package{
 		Name:  name,
 		Files: make(map[string]string),
