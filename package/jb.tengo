@@ -1,0 +1,55 @@
+os := import("os")
+fmt := import("fmt")
+text := import("text")
+nami := import("nami")
+json := import("json")
+
+b := nami.sh1(`curl`, `-L`, `https://api.github.com/repos/txthinking/jb/releases/latest`)
+if is_error(b) {
+    fmt.println(b)
+    os.exit(1)
+}
+v := json.decode(b).tag_name
+err := nami.write_file(text.join([nami.cache_dir, "version"], os.path_separator), v)
+if is_error(err) {
+    fmt.println(err)
+    os.exit(1)
+}
+
+got := false
+if nami.os == "linux" && nami.arch == "amd64" {
+    got = true
+    err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://github.com/txthinking/jb/releases/latest/download/jb_linux_amd64`, `-o`, text.join([nami.cache_dir, "jb"], os.path_separator))
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+}
+if nami.os == "linux" && nami.arch == "arm64" {
+    got = true
+    err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://github.com/txthinking/jb/releases/latest/download/jb_linux_arm64`, `-o`, text.join([nami.cache_dir, "jb"], os.path_separator))
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+}
+if nami.os == "darwin" && nami.arch == "amd64" {
+    got = true
+    err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://github.com/txthinking/jb/releases/latest/download/jb_darwin_amd64`, `-o`, text.join([nami.cache_dir, "jb"], os.path_separator))
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+}
+if nami.os == "darwin" && nami.arch == "arm64" {
+    got = true
+    err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://github.com/txthinking/jb/releases/latest/download/jb_darwin_arm64`, `-o`, text.join([nami.cache_dir, "jb"], os.path_separator))
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+}
+if !got {
+    fmt.println("jb does not support your OS or Arch now. PR welcome: https://github.com/txthinking/nami/blob/master/package")
+    os.exit(1)
+}
