@@ -28,7 +28,7 @@ if (nami.os == "linux" && nami.arch == "amd64") {
         'flyctl': `${nami.cache_dir}/flyctl`,
     })
 }
-if (nami.os == "linux" && nami.arch == "amd64") {
+if (nami.os == "linux" && nami.arch == "arm64") {
     cp(`https://github.com/superfly/flyctl/releases/latest/download/flyctl_${v.substr(1)}_Linux_arm64.tar.gz`, {
         'flyctl': `${nami.cache_dir}/flyctl`,
     })
