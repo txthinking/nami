@@ -125,8 +125,8 @@ Infrequently used
 
 -   `nami.home_dir`: user home dir
 -   `nami.bin_dir`: nami bin dir
--   `nami.copied_dir`: if you copied some files from cache_dir to bin_dir manually in script, you should copy this files to this dir too
--   `nami.tmp_dir`: tmp dir, you can do some prepare working.
+-   `nami.copied_dir`: This is usually used if the command to be installed is running, 1: first get the process command, 2: then stop the process, 3: then copy the command from cache_dir to bin_dir, 4: then copy the command from cache_dir to copied_dir, 5: run the previously stopped process again
+-   `nami.tmp_dir`: tmp dir, you can do some prepare working
 
 ## License
 
