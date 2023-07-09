@@ -18,6 +18,11 @@ if is_error(err) {
 
 got := false
 if nami.os == "linux" && nami.arch == "amd64" {
+    s := nami.sh1("sh", "-c", "cat /proc/cpuinfo | grep avx2")
+    if is_error(s) {
+         fmt.println("Your CPU is too old, please build jb from source: https://github.com/txthinking/jb/blob/master/build.sh#L12")
+         os.exit(1)
+    }
     got = true
     err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://github.com/txthinking/jb/releases/latest/download/jb_linux_amd64`, `-o`, text.join([nami.cache_dir, "jb"], os.path_separator))
     if is_error(err) {
