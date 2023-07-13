@@ -81,6 +81,8 @@ let g:rustfmt_autosave = 1
 
 Plugin 'geseq/tengo-vim'
 
+Plugin 'ziglang/zig.vim'
+
 call vundle#end()
 
 set history=700             " Sets how many lines of history VIM has to remember
