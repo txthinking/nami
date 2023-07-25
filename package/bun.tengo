@@ -61,7 +61,7 @@ if nami.os == "linux" && nami.arch == "amd64" {
     nami.sh("rm", "-rf", text.join([nami.tmp_dir, "_"], os.path_separator))
     nami.sh("mkdir", text.join([nami.tmp_dir, "_"], os.path_separator))
     nami.sh("7z", "x", text.join([nami.tmp_dir, "_.zip"], os.path_separator), "-o" + text.join([nami.tmp_dir, "_"], os.path_separator))
-    nami.sh("mv", text.join([nami.tmp_dir, "_", "bun-linux-x64", "bun"], os.path_separator), text.join([nami.cache_dir, "bun"], os.path_separator))
+    nami.sh("mv", text.join([nami.tmp_dir, "_", "bun-linux-x64"+old, "bun"], os.path_separator), text.join([nami.cache_dir, "bun"], os.path_separator))
 }
 if nami.os == "linux" && nami.arch == "arm64" {
     got = true
