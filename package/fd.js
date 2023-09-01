@@ -20,6 +20,6 @@ if(nami.os == "darwin" && nami.arch == "amd64"){
     s = "fd-"+v+"-x86_64-apple-darwin"
 }
 if(nami.os == "linux"){
-    s = "fd-"+v+"x86_64-unknown-linux-gnu"
+    s = "fd-"+v+"-x86_64-unknown-linux-gnu"
 }
 cp(`https://github.com/sharkdp/fd/releases/latest/download/${s}.tar.gz`, `${s}/fd`, `${nami.cache_dir}/fd`)
