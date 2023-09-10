@@ -4,7 +4,7 @@ text := import("text")
 nami := import("nami")
 json := import("json")
 
-b := nami.sh1(`curl`, `-L`, `https://api.github.com/repos/stedolan/jq/releases/latest`)
+b := nami.sh1(`curl`, `-L`, `https://api.github.com/repos/jqlang/jq/releases/latest`)
 if is_error(b) {
     fmt.println(b)
     os.exit(1)
@@ -17,20 +17,13 @@ if is_error(err) {
 }
 
 got := false
-if nami.os == "darwin" {
+if (nami.os == "linux" || nami.os == "darwin") && (nami.arch == "amd64" || nami.arch == "arm64") {
     got = true
-    if nami.arch == "arm64" {
-        fmt.println("There is no arm64 version, will download amd64 version for you!")
+    s := nami.os
+    if s == "darwin" {
+        s = "macos"
     }
-    err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://github.com/stedolan/jq/releases/latest/download/jq-osx-amd64`, `-o`, text.join([nami.cache_dir, "jq"], os.path_separator))
-    if is_error(err) {
-        fmt.println(err)
-        os.exit(1)
-    }
-}
-if nami.os == "linux" && nami.arch == "amd64" {
-    got = true
-    err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://github.com/stedolan/jq/releases/latest/download/jq-linux64`, `-o`, text.join([nami.cache_dir, "jq"], os.path_separator))
+    err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://github.com/jqlang/jq/releases/latest/download/jq-`+s+`-`+nami.arch, `-o`, text.join([nami.cache_dir, "jq"], os.path_separator))
     if is_error(err) {
         fmt.println(err)
         os.exit(1)
@@ -38,7 +31,7 @@ if nami.os == "linux" && nami.arch == "amd64" {
 }
 if nami.os == "windows" && nami.arch == "amd64" {
     got = true
-    err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://github.com/stedolan/jq/releases/latest/download/jq-win64`, `-o`, text.join([nami.cache_dir, "jq.exe"], os.path_separator))
+    err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://github.com/jqlang/jq/releases/latest/download/jq-windows-amd64.exe`, `-o`, text.join([nami.cache_dir, "jq.exe"], os.path_separator))
     if is_error(err) {
         fmt.println(err)
         os.exit(1)

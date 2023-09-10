@@ -76,7 +76,7 @@ Defaults        !env_reset
 | jinbe | Jinbe can add auto start command at boot. Zero-Configuration. Jinbe 可以添加开机自动启动命令. 无需配置. | [Website](https://github.com/txthinking/jinbe) |
 | joker | Joker can turn process into daemon. Zero-Configuration. Joker 可以将进程变成守护进程. 无需配置. | [Website](https://github.com/txthinking/joker) |
 | jb |  jb = javascript + bash | [Website](https://github.com/txthinking/jb) |
-| jq | Command-line JSON processor | [Website](https://github.com/stedolan/jq) |
+| jq | Command-line JSON processor | [Website](https://github.com/jqlang/jq) |
 | mad | Generate root CA and derivative certificate for any domains and any IPs. 为任何域名和 IP 生成证书 | [Website](https://github.com/txthinking/mad) |
 | markdown | markdown converter | [Website](https://github.com/txthinking/markdown) |
 | marp | A CLI interface for Marp and Marpit based converters | [Website](https://github.com/marp-team/marp-cli) |
