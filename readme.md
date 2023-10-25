@@ -89,6 +89,7 @@ Defaults        !env_reset
 | tengo | A fast script language for Go | [Website](https://github.com/d5/tengo) |
 | tun2brook | Proxy all traffic just one line command. tun2socks, tun2brook. IPv4 and IPv6, TCP and UDP. 只需一行命令. 让系统所有流量全部走 socks5, brook server, brook wsserver, brook wssserver. | [Website](https://github.com/txthinking/tun2brook) |
 | yt-dlp | Command-line program to download videos from YouTube.com and other video sites | [Website](https://github.com/ytdl-org/youtube-dl/) |
+| zigup | Download and manage zig compilers. | [Website](https://github.com/marler8997/zigup) |
 | zoro | zoro can help you expose local server to external network. Support both TCP/UDP, of course support HTTP. Zero-Configuration. zoro 帮助你将本地端口暴露在外网.支持 TCP/UDP, 当然也支持 HTTP. 内网穿透. | [Website](https://github.com/txthinking/zoro) |
 
 # How to create a package
