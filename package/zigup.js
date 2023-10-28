@@ -1,6 +1,5 @@
 // check os
-if(!(nami.os == "darwin" && nami.arch == "arm64") &&
-    !(nami.os == "darwin" && nami.arch == "amd64")){
+if(!(nami.os == "darwin" && nami.arch == "arm64") && !(nami.os == "darwin" && nami.arch == "amd64") && !(nami.os == "linux" && nami.arch == "arm64") && !(nami.os == "linux" && nami.arch == "amd64")){
     echo("This package does not support your OS or Arch now. PR welcome: https://github.com/txthinking/nami/blob/master/package")
     exit(1)
 }
@@ -16,5 +15,11 @@ if(nami.os == "darwin" && nami.arch == "arm64"){
 }
 if(nami.os == "darwin" && nami.arch == "amd64"){
     s = "macos-latest-x86_64"
+}
+if(nami.os == "linux" && nami.arch == "arm64"){
+    s = "ubuntu-latest-aarch64"
+}
+if(nami.os == "linux" && nami.arch == "amd64"){
+    s = "ubuntu-linux-x86_64"
 }
 cp(`https://github.com/marler8997/zigup/releases/latest/download/zigup.${s}.zip`, `zigup`, `${nami.cache_dir}/zigup`)
