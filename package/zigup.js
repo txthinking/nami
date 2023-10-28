@@ -20,6 +20,6 @@ if(nami.os == "linux" && nami.arch == "arm64"){
     s = "ubuntu-latest-aarch64"
 }
 if(nami.os == "linux" && nami.arch == "amd64"){
-    s = "ubuntu-linux-x86_64"
+    s = "ubuntu-latest-x86_64"
 }
 cp(`https://github.com/marler8997/zigup/releases/latest/download/zigup.${s}.zip`, `zigup`, `${nami.cache_dir}/zigup`)
