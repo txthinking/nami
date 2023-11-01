@@ -1,6 +1,6 @@
 # Nami
 
-A clean and tidy package manager.
+A clean and tidy decentralized package manager.
 
 ❤️ A project by [txthinking.com](https://www.txthinking.com)
 
