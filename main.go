@@ -24,11 +24,13 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
+var version = "20231101"
+
 func main() {
 	app := cli.NewApp()
 	app.Name = "nami"
-	app.Version = "20230606"
-	app.Usage = "The easy way to download anything from anywhere"
+	app.Version = version
+	app.Usage = "A clean and tidy package manager."
 	app.Authors = []*cli.Author{
 		{
 			Name:  "Cloud",
@@ -56,7 +58,7 @@ func main() {
 			log.Println("Check nami version", err)
 			return nil
 		}
-		if s > "v20230606" {
+		if s > ("v" + version) {
 			return errors.New("New version: " + s + ", please upgrade nami first: $ nami install nami")
 		}
 		return nil

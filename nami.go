@@ -34,7 +34,7 @@ import (
 
 type Nami struct {
 	HomeDir   string
-	DenoDir   string
+	DirDir    string
 	CacheDir  string
 	BinDir    string
 	DB        *bbolt.DB
@@ -46,6 +46,7 @@ type Package struct {
 	Name    string
 	Version string
 	Files   map[string]string
+	Dirs    []string
 }
 
 func NewNami() (*Nami, error) {
@@ -57,17 +58,21 @@ func NewNami() (*Nami, error) {
 	if err := os.MkdirAll(bin, 0777); err != nil {
 		return nil, err
 	}
+	dir := filepath.Join(s, ".nami", "dir")
+	if err := os.MkdirAll(dir, 0777); err != nil {
+		return nil, err
+	}
 	db, err := bbolt.Open(filepath.Join(s, ".nami", "db"), 0644, nil)
 	if err != nil {
 		return nil, err
 	}
 	n := &Nami{
 		HomeDir:   s,
+		BinDir:    bin,
+		DirDir:    dir,
 		CacheDir:  filepath.Join(s, ".nami", "cache"),
-		DenoDir:   filepath.Join(s, ".nami", "deno"),
 		CopiedDir: filepath.Join(s, ".nami", "copied"),
 		TmpDir:    filepath.Join(s, ".nami", "tmp"),
-		BinDir:    bin,
 		DB:        db,
 	}
 	n.Module()
@@ -128,11 +133,13 @@ func (n *Nami) Install(name, script, js string) (func(), error) {
 	p := &Package{
 		Name:  name,
 		Files: make(map[string]string),
+		Dirs:  make([]string, 0),
 	}
 	files, err := os.ReadDir(n.CacheDir)
 	if err != nil {
 		return nil, err
 	}
+	links := make([]string, 0)
 	for _, file := range files {
 		if file.Name() == "version" {
 			b, err := os.ReadFile(filepath.Join(n.CacheDir, file.Name()))
@@ -142,6 +149,24 @@ func (n *Nami) Install(name, script, js string) (func(), error) {
 			p.Version = string(b)
 			continue
 		}
+		if file.Name() == "links" {
+			b, err := os.ReadFile(filepath.Join(n.CacheDir, file.Name()))
+			if err != nil {
+				return nil, err
+			}
+			links = strings.Split(strings.TrimSpace(string(b)), "\n")
+			continue
+		}
+		if file.IsDir() {
+			p.Dirs = append(p.Dirs, file.Name())
+			if err := os.RemoveAll(filepath.Join(n.DirDir, file.Name())); err != nil {
+				return nil, err
+			}
+			if err := os.Rename(filepath.Join(n.CacheDir, file.Name()), filepath.Join(n.DirDir, file.Name())); err != nil {
+				return nil, err
+			}
+			continue
+		}
 		p.Files[file.Name()] = ""
 		if file.Name() == "nami" || file.Name() == "nami.exe" {
 			if err := os.Chmod(filepath.Join(n.CacheDir, file.Name()), 0755); err != nil {
@@ -149,6 +174,7 @@ func (n *Nami) Install(name, script, js string) (func(), error) {
 			}
 			continue
 		}
+
 		l, err := os.ReadDir(n.CopiedDir)
 		if err != nil {
 			return nil, err
@@ -162,6 +188,7 @@ func (n *Nami) Install(name, script, js string) (func(), error) {
 		if got {
 			continue
 		}
+
 		r, err := os.Open(filepath.Join(n.CacheDir, file.Name()))
 		if err != nil {
 			return nil, err
@@ -176,6 +203,18 @@ func (n *Nami) Install(name, script, js string) (func(), error) {
 			return nil, err
 		}
 	}
+	for _, v := range links {
+		p.Files[filepath.Base(v)] = ""
+		if err := os.Remove(filepath.Join(n.BinDir, filepath.Base(v))); err != nil {
+			if !strings.Contains(err.Error(), "no such file") {
+				return nil, err
+			}
+		}
+		if err := os.Symlink(filepath.Join(n.DirDir, v), filepath.Join(n.BinDir, filepath.Base(v))); err != nil {
+			return nil, err
+		}
+	}
+
 	err = n.DB.Update(func(tx *bbolt.Tx) error {
 		b, err := json.Marshal(p)
 		if err != nil {
@@ -247,6 +286,11 @@ func (n *Nami) Remove(name string) error {
 			return err
 		}
 	}
+	for _, v := range p.Dirs {
+		if err := os.RemoveAll(filepath.Join(n.DirDir, v)); err != nil {
+			return err
+		}
+	}
 	err = n.DB.Update(func(tx *bbolt.Tx) error {
 		t, err := tx.CreateBucketIfNotExists([]byte("package"))
 		if err != nil {
@@ -294,6 +338,7 @@ func (n *Nami) Print(name string, remote bool) {
 	if p == nil {
 		p = &Package{
 			Files: make(map[string]string),
+			Dirs:  make([]string, 0),
 		}
 	}
 	table := tablewriter.NewWriter(os.Stdout)
@@ -303,6 +348,9 @@ func (n *Nami) Print(name string, remote bool) {
 	l := make([]string, 0)
 	for k, _ := range p.Files {
 		l = append(l, k)
+	}
+	for _, v := range p.Dirs {
+		l = append(l, v+"/")
 	}
 	table.Append([]string{"Installed Files", strings.Join(l, ", ")})
 	table.Render()
@@ -324,6 +372,9 @@ func (n *Nami) PrintAll() {
 			l := make([]string, 0)
 			for k, _ := range p.Files {
 				l = append(l, k)
+			}
+			for _, v := range p.Dirs {
+				l = append(l, v+"/")
 			}
 			table.Append([]string{string(k), p.Version, strings.Join(l, ", ")})
 			return nil

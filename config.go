@@ -57,11 +57,9 @@ func (n *Nami) PrintConfigs() {
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetAutoWrapText(false)
 	table.SetHeader([]string{"Key", "Value", "Description"})
-	table.Append([]string{"nami.root", "~/.nami", "Nami root dir, can't be modified"})
 	table.Append([]string{"nami.db", "~/.nami/db", "Nami db file, can't be modified"})
 	table.Append([]string{"nami.bin", "~/.nami/bin", "Nami bin dir, can't be modified"})
-	table.Append([]string{"nami.cache", "~/.nami/cache", "Nami cache dir, can't be modified"})
-	table.Append([]string{"nami.tmp", "~/.nami/tmp", "Nami tmp dir, can't be modified"})
+	table.Append([]string{"nami.dir", "~/.nami/dir", "Nami dir dir, can't be modified"})
 	s, err := n.GetConfig("github.token")
 	if err != nil {
 		log.Println(err)

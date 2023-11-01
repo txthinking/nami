@@ -1,6 +1,6 @@
 # Nami
 
-The easy way to download anything from anywhere. All files are stored in `$HOME/.nami`.
+A clean and tidy package manager.
 
 ❤️ A project by [txthinking.com](https://www.txthinking.com)
 
@@ -24,14 +24,17 @@ You can also upgrade nami by nami
 nami install nami
 ```
 
-With HTTPS_PROXY environment
+<details>
+<summary>With HTTPS_PROXY environment</summary>
 
 ```
 export HTTPS_PROXY=http://127.0.0.1:8010
 nami install brook
 ```
+</details>
 
-Keep PATH with sudo
+<details>
+<summary>Keep PATH with sudo</summary>
 
 ```
 sudo visudo
@@ -41,6 +44,7 @@ sudo visudo
 Defaults        !env_reset
 # Defaults       secure_path=...
 ```
+</details>
 
 ## All officially maintained packages
 
@@ -64,6 +68,7 @@ Defaults        !env_reset
 | ffmpeg | A complete, cross-platform solution to record, convert and stream audio and video. | [Website](https://github.com/txthinking/nami/blob/master/package/ffmpeg.tengo) |
 | filelink | Upload and download file in command line | [Website](https://github.com/txthinking/filelink) |
 | fzf | A command-line fuzzy finder | [Website](https://github.com/junegunn/fzf) |
+| go | An open-source programming language supported by Google | [Website](https://go.dev) |
 | hancock | Manage multiple remote servers and execute commands remotely. 管理多个远程服务器并远程执行命令 | [Website](https://github.com/txthinking/hancock) |
 | hey | HTTP load generator, ApacheBench (ab) replacement | [Website](https://github.com/rakyll/hey) |
 | httpserver | This is a very simple http static server, sometimes we need it for testing | [Website](https://github.com/txthinking/httpserver) |
@@ -80,6 +85,7 @@ Defaults        !env_reset
 | minify | Go minifiers for web formats | [Website](https://github.com/tdewolff/minify) |
 | nami | The easy way to download anything from anywhere. 从任何地方下载任何东西 | [Website](https://github.com/txthinking/nami) |
 | nico | A HTTP3 web server for reverse proxy and single page application, automatically apply for ssl certificate, Zero-Configuration. | [Website](https://github.com/txthinking/nico) |
+| node | Node.js is an open-source, cross-platform JavaScript runtime environment. | [Website](https://nodejs.org) |
 | protoc | Protocol Buffers - Google's data interchange format | [Website](https://github.com/protocolbuffers/protobuf) |
 | rsrc | Tool for embedding .ico & manifest resources in Go programs for Windows. | [Website](https://github.com/akavel/rsrc) |
 | shadowsocks | A Rust port of shadowsocks | [Website](https://github.com/shadowsocks/shadowsocks-rust) |
@@ -89,43 +95,83 @@ Defaults        !env_reset
 | tengo | A fast script language for Go | [Website](https://github.com/d5/tengo) |
 | tun2brook | Proxy all traffic just one line command. tun2socks, tun2brook. IPv4 and IPv6, TCP and UDP. 只需一行命令. 让系统所有流量全部走 socks5, brook server, brook wsserver, brook wssserver. | [Website](https://github.com/txthinking/tun2brook) |
 | yt-dlp | Command-line program to download videos from YouTube.com and other video sites | [Website](https://github.com/ytdl-org/youtube-dl/) |
+| zig | Zig is a general-purpose programming language and toolchain for maintaining robust, optimal and reusable software. | [Website](https://ziglang.org/) |
 | zigup | Download and manage zig compilers. | [Website](https://github.com/marler8997/zigup) |
 | zoro | zoro can help you expose local server to external network. Support both TCP/UDP, of course support HTTP. Zero-Configuration. zoro 帮助你将本地端口暴露在外网.支持 TCP/UDP, 当然也支持 HTTP. 内网穿透. | [Website](https://github.com/txthinking/zoro) |
 
-# How to create a package
+# Directory
 
-### Step 1
+- `$HOME/.nami`: All files of nami
+- `$HOME/.nami/bin`: When installing nami, this path is already added to your $PATH
+- `$HOME/.nami/cache`: This directory will be emptied before installing package
+    - If the package can be standalone executable files:
+        - The script should save only executable files to here. Such as [shadowsocks.tengo](https://github.com/txthinking/nami/blob/master/package/shadowsocks.tengo) or [shadowsocks.js](https://github.com/txthinking/nami/blob/master/package/shadowsocks.js)
+        > After the installation process is finished, nami will copy these files to the `$HOME/.nami/bin` directory
+    - If the package is a directory:
+        - The script should save the directory into here. Such as [go.tengo](https://github.com/txthinking/nami/blob/master/package/go.tengo) or [node.js](https://github.com/txthinking/nami/blob/master/package/node.js)
+        - And write the relative paths of executable files to `links` file, one path per line. Such as [go.tengo](https://github.com/txthinking/nami/blob/master/package/go.tengo) or [node.js](https://github.com/txthinking/nami/blob/master/package/node.js)
+        > After the installation process is finished, nami will copy the directory to the `$HOME/.nami/dir/` directory and will create symbolic links to the `$HOME/.nami/bin` based on `links`
+    - Write version to `version` file
+- `$HOME/.nami/copied`: This is usually used if the command to be installed is running, such as [brook.tengo](https://github.com/txthinking/nami/blob/master/package/brook.tengo), you may:
+    1. get the processes
+    2. stop the processes
+    3. copy(not move) the commands from `$HOME/.nami/cache` to `$HOME/.nami/bin`
+    4. copy the commands from `$HOME/.nami/cache` to `$HOME/.nami/copied`, this prompts nami not to perform duplicate operations
+    5. run the previously stopped processes again
 
-Create `exmaple.js`, write [jb](https://github.com/txthinking/jb) script to save commands into `nami.cache_dir`
+# Script
 
-### Step 2
+<details>
+<summary>tengo</summary>
 
-Test `exmaple.js`, `nami install ./exmaple.js`
+Nami supports [tengo](https://github.com/d5/tengo) script, there is a built-in module `import("nami")` for convenience:
 
-### Step 3
+- `nami.os`: linux/darwin/windows/...
+- `nami.arch`: amd64/arm64/...
+- `nami.home_dir`: $HOME
+- `nami.bin_dir`: $HOME/.nami/bin
+- `nami.cache_dir`: $HOME/.nami/cache
+- `nami.copied_dir`: $HOME/.nami/copied
+- `append_file(file string, text string) => error`
+- `write_file(file string, text string) => error`
+- `sh(name string, args...) => error`: run command
+- `sh1(name string, args...) => bytes/error`: run command and return stdout
 
-Fork nami project, put `exmaple.js` to package directory, create PR, then you can `nami install example`
+</details>
 
-OR
+<details>
+<summary>javascript</summary>
 
-Put `exmaple.js` to your own http server, then you can `nami install https://yourserver.com/exmaple.js`
+Nami supports [jb](https://github.com/txthinking/jb) script, there is a built-in global object `nami` for convenience:
 
-Checkout example [httpserver.js](https://github.com/txthinking/nami/blob/master/package/httpserver.js) and [shadowsocks.js](https://github.com/txthinking/nami/blob/master/package/shadowsocks.js)
+- `nami.os`: linux/darwin/windows/...
+- `nami.arch`: amd64/arm64/...
+- `nami.home_dir`: $HOME
+- `nami.bin_dir`: $HOME/.nami/bin
+- `nami.cache_dir`: $HOME/.nami/cache
+- `nami.copied_dir`: $HOME/.nami/copied
 
-# The `nami` variable has built-in jb.
+</details>
 
-Most commonly used
+### Run local script
 
--   `nami.os`: linux/darwin/windows/...
--   `nami.arch`: amd64/arm64/...
--   `nami.cache_dir`: you just need to put the command file here. A special text file name `version` is used to save the version number
+```
+nami install ./exmaple.js
+```
 
-Infrequently used
+### PR
 
--   `nami.home_dir`: user home dir
--   `nami.bin_dir`: nami bin dir
--   `nami.copied_dir`: This is usually used if the command to be installed is running, 1: first get the process command, 2: then stop the process, 3: then copy the command from cache_dir to bin_dir, 4: then copy the command from cache_dir to copied_dir, 5: run the previously stopped process again
--   `nami.tmp_dir`: tmp dir, you can do some prepare working
+Fork nami project, put `exmaple.js` to package directory, create PR, then you can
+
+```
+nami install example`
+```
+
+### Run remote script
+
+```
+nami install https://yourserver.com/exmaple.js
+```
 
 ## License
 
