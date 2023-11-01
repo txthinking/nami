@@ -18,13 +18,13 @@ if is_error(err) {
 
 got := false
 if nami.os == "linux" && nami.arch == "amd64" {
+    old := ""
     s := nami.sh1("sh", "-c", "cat /proc/cpuinfo | grep avx2")
     if is_error(s) {
-        fmt.println("Your CPU is too obsolete, so we have abandoned support for antiquities. But you can compile jb from source https://github.com/txthinking/jb")
-        os.exit(1)
+        old = "-baseline"
     }
     got = true
-    err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://github.com/txthinking/jb/releases/latest/download/jb_linux_amd64`, `-o`, text.join([nami.cache_dir, "jb"], os.path_separator))
+    err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://github.com/txthinking/jb/releases/latest/download/jb_linux_amd64`+old, `-o`, text.join([nami.cache_dir, "jb"], os.path_separator))
     if is_error(err) {
         fmt.println(err)
         os.exit(1)
