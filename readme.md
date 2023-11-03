@@ -60,6 +60,7 @@ Defaults        !env_reset
 | cidr-merger | A simple command line tool to merge ip/ip cidr/ip range, supports IPv4/IPv6 | [Website](https://github.com/zhanhb/cidr-merger) |
 | cloudflare | cloudflare cli | [Website](https://github.com/txthinking/cloudflare) |
 | cloudupload | Upload files to multiple Cloud Storage in parallel. Automatically apply for ssl certificate with your domain. | [Website](https://github.com/txthinking/cloudupload) |
+| cmake | CMake, the cross-platform, open-source build system. | [Website](https://cmake.org/) |
 | cowsay | cowsay is reborn. Neo Cowsay has written in Go. | [Website](https://github.com/Code-Hex/Neo-cowsay) |
 | d2 | D2 is a modern diagram scripting language that turns text to diagrams. | [Website](https://github.com/terrastruct/d2) |
 | deno | A modern runtime for JavaScript and TypeScript. | [Website](https://github.com/denoland/deno) |
@@ -85,6 +86,7 @@ Defaults        !env_reset
 | minify | Go minifiers for web formats | [Website](https://github.com/tdewolff/minify) |
 | nami | The easy way to download anything from anywhere. 从任何地方下载任何东西 | [Website](https://github.com/txthinking/nami) |
 | nico | A HTTP3 web server for reverse proxy and single page application, automatically apply for ssl certificate, Zero-Configuration. | [Website](https://github.com/txthinking/nico) |
+| ninja | a small build system with a focus on speed | [Website](https://github.com/ninja-build/ninja) |
 | node | Node.js is an open-source, cross-platform JavaScript runtime environment. | [Website](https://nodejs.org) |
 | protoc | Protocol Buffers - Google's data interchange format | [Website](https://github.com/protocolbuffers/protobuf) |
 | rsrc | Tool for embedding .ico & manifest resources in Go programs for Windows. | [Website](https://github.com/akavel/rsrc) |
