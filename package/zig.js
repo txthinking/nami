@@ -6,7 +6,7 @@ if (!(nami.os == "darwin" && nami.arch == "arm64") && !(nami.os == "darwin" && n
 
 // version
 // var s = $1("curl -L https://ziglang.org/download/index.json")
-var v = "0.12.0-dev.899+027aabf49"; // force version since zig still not 1.0
+var v = "0.12.0-dev.1297+a9e66ed73"; // force version since zig still not 1.0
 await writefile(`${nami.cache_dir}/version`, v)
 
 var s = ""
