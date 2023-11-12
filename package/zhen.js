@@ -5,7 +5,10 @@ if(!(nami.os == "darwin" && nami.arch == "arm64") && !(nami.os == "darwin" && na
 }
 
 // version
-write_file(`${nami.cache_dir}/version`, "v20231111")
+var s = $1("curl -L https://api.github.com/repos/txthinking/zhen/releases/latest")
+var v = JSON.parse(s).tag_name
+v = "v20231111" // TODO
+write_file(`${nami.cache_dir}/version`, v)
 
 // download and copy command files into nami.cache_dir
-cp(`https://github.com/txthinking/jinbe/releases/latest/download/zhen_${nami.os}_${nami.arch}`, `${nami.cache_dir}/zhen`)
+cp(`https://github.com/txthinking/zhen/releases/latest/download/zhen_${nami.os}_${nami.arch}`, `${nami.cache_dir}/zhen`)
