@@ -91,7 +91,6 @@ Defaults        !env_reset
 | protoc | Protocol Buffers - Google's data interchange format | [Website](https://github.com/protocolbuffers/protobuf) |
 | rsrc | Tool for embedding .ico & manifest resources in Go programs for Windows. | [Website](https://github.com/akavel/rsrc) |
 | shadowsocks | A Rust port of shadowsocks | [Website](https://github.com/shadowsocks/shadowsocks-rust) |
-| sitemap | Build sitemap.xml | [Website](https://github.com/txthinking/sitemap) |
 | sshexec | A command-line tool to execute remote command through ssh | [Website](https://github.com/txthinking/sshexec) |
 | stuntman | NAT type detection. NAT 类型检测 | [Website](https://www.stunprotocol.org/) |
 | tengo | A fast script language for Go | [Website](https://github.com/d5/tengo) |
