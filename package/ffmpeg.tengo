@@ -5,14 +5,52 @@ nami := import("nami")
 json := import("json")
 
 got := false
-if nami.os == "darwin" {
+if nami.os == "darwin" && nami.arch == "arm64" {
     got = true
     if err := nami.sh("which", "7z"); is_error(err){
         fmt.println("Please install 7z first: $ nami install 7z")
         os.exit(1)
     }
-    if nami.arch == "arm64" {
-        fmt.println("There is no arm64 version, will download amd64 version for you!")
+    err := nami.write_file(nami.cache_dir + "/version", "v6.1")
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+    err = nami.sh("curl", "-L", "--progress-bar", "https://www.osxexperts.net/ffmpeg61arm.zip", "-o", "/tmp/_.zip")
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+    nami.sh("rm", "-rf", "/tmp/_")
+    nami.sh("mkdir", "/tmp/_")
+    nami.sh("7z", "x", "/tmp/_.zip", "-o/tmp/_")
+    nami.sh("mv", "/tmp/_/ffmpeg", nami.cache_dir+"/ffmpeg")
+
+    err = nami.sh("curl", "-L", "--progress-bar", "https://www.osxexperts.net/ffprobe61arm.zip", "-o", "/tmp/_.zip")
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+    nami.sh("rm", "-rf", "/tmp/_")
+    nami.sh("mkdir", "/tmp/_")
+    nami.sh("7z", "x", "/tmp/_.zip", "-o/tmp/_")
+    nami.sh("mv", "/tmp/_/ffprobe", nami.cache_dir+"/ffprobe")
+
+    err = nami.sh("curl", "-L", "--progress-bar", "https://www.osxexperts.net/ffplay61arm.zip", "-o", "/tmp/_.zip")
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+    nami.sh("rm", "-rf", "/tmp/_")
+    nami.sh("mkdir", "/tmp/_")
+    nami.sh("7z", "x", "/tmp/_.zip", "-o/tmp/_")
+    nami.sh("mv", "/tmp/_/ffplay", nami.cache_dir+"/ffplay")
+}
+if nami.os == "darwin" && nami.arch == "amd64" {
+    got = true
+    if err := nami.sh("which", "7z"); is_error(err){
+        fmt.println("Please install 7z first: $ nami install 7z")
+        os.exit(1)
     }
     b := nami.sh1("curl", "-L", "https://evermeet.cx/ffmpeg/info/ffmpeg/release")
     if is_error(b) {
