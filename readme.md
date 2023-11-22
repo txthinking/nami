@@ -67,7 +67,6 @@ Defaults        !env_reset
 | denobundle | Bundle assets into the binary with deno compile | [Website](https://github.com/txthinking/denobundle) |
 | fd | A simple, fast and user-friendly alternative to 'find' | [Website](https://github.com/sharkdp/fd) |
 | ffmpeg | A complete, cross-platform solution to record, convert and stream audio and video. | [Website](https://github.com/txthinking/nami/blob/master/package/ffmpeg.tengo) |
-| filelink | Upload and download file in command line | [Website](https://github.com/txthinking/filelink) |
 | fzf | A command-line fuzzy finder | [Website](https://github.com/junegunn/fzf) |
 | go | An open-source programming language supported by Google | [Website](https://go.dev) |
 | hancock | Manage multiple remote servers and execute commands remotely. 管理多个远程服务器并远程执行命令 | [Website](https://github.com/txthinking/hancock) |
