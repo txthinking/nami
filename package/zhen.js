@@ -7,7 +7,6 @@ if(!(nami.os == "darwin" && nami.arch == "arm64") && !(nami.os == "darwin" && na
 // version
 var s = $1("curl -L https://api.github.com/repos/txthinking/zhen/releases/latest")
 var v = JSON.parse(s).tag_name
-v = "v20231111" // TODO
 write_file(`${nami.cache_dir}/version`, v)
 
 // download and copy command files into nami.cache_dir
