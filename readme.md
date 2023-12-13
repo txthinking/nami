@@ -62,6 +62,7 @@ Defaults        !env_reset
 | cloudupload | Upload files to multiple Cloud Storage in parallel. Automatically apply for ssl certificate with your domain. | [Website](https://github.com/txthinking/cloudupload) |
 | cmake | CMake, the cross-platform, open-source build system. | [Website](https://cmake.org/) |
 | cowsay | cowsay is reborn. Neo Cowsay has written in Go. | [Website](https://github.com/Code-Hex/Neo-cowsay) |
+| curl | curl with http3 support | [Website](https://github.com/curl/curl) |
 | d2 | D2 is a modern diagram scripting language that turns text to diagrams. | [Website](https://github.com/terrastruct/d2) |
 | deno | A modern runtime for JavaScript and TypeScript. | [Website](https://github.com/denoland/deno) |
 | denobundle | Bundle assets into the binary with deno compile | [Website](https://github.com/txthinking/denobundle) |
