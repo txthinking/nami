@@ -67,7 +67,7 @@ if nami.os == "linux" && nami.arch == "arm64" {
 }
 if nami.os == "windows" && nami.arch == "amd64" {
     got = true
-    err := nami.sh("curl", "-L", "--progress-bar", "https://curl.se/windows/latest.cgi?p=win64-mingw.zip", "-o", "/tmp/_.zip")
+    err := nami.sh("sh", "-c", "curl -L --progress-bar 'https://curl.se/windows/latest.cgi?p=win64-mingw.zip' -o /tmp/_.zip")
     if is_error(err) {
         fmt.println(err)
         os.exit(1)
@@ -76,7 +76,8 @@ if nami.os == "windows" && nami.arch == "amd64" {
     nami.sh("mkdir", "/tmp/_")
     nami.sh("unzip", "/tmp/_.zip", "-d", "/tmp/_")
     nami.sh("mv", "/tmp/_/*", "/tmp/_/curl")
-    nami.sh("mv", "/tmp/_/curl/bin/curl.exe", nami.cache_dir + "/curl")
+    nami.sh("mv", "/tmp/_/curl/bin/curl.exe", nami.cache_dir + "/curl.exe")
+    nami.sh("mv", "/tmp/_/curl/bin/curl-ca-bundle.crt", nami.cache_dir + "/curl-ca-bundle.crt")
 }
 if !got {
     fmt.println("curl does not support your OS or Arch now. PR welcome: https://github.com/txthinking/nami/blob/master/package")
