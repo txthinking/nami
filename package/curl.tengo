@@ -1,0 +1,84 @@
+os := import("os")
+fmt := import("fmt")
+text := import("text")
+nami := import("nami")
+json := import("json")
+
+b := nami.sh1("curl", "-L", "https://api.github.com/repos/stunnel/static-curl/releases/latest")
+if is_error(b) {
+    fmt.println(b)
+    os.exit(1)
+}
+v := json.decode(b).tag_name
+err := nami.write_file(text.join([nami.cache_dir, "version"], os.path_separator), v)
+if is_error(err) {
+    fmt.println(err)
+    os.exit(1)
+}
+
+got := false
+if nami.os == "darwin" && nami.arch == "arm64" {
+    got = true
+    err := nami.sh("curl", "-L", "--progress-bar", "https://github.com/stunnel/static-curl/releases/latest/download/curl-macos-arm64-"+v+".tar.xz", "-o", "/tmp/_.txz")
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+    nami.sh("rm", "-rf", "/tmp/_")
+    nami.sh("mkdir", "/tmp/_")
+    nami.sh("tar", "Jxf", "/tmp/_.txz", "-C", "/tmp/_")
+    nami.sh("mv", "/tmp/_/curl", nami.cache_dir + "/curl")
+}
+if nami.os == "darwin" && nami.arch == "amd64" {
+    got = true
+    err := nami.sh("curl", "-L", "--progress-bar", "https://github.com/stunnel/static-curl/releases/latest/download/curl-macos-arm64-"+v+".tar.xz", "-o", "/tmp/_.txz")
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+    nami.sh("rm", "-rf", "/tmp/_")
+    nami.sh("mkdir", "/tmp/_")
+    nami.sh("tar", "Jxf", "/tmp/_.txz", "-C", "/tmp/_")
+    nami.sh("mv", "/tmp/_/curl", nami.cache_dir + "/curl")
+}
+if nami.os == "linux" && nami.arch == "amd64" {
+    got = true
+    err := nami.sh("curl", "-L", "--progress-bar", "https://github.com/stunnel/static-curl/releases/latest/download/curl-static-amd64-"+v+".tar.xz", "-o", "/tmp/_.txz")
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+    nami.sh("rm", "-rf", "/tmp/_")
+    nami.sh("mkdir", "/tmp/_")
+    nami.sh("tar", "Jxf", "/tmp/_.txz", "-C", "/tmp/_")
+    nami.sh("mv", "/tmp/_/curl", nami.cache_dir + "/curl")
+}
+if nami.os == "linux" && nami.arch == "arm64" {
+    got = true
+    err := nami.sh("curl", "-L", "--progress-bar", "https://github.com/stunnel/static-curl/releases/latest/download/curl-static-arm64-"+v+".tar.xz", "-o", "/tmp/_.txz")
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+    nami.sh("rm", "-rf", "/tmp/_")
+    nami.sh("mkdir", "/tmp/_")
+    nami.sh("tar", "Jxf", "/tmp/_.txz", "-C", "/tmp/_")
+    nami.sh("mv", "/tmp/_/curl", nami.cache_dir + "/curl")
+}
+if nami.os == "windows" && nami.arch == "amd64" {
+    got = true
+    err := nami.sh("curl", "-L", "--progress-bar", "https://curl.se/windows/latest.cgi?p=win64-mingw.zip", "-o", "/tmp/_.zip")
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+    nami.sh("rm", "-rf", "/tmp/_")
+    nami.sh("mkdir", "/tmp/_")
+    nami.sh("unzip", "/tmp/_.zip", "-d", "/tmp/_")
+    nami.sh("mv", "/tmp/_/*", "/tmp/_/curl")
+    nami.sh("mv", "/tmp/_/curl/bin/curl.exe", nami.cache_dir + "/curl")
+}
+if !got {
+    fmt.println("curl does not support your OS or Arch now. PR welcome: https://github.com/txthinking/nami/blob/master/package")
+    os.exit(1)
+}
