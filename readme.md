@@ -165,7 +165,7 @@ nami install ./exmaple.js
 Fork nami project, put `exmaple.js` to package directory, create PR, then you can
 
 ```
-nami install example`
+nami install example
 ```
 
 ### Run remote script
