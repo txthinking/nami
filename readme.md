@@ -8,7 +8,7 @@ A clean and tidy decentralized package manager.
 
     bash <(curl https://bash.ooo/nami.sh)
 
-> ⚠️ Windows user should run in [Git Bash](https://gitforwindows.org/), [Video](https://www.youtube.com/watch?v=CioIqzSlXl8)
+> ⚠️ Windows user should run in [Git Bash](https://t.me/txthinking/64946/65299), [Video](https://www.youtube.com/watch?v=CioIqzSlXl8)
 
 ## Example
 
