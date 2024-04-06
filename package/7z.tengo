@@ -13,6 +13,9 @@ v := text.trim_space(string(b))
 if nami.os == "darwin" {
     v = "21.07"
 }
+if nami.os == "linux" {
+    v = "23.01"
+}
 err := nami.write_file(text.join([nami.cache_dir, "version"], os.path_separator), v)
 if is_error(err) {
     fmt.println(err)
