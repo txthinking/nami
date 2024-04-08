@@ -24,7 +24,7 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-var version = "20231101"
+var version = "20240408"
 
 func main() {
 	app := cli.NewApp()

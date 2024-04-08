@@ -24,7 +24,7 @@ if is_error(err) {
 s := ""
 if nami.os == "linux" && nami.arch == "amd64" {
     s = "nvim-linux64"
-    err = nami.sh("sh", "-c", fmt.sprintf(`curl -L --progress-bar https://github.com/neovim/neovim/releases/latest/download/${s}.tar.gz -o /tmp/_.tgz`, s))
+    err = nami.sh("sh", "-c", fmt.sprintf(`curl -L --progress-bar https://github.com/neovim/neovim/releases/latest/download/%s.tar.gz -o /tmp/_.tgz`, s))
     if is_error(err) {
         fmt.println(err)
         os.exit(1)
