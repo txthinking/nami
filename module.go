@@ -18,7 +18,9 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"runtime"
+	"strings"
 
 	"github.com/d5/tengo/v2"
 	"github.com/d5/tengo/v2/stdlib"
@@ -156,6 +158,247 @@ func (n *Nami) Module() {
 				cmd.Stderr = os.Stderr
 				cmd.Stdout = os.Stdout
 				err := cmd.Run()
+				if err != nil {
+					return &tengo.Error{Value: &tengo.String{Value: err.Error()}}, nil
+				}
+				return tengo.TrueValue, nil
+			},
+		},
+		"cp": &tengo.UserFunction{
+			Value: func(args ...tengo.Object) (tengo.Object, error) {
+				if len(args) != 2 && len(args) != 3 {
+					return nil, tengo.ErrWrongNumArguments
+				}
+				sh := func(s string) error {
+					cmd := exec.Command("sh", "-c", s)
+					cmd.Stderr = os.Stderr
+					cmd.Stdout = os.Stdout
+					return cmd.Run()
+				}
+				from, ok := tengo.ToString(args[0])
+				if !ok {
+					return nil, tengo.ErrInvalidArgumentType{
+						Name:     "first",
+						Expected: "string(compatible)",
+						Found:    args[0].TypeName(),
+					}
+				}
+				var out string
+				if strings.HasSuffix(from, ".zip") {
+					out = "_.zip"
+					if err := sh("which 7z"); err != nil {
+						return &tengo.Error{Value: &tengo.String{Value: "need 7z, recommend $ nami install 7z"}}, nil
+					}
+				}
+				if strings.HasSuffix(from, ".tar.gz") || strings.HasSuffix(from, ".tgz") {
+					out = "_.tgz"
+				}
+				if strings.HasSuffix(from, ".tar.xz") || strings.HasSuffix(from, ".txz") {
+					out = "_.txz"
+				}
+				if out == "" {
+					to, ok := tengo.ToString(args[1])
+					if !ok {
+						return nil, tengo.ErrInvalidArgumentType{
+							Name:     "second",
+							Expected: "string(compatible)",
+							Found:    args[1].TypeName(),
+						}
+					}
+					if strings.HasPrefix(from, "https://") || strings.HasSuffix(from, "http://") {
+						if err := sh(fmt.Sprintf(`curl -L --progress-bar "%s" -o "%s"`, from, to)); err != nil {
+							return &tengo.Error{Value: &tengo.String{Value: err.Error()}}, nil
+						}
+					} else {
+						if err := sh(fmt.Sprintf(`cp "%s" "%s"`, from, to)); err != nil {
+							return &tengo.Error{Value: &tengo.String{Value: err.Error()}}, nil
+						}
+					}
+					return tengo.TrueValue, nil
+				}
+				if strings.HasPrefix(from, "https://") || strings.HasSuffix(from, "http://") {
+					if err := sh(fmt.Sprintf(`curl -L --progress-bar "%s" -o "/tmp/%s"`, from, out)); err != nil {
+						return &tengo.Error{Value: &tengo.String{Value: err.Error()}}, nil
+					}
+				} else {
+					if err := sh(fmt.Sprintf(`cp "%s" "/tmp/%s"`, from, out)); err != nil {
+						return &tengo.Error{Value: &tengo.String{Value: err.Error()}}, nil
+					}
+				}
+				if err := sh(`rm -rf /tmp/_`); err != nil {
+					return &tengo.Error{Value: &tengo.String{Value: err.Error()}}, nil
+				}
+				if err := sh(`mkdir /tmp/_`); err != nil {
+					return &tengo.Error{Value: &tengo.String{Value: err.Error()}}, nil
+				}
+				if strings.HasSuffix(out, ".zip") {
+					if err := sh(fmt.Sprintf(`7z x /tmp/%s -o/tmp/_`, out)); err != nil {
+						return &tengo.Error{Value: &tengo.String{Value: err.Error()}}, nil
+					}
+				}
+				if strings.HasSuffix(out, ".tgz") {
+					if err := sh(fmt.Sprintf(`tar zxf /tmp/%s -C /tmp/_`, out)); err != nil {
+						return &tengo.Error{Value: &tengo.String{Value: err.Error()}}, nil
+					}
+				}
+				if strings.HasSuffix(out, ".txz") {
+					if err := sh(fmt.Sprintf(`tar Jxf /tmp/%s -C /tmp/_`, out)); err != nil {
+						return &tengo.Error{Value: &tengo.String{Value: err.Error()}}, nil
+					}
+				}
+				// if len(args) == 3 {
+				// 	a, ok := tengo.ToString(args[1])
+				// 	if !ok {
+				// 		return nil, tengo.ErrInvalidArgumentType{
+				// 			Name:     "second",
+				// 			Expected: "string(compatible)",
+				// 			Found:    args[1].TypeName(),
+				// 		}
+				// 	}
+				// 	b, ok := tengo.ToString(args[2])
+				// 	if !ok {
+				// 		return nil, tengo.ErrInvalidArgumentType{
+				// 			Name:     "third",
+				// 			Expected: "string(compatible)",
+				// 			Found:    args[2].TypeName(),
+				// 		}
+				// 	}
+				// 	if err := sh(fmt.Sprintf(`cp "/tmp/_/%s" "%s"`, a, b)); err != nil {
+				// 		return &tengo.Error{Value: &tengo.String{Value: err.Error()}}, nil
+				// 	}
+				// 	return tengo.TrueValue, nil
+				// }
+				m, ok := args[1].(*tengo.Map)
+				if !ok {
+					return nil, tengo.ErrInvalidArgumentType{
+						Name:     "second",
+						Expected: "map(compatible)",
+						Found:    args[1].TypeName(),
+					}
+				}
+				for a, b0 := range m.Value {
+					b, ok := tengo.ToString(b0)
+					if !ok {
+						return nil, tengo.ErrInvalidArgumentType{
+							Name:     "second",
+							Expected: "map[string]string(compatible)",
+							Found:    args[1].TypeName(),
+						}
+					}
+					if err := sh(fmt.Sprintf(`cp "/tmp/_/%s" "%s"`, a, b)); err != nil {
+						return &tengo.Error{Value: &tengo.String{Value: err.Error()}}, nil
+					}
+				}
+				return tengo.TrueValue, nil
+			},
+		},
+		"cp_dir": &tengo.UserFunction{
+			Value: func(args ...tengo.Object) (tengo.Object, error) {
+				if len(args) != 3 {
+					return nil, tengo.ErrWrongNumArguments
+				}
+				sh := func(s string) error {
+					cmd := exec.Command("sh", "-c", s)
+					cmd.Stderr = os.Stderr
+					cmd.Stdout = os.Stdout
+					return cmd.Run()
+				}
+				from, ok := tengo.ToString(args[0])
+				if !ok {
+					return nil, tengo.ErrInvalidArgumentType{
+						Name:     "first",
+						Expected: "string(compatible)",
+						Found:    args[0].TypeName(),
+					}
+				}
+				var out string
+				if strings.HasSuffix(from, ".zip") {
+					out = "_.zip"
+					if err := sh("which 7z"); err != nil {
+						return &tengo.Error{Value: &tengo.String{Value: "need 7z, recommend $ nami install 7z"}}, nil
+					}
+				}
+				if strings.HasSuffix(from, ".tar.gz") || strings.HasSuffix(from, ".tgz") {
+					out = "_.tgz"
+				}
+				if strings.HasSuffix(from, ".tar.xz") || strings.HasSuffix(from, ".txz") {
+					out = "_.txz"
+				}
+				if out == "" {
+					return &tengo.Error{Value: &tengo.String{Value: "first argument should be a compressed file"}}, nil
+				}
+				if strings.HasPrefix(from, "https://") || strings.HasSuffix(from, "http://") {
+					if err := sh(fmt.Sprintf(`curl -L --progress-bar "%s" -o "/tmp/%s"`, from, out)); err != nil {
+						return &tengo.Error{Value: &tengo.String{Value: err.Error()}}, nil
+					}
+				} else {
+					if err := sh(fmt.Sprintf(`cp "%s" "/tmp/%s"`, from, out)); err != nil {
+						return &tengo.Error{Value: &tengo.String{Value: err.Error()}}, nil
+					}
+				}
+				if err := sh(`rm -rf /tmp/_`); err != nil {
+					return &tengo.Error{Value: &tengo.String{Value: err.Error()}}, nil
+				}
+				if err := sh(`mkdir /tmp/_`); err != nil {
+					return &tengo.Error{Value: &tengo.String{Value: err.Error()}}, nil
+				}
+				if strings.HasSuffix(out, ".zip") {
+					if err := sh(fmt.Sprintf(`7z x /tmp/%s -o/tmp/_`, out)); err != nil {
+						return &tengo.Error{Value: &tengo.String{Value: err.Error()}}, nil
+					}
+				}
+				if strings.HasSuffix(out, ".tgz") {
+					if err := sh(fmt.Sprintf(`tar zxf /tmp/%s -C /tmp/_`, out)); err != nil {
+						return &tengo.Error{Value: &tengo.String{Value: err.Error()}}, nil
+					}
+				}
+				if strings.HasSuffix(out, ".txz") {
+					if err := sh(fmt.Sprintf(`tar Jxf /tmp/%s -C /tmp/_`, out)); err != nil {
+						return &tengo.Error{Value: &tengo.String{Value: err.Error()}}, nil
+					}
+				}
+				m, ok := args[1].(*tengo.Map)
+				if !ok {
+					return nil, tengo.ErrInvalidArgumentType{
+						Name:     "second",
+						Expected: "map(compatible)",
+						Found:    args[1].TypeName(),
+					}
+				}
+				for a, b0 := range m.Value {
+					b, ok := tengo.ToString(b0)
+					if !ok {
+						return nil, tengo.ErrInvalidArgumentType{
+							Name:     "second",
+							Expected: "map[string]string(compatible)",
+							Found:    args[1].TypeName(),
+						}
+					}
+					if err := sh(fmt.Sprintf(`mv "/tmp/_/%s" "%s"`, a, b)); err != nil {
+						return &tengo.Error{Value: &tengo.String{Value: err.Error()}}, nil
+					}
+				}
+				l, ok := args[2].(*tengo.Array)
+				if !ok {
+					return nil, tengo.ErrInvalidArgumentType{
+						Name:     "third",
+						Expected: "array(compatible)",
+						Found:    args[2].TypeName(),
+					}
+				}
+				links := []string{}
+				for _, v := range l.Value {
+					s, ok := tengo.ToString(v)
+					if !ok {
+						return nil, tengo.ErrInvalidArgumentType{
+							Name:     "third",
+							Expected: "[string](compatible)",
+							Found:    args[2].TypeName(),
+						}
+					}
+					links = append(links, s)
+				}
+				err := os.WriteFile(filepath.Join(n.CacheDir, "links"), []byte(strings.Join(links, "\n")), 0666)
 				if err != nil {
 					return &tengo.Error{Value: &tengo.String{Value: err.Error()}}, nil
 				}

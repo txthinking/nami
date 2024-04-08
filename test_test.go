@@ -15,13 +15,18 @@
 package main
 
 import (
-	"errors"
 	"log"
+	"os"
 	"os/exec"
 	"testing"
 )
 
 func TestTest(t *testing.T) {
-	path, err := exec.LookPath("nami")
-	log.Println(path, errors.Is(err, exec.ErrNotFound))
+	sh := func(s string) error {
+		cmd := exec.Command("sh", "-c", "which z7z")
+		cmd.Stderr = os.Stderr
+		cmd.Stdout = os.Stdout
+		return cmd.Run()
+	}
+	log.Println(sh(""))
 }

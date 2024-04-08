@@ -1,0 +1,75 @@
+os := import("os")
+fmt := import("fmt")
+text := import("text")
+nami := import("nami")
+json := import("json")
+enum := import("enum")
+
+if !(nami.os == "darwin" && nami.arch == "arm64") && !(nami.os == "darwin" && nami.arch == "amd64") && !(nami.os == "linux" && nami.arch == "arm64") && !(nami.os == "linux" && nami.arch == "amd64") && !(nami.os == "windows" && nami.arch == "amd64") {
+    fmt.println("This package does not support your OS or Arch now. PR welcome: https://github.com/txthinking/nami/blob/master/package")
+    os.exit(1)
+}
+
+b := nami.sh1("curl", "-L", "https://nodejs.org/download/release/index.json")
+if is_error(b) {
+    fmt.println(b)
+    os.exit(1)
+}
+v := enum.find(json.decode(b), func(k, v){return v.lts}).version
+err := nami.write_file(nami.cache_dir + "/version", v)
+if is_error(err) {
+    fmt.println(err)
+    os.exit(1)
+}
+
+s := ""
+if nami.os != "windows" {
+    if nami.os == "darwin" && nami.arch == "arm64" {
+        s = "darwin-arm64"
+    }
+    if nami.os == "darwin" && nami.arch == "amd64" {
+        s = "darwin-x64"
+    }
+    if nami.os == "linux" && nami.arch == "arm64" {
+        s = "linux-arm64"
+    }
+    if nami.os == "linux" && nami.arch == "amd64" {
+        s = "linux-x64"
+    }
+    s = fmt.sprintf(`node-%s-%s`, v, s)
+    err = nami.sh("sh", "-c", fmt.sprintf(`curl -L --progress-bar https://nodejs.org/dist/%s/%s.tar.gz -o /tmp/_.tgz`, v, s))
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+    nami.sh("sh", "-c", `rm -rf /tmp/_`)
+    nami.sh("sh", "-c", `mkdir /tmp/_`)
+    nami.sh("sh", "-c", `tar zxf /tmp/_.tgz -C /tmp/_`)
+    nami.sh("sh", "-c", fmt.sprintf(`mv /tmp/_/%s %s/node`, s, nami.cache_dir))
+    nami.write_file(nami.cache_dir + `/links`, "node/bin/node\n")
+    nami.append_file(nami.cache_dir + `/links`, "node/bin/corepack\n")
+    nami.append_file(nami.cache_dir + `/links`, "node/bin/npm\n")
+    nami.append_file(nami.cache_dir + `/links`, "node/bin/npx\n")
+}
+if (nami.os == "windows") {
+    if err := nami.sh("which", "7z"); is_error(err){
+        fmt.println("Please install 7z first: $ nami install 7z")
+        os.exit(1)
+    }
+
+    s = fmt.sprintf(`node-%s-win-x64`, v)
+    err = nami.sh("sh", "-c", fmt.sprintf(`curl -L --progress-bar https://nodejs.org/dist/%s/%s.zip -o /tmp/_.zip`, v, s))
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+    nami.sh("sh", "-c", `rm -rf /tmp/_`)
+    nami.sh("sh", "-c", `mkdir /tmp/_`)
+    nami.sh("sh", "-c", `7z x /tmp/_.zip -o/tmp/_`)
+    nami.sh("sh", "-c", fmt.sprintf(`mv /tmp/_/%s %s/node`, s, nami.cache_dir))
+    nami.write_file(nami.cache_dir + `/links`, "node/bin/node.exe\n")
+    nami.append_file(nami.cache_dir + `/links`, "node/bin/corepack\n")
+    nami.append_file(nami.cache_dir + `/links`, "node/bin/npm\n")
+    nami.append_file(nami.cache_dir + `/links`, "node/bin/npx\n")
+}
+

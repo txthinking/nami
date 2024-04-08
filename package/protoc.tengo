@@ -1,0 +1,41 @@
+os := import("os")
+fmt := import("fmt")
+text := import("text")
+nami := import("nami")
+json := import("json")
+
+if !(nami.os == "darwin" && nami.arch == "arm64") && !(nami.os == "darwin" && nami.arch == "amd64") && !(nami.os == "linux" && nami.arch == "amd64") && !(nami.os == "windows" && nami.arch == "amd64"){
+    fmt.println("This package does not support your OS or Arch now. PR welcome: https://github.com/txthinking/nami/blob/master/package")
+    os.exit(1)
+}
+
+b := nami.sh1("curl", "-L", "https://api.github.com/repos/protocolbuffers/protobuf/releases/latest")
+if is_error(b) {
+    fmt.println(b)
+    os.exit(1)
+}
+v := json.decode(b).tag_name
+err := nami.write_file(nami.cache_dir + "/version", v)
+if is_error(err) {
+    fmt.println(err)
+    os.exit(1)
+}
+
+s := ""
+if nami.os == "darwin" && nami.arch == "arm64" {
+    s = "osx-aarch_64"
+}
+if nami.os == "darwin" && nami.arch == "amd64" {
+    s = "osx-x86_64"
+}
+if nami.os == "linux" {
+    s = "linux-x86_64"
+}
+exe := ""
+if nami.os == "windows" {
+    s = "win64"
+    exe = ".exe"
+}
+m := {}
+m["bin/protoc"+exe] = nami.cache_dir+"/protoc"+exe
+nami.cp(fmt.sprintf(`https://github.com/protocolbuffers/protobuf/releases/latest/download/protoc-%s-%s.zip`, v[1:], s), m)

@@ -1,0 +1,41 @@
+os := import("os")
+fmt := import("fmt")
+text := import("text")
+nami := import("nami")
+json := import("json")
+
+if !(nami.os == "darwin" && nami.arch == "arm64") && !(nami.os == "darwin" && nami.arch == "amd64") && !(nami.os == "linux" && nami.arch == "arm64") && !(nami.os == "linux" && nami.arch == "amd64") {
+    fmt.println("This package does not support your OS or Arch now. PR welcome: https://github.com/txthinking/nami/blob/master/package")
+    os.exit(1)
+}
+
+// var s = $1("curl -L https://ziglang.org/download/index.json")
+v := "0.12.0-dev.1604+caae40c21" // force version since zig still not 1.0
+err := nami.write_file(nami.cache_dir + "/version", v)
+if is_error(err) {
+    fmt.println(err)
+    os.exit(1)
+}
+
+s := ""
+if nami.os == "darwin" && nami.arch == "arm64" {
+    s = "macos-aarch64"
+}
+if nami.os == "darwin" && nami.arch == "amd64" {
+    s = "macos-x86_64"
+}
+if nami.os == "linux" && nami.arch == "arm64" {
+    s = "linux-aarch64"
+}
+if nami.os == "linux" && nami.arch == "amd64" {
+    s = "linux-x86_64"
+}
+s = fmt.sprintf(`zig-%s-%s`, s, v)
+
+m := {}
+m[s] = nami.cache_dir+"/zig"
+err = nami.cp_dir(fmt.sprintf(`https://ziglang.org/builds/%s.tar.xz`, s), m, ["zig/zig"])
+if is_error(err) {
+    fmt.println(err)
+    os.exit(1)
+}

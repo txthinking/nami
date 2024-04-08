@@ -25,15 +25,6 @@ nami install nami
 ```
 
 <details>
-<summary>With HTTPS_PROXY environment</summary>
-
-```
-export HTTPS_PROXY=http://127.0.0.1:8010
-nami install brook
-```
-</details>
-
-<details>
 <summary>Keep PATH with sudo</summary>
 
 ```
@@ -106,11 +97,11 @@ Defaults        !env_reset
 - `$HOME/.nami/bin`: When installing nami, this path is already added to your $PATH
 - `$HOME/.nami/cache`: This directory will be emptied before installing package
     - If the package can be standalone executable files:
-        - The script should save only executable files to here. Such as [shadowsocks.tengo](https://github.com/txthinking/nami/blob/master/package/shadowsocks.tengo) or [shadowsocks.js](https://github.com/txthinking/nami/blob/master/package/shadowsocks.js)
+        - The script should save only executable files to here. Such as [shadowsocks.tengo](https://github.com/txthinking/nami/blob/master/package/shadowsocks.tengo)
         > After the installation process is finished, nami will copy these files to the `$HOME/.nami/bin` directory
     - If the package is a directory:
-        - The script should save the directory into here. Such as [go.tengo](https://github.com/txthinking/nami/blob/master/package/go.tengo) or [node.js](https://github.com/txthinking/nami/blob/master/package/node.js)
-        - And write the relative paths of executable files to `links` file, one path per line. Such as [go.tengo](https://github.com/txthinking/nami/blob/master/package/go.tengo) or [node.js](https://github.com/txthinking/nami/blob/master/package/node.js)
+        - The script should save the directory into here. Such as [go.tengo](https://github.com/txthinking/nami/blob/master/package/go.tengo)
+        - And write the relative paths of executable files to `links` file, one path per line. Such as [go.tengo](https://github.com/txthinking/nami/blob/master/package/go.tengo)
         > After the installation process is finished, nami will copy the directory to the `$HOME/.nami/dir/` directory and will create symbolic links to the `$HOME/.nami/bin` based on `links`
     - Write version to `version` file
 - `$HOME/.nami/copied`: This is usually used if the command to be installed is running, such as [brook.tengo](https://github.com/txthinking/nami/blob/master/package/brook.tengo), you may:
@@ -137,32 +128,21 @@ Nami supports [tengo](https://github.com/d5/tengo) script, there is a built-in m
 - `write_file(file string, text string) => error`
 - `sh(name string, args...) => error`: run command
 - `sh1(name string, args...) => bytes/error`: run command and return stdout
-
-</details>
-
-<details>
-<summary>javascript</summary>
-
-Nami supports [jb](https://github.com/txthinking/jb) script, there is a built-in global object `nami` for convenience:
-
-- `nami.os`: linux/darwin/windows/...
-- `nami.arch`: amd64/arm64/...
-- `nami.home_dir`: $HOME
-- `nami.bin_dir`: $HOME/.nami/bin
-- `nami.cache_dir`: $HOME/.nami/cache
-- `nami.copied_dir`: $HOME/.nami/copied
+- `cp(url string, dst string) => bytes/error`: download file to dst
+- `cp(url string, { from: dst, from1: dst1 }) => bytes/error`: download compressed file, and copy one or more files
+- `cp_dir(url string, { from: dst, from1: dst1 }, [link, link1]) => bytes/error`: download compressed file, and copy one or more directories, and create symbolic links
 
 </details>
 
 ### Run local script
 
 ```
-nami install ./exmaple.js
+nami install ./exmaple.tengo
 ```
 
 ### PR
 
-Fork nami project, put `exmaple.js` to package directory, create PR, then you can
+Fork nami project, put `exmaple.tengo` to package directory, create PR, then you can
 
 ```
 nami install example
@@ -171,7 +151,7 @@ nami install example
 ### Run remote script
 
 ```
-nami install https://yourserver.com/exmaple.js
+nami install https://yourserver.com/exmaple.tengo
 ```
 
 ## License
