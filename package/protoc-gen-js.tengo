@@ -1,0 +1,55 @@
+os := import("os")
+fmt := import("fmt")
+text := import("text")
+nami := import("nami")
+json := import("json")
+
+if !(nami.os == "darwin" && nami.arch == "arm64") && !(nami.os == "darwin" && nami.arch == "amd64") && !(nami.os == "linux" && nami.arch == "amd64") && !(nami.os == "linux" && nami.arch == "arm64") && !(nami.os == "windows" && nami.arch == "amd64") {
+    fmt.println("This package does not support your OS or Arch now. PR welcome: https://github.com/txthinking/nami/blob/master/package")
+    os.exit(1)
+}
+
+b := nami.sh1("curl", "-L", "https://api.github.com/repos/protocolbuffers/protobuf-javascript/releases/latest")
+if is_error(b) {
+    fmt.println(b)
+    os.exit(1)
+}
+v := json.decode(b).tag_name
+err := nami.write_file(nami.cache_dir + "/version", v)
+if is_error(err) {
+    fmt.println(err)
+    os.exit(1)
+}
+
+if nami.os == "darwin" && nami.arch == "arm64" {
+    err = nami.cp(fmt.sprintf(`https://github.com/protocolbuffers/protobuf-javascript/releases/latest/download/protobuf-javascript-%s-osx-aarch_64.tar.gz`, v[1:]), {
+        "bin/protoc-gen-js": nami.cache_dir + `/protoc-gen-js`
+    })
+}
+if nami.os == "darwin" && nami.arch == "amd64" {
+    err = nami.cp(fmt.sprintf(`https://github.com/protocolbuffers/protobuf-javascript/releases/latest/download/protobuf-javascript-%s-osx-x86_64.tar.gz`, v[1:]), {
+        "bin/protoc-gen-js": nami.cache_dir + `/protoc-gen-js`
+    })
+}
+if nami.os == "linux" && nami.arch == "arm64" {
+    err = nami.cp(fmt.sprintf(`https://github.com/protocolbuffers/protobuf-javascript/releases/latest/download/protobuf-javascript-%s-linux-aarch_64.tar.gz`, v[1:]), {
+        "bin/protoc-gen-js": nami.cache_dir + `/protoc-gen-js`
+    })
+}
+if nami.os == "linux" && nami.arch == "amd64" {
+    err = nami.cp(fmt.sprintf(`https://github.com/protocolbuffers/protobuf-javascript/releases/latest/download/protobuf-javascript-%s-linux-x86_64.tar.gz`, v[1:]), {
+        "bin/protoc-gen-js": nami.cache_dir + `/protoc-gen-js`
+    })
+}
+if nami.os == "windows" && nami.arch == "amd64" {
+    err = nami.cp(fmt.sprintf(`https://github.com/protocolbuffers/protobuf-javascript/releases/latest/download/protobuf-javascript-%s-win64.zip`, v[1:]), {
+        "bin/protoc-gen-js.exe": nami.cache_dir + `/protoc-gen-js.exe`
+    })
+}
+
+if is_error(err) {
+    fmt.println(err)
+    os.exit(1)
+}
+
+
