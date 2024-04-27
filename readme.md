@@ -80,6 +80,7 @@ Defaults        !env_reset
 | ninja | a small build system with a focus on speed | [Website](https://github.com/ninja-build/ninja) |
 | node | Node.js is an open-source, cross-platform JavaScript runtime environment. | [Website](https://nodejs.org) |
 | protoc | Protocol Buffers - Google's data interchange format | [Website](https://github.com/protocolbuffers/protobuf) |
+| protoc-gen-js | protoc-gen-js executable | [Website](https://github.com/protocolbuffers/protobuf-javascript) |
 | rsrc | Tool for embedding .ico & manifest resources in Go programs for Windows. | [Website](https://github.com/akavel/rsrc) |
 | shadowsocks | A Rust port of shadowsocks | [Website](https://github.com/shadowsocks/shadowsocks-rust) |
 | sshexec | A command-line tool to execute remote command through ssh | [Website](https://github.com/txthinking/sshexec) |
