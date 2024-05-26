@@ -1,0 +1,34 @@
+os := import("os")
+fmt := import("fmt")
+text := import("text")
+nami := import("nami")
+json := import("json")
+
+if !(nami.os == "linux" && nami.arch == "amd64") {
+    fmt.println("This package does not support your OS or Arch now. PR welcome: https://github.com/txthinking/nami/blob/master/package")
+    os.exit(1)
+}
+
+b := nami.sh1("curl", "-L", "https://api.github.com/repos/etcd-io/etcd/releases/latest")
+if is_error(b) {
+    fmt.println(b)
+    os.exit(1)
+}
+v := json.decode(b).tag_name
+err := nami.write_file(nami.cache_dir + "/version", v)
+if is_error(err) {
+    fmt.println(err)
+    os.exit(1)
+}
+
+if nami.os == "linux" && nami.arch == "amd64" {
+    m := {}
+    m["etcd-"+v+"-linux-amd64/etcdctl"]= nami.cache_dir + `/etcdctl`
+    m["etcd-"+v+"-linux-amd64/etcdutl"]= nami.cache_dir + `/etcdutl`
+    m["etcd-"+v+"-linux-amd64/etcd"]= nami.cache_dir + `/etcd`
+    err = nami.cp(`https://github.com/etcd-io/etcd/releases/latest/download/etcd-`+v+`-linux-amd64.tar.gz`, m)
+}
+if is_error(err) {
+    fmt.println(err)
+    os.exit(1)
+}
