@@ -57,6 +57,7 @@ Defaults        !env_reset
 | d2 | D2 is a modern diagram scripting language that turns text to diagrams. | [Website](https://github.com/terrastruct/d2) |
 | deno | A modern runtime for JavaScript and TypeScript. | [Website](https://github.com/denoland/deno) |
 | denobundle | Bundle assets into the binary with deno compile | [Website](https://github.com/txthinking/denobundle) |
+| etcd | Distributed reliable key-value store for the most critical data of a distributed system | [Website](https://github.com/etcd-io/etcd) |
 | fd | A simple, fast and user-friendly alternative to 'find' | [Website](https://github.com/sharkdp/fd) |
 | ffmpeg | A complete, cross-platform solution to record, convert and stream audio and video. | [Website](https://github.com/txthinking/nami/blob/master/package/ffmpeg.tengo) |
 | fzf | A command-line fuzzy finder | [Website](https://github.com/junegunn/fzf) |
