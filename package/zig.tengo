@@ -9,8 +9,8 @@ if !(nami.os == "darwin" && nami.arch == "arm64") && !(nami.os == "darwin" && na
     os.exit(1)
 }
 
-// var s = $1("curl -L https://ziglang.org/download/index.json")
-v := "0.12.0-dev.1604+caae40c21" // force version since zig still not 1.0
+// TODO: get latest stable version from https://ziglang.org/download/index.json
+v := "0.13.0"
 err := nami.write_file(nami.cache_dir + "/version", v)
 if is_error(err) {
     fmt.println(err)
