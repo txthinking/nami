@@ -9,7 +9,7 @@ if !(nami.os == "darwin" && nami.arch == "arm64") && !(nami.os == "darwin" && na
     os.exit(1)
 }
 
-b := nami.sh1("curl", "-L", "https://api.github.com/repos/txthinking/zhen/releases/latest")
+b := nami.sh1("curl", "-L", "https://api.github.com/repos/txthinking/z/releases/latest")
 if is_error(b) {
     fmt.println(b)
     os.exit(1)
@@ -21,4 +21,4 @@ if is_error(err) {
     os.exit(1)
 }
 
-nami.cp(fmt.sprintf(`https://github.com/txthinking/zhen/releases/latest/download/zhen_%s_%s`, nami.os, nami.arch), nami.cache_dir+`/zhen`)
+nami.cp(fmt.sprintf(`https://github.com/txthinking/z/releases/latest/download/z_%s_%s`, nami.os, nami.arch), nami.cache_dir+`/z`)
