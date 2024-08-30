@@ -4,7 +4,7 @@ text := import("text")
 nami := import("nami")
 json := import("json")
 
-if !(nami.os == "linux" && nami.arch == "amd64") {
+if !(nami.os == "linux" && nami.arch == "amd64") && !(nami.os == "darwin" && nami.arch == "arm64"){
     fmt.println("This package does not support your OS or Arch now. PR welcome: https://github.com/txthinking/nami/blob/master/package")
     os.exit(1)
 }
@@ -24,15 +24,21 @@ if is_error(err) {
 s := ""
 if nami.os == "linux" && nami.arch == "amd64" {
     s = "nvim-linux64"
-    err = nami.sh("sh", "-c", fmt.sprintf(`curl -L --progress-bar https://github.com/neovim/neovim/releases/latest/download/%s.tar.gz -o /tmp/_.tgz`, s))
-    if is_error(err) {
-        fmt.println(err)
-        os.exit(1)
-    }
-    nami.sh("sh", "-c", `rm -rf /tmp/_`)
-    nami.sh("sh", "-c", `mkdir /tmp/_`)
-    nami.sh("sh", "-c", `tar zxvf /tmp/_.tgz -C /tmp/_`)
-    nami.sh("sh", "-c", fmt.sprintf(`mv /tmp/_/%s %s/nvim`, s, nami.cache_dir))
-    nami.write_file(nami.cache_dir + `/links`, "nvim/bin/nvim\n")
+}
+if nami.os == "darwin" && nami.arch == "arm64" {
+    s = "nvim-macos-arm64"
 }
 
+err = nami.sh("sh", "-c", fmt.sprintf(`curl -L --progress-bar https://github.com/neovim/neovim/releases/latest/download/%s.tar.gz -o /tmp/_.tgz`, s))
+if is_error(err) {
+	fmt.println(err)
+	os.exit(1)
+}
+if nami.os == "darwin" {
+	nami.sh("sh", "-c", `xattr -c /tmp/_.tgz`)
+}
+nami.sh("sh", "-c", `rm -rf /tmp/_`)
+nami.sh("sh", "-c", `mkdir /tmp/_`)
+nami.sh("sh", "-c", `tar zxf /tmp/_.tgz -C /tmp/_`)
+nami.sh("sh", "-c", fmt.sprintf(`mv /tmp/_/%s %s/nvim`, s, nami.cache_dir))
+nami.write_file(nami.cache_dir + `/links`, "nvim/bin/nvim\n")
