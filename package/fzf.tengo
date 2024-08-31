@@ -9,7 +9,7 @@ if is_error(b) {
     fmt.println(b)
     os.exit(1)
 }
-v := json.decode(b).tag_name
+v := json.decode(b).name
 err := nami.write_file(text.join([nami.cache_dir, "version"], os.path_separator), v)
 if is_error(err) {
     fmt.println(err)
@@ -19,35 +19,27 @@ if is_error(err) {
 got := false
 if nami.os == "darwin" && nami.arch == "arm64" {
     got = true
-    if err := nami.sh("which", "7z"); is_error(err){
-        fmt.println("Please install 7z first: $ nami install 7z")
-        os.exit(1)
-    }
-    err := nami.sh("curl", "-L", "--progress-bar", "https://github.com/junegunn/fzf/releases/latest/download/fzf-"+v+"-darwin_arm64.zip", "-o", text.join([nami.tmp_dir, "_.zip"], os.path_separator))
+    err := nami.sh("curl", "-L", "--progress-bar", "https://github.com/junegunn/fzf/releases/latest/download/fzf-"+v+"-darwin_arm64.tar.gz", "-o", text.join([nami.tmp_dir, "_.tgz"], os.path_separator))
     if is_error(err) {
         fmt.println(err)
         os.exit(1)
     }
     nami.sh("rm", "-rf", text.join([nami.tmp_dir, "_"], os.path_separator))
     nami.sh("mkdir", text.join([nami.tmp_dir, "_"], os.path_separator))
-    nami.sh("7z", "x", text.join([nami.tmp_dir, "_.zip"], os.path_separator), "-o" + text.join([nami.tmp_dir, "_"], os.path_separator))
+    nami.sh("tar", "zxvf", text.join([nami.tmp_dir, "_.tgz"], os.path_separator), "-C", text.join([nami.tmp_dir, "_"], os.path_separator))
     nami.sh("mv", text.join([nami.tmp_dir, "_", "fzf"], os.path_separator), text.join([nami.cache_dir, "fzf"], os.path_separator))
     nami.write_file(text.join([nami.cache_dir, "vimf"], os.path_separator), "#!/bin/bash\nvim $(fzf)\n")
 }
 if nami.os == "darwin" && nami.arch == "amd64" {
     got = true
-    if err := nami.sh("which", "7z"); is_error(err){
-        fmt.println("Please install 7z first: $ nami install 7z")
-        os.exit(1)
-    }
-    err := nami.sh("curl", "-L", "--progress-bar", "https://github.com/junegunn/fzf/releases/latest/download/fzf-"+v+"-darwin_amd64.zip", "-o", text.join([nami.tmp_dir, "_.zip"], os.path_separator))
+    err := nami.sh("curl", "-L", "--progress-bar", "https://github.com/junegunn/fzf/releases/latest/download/fzf-"+v+"-darwin_amd64.tar.gz", "-o", text.join([nami.tmp_dir, "_.tgz"], os.path_separator))
     if is_error(err) {
         fmt.println(err)
         os.exit(1)
     }
     nami.sh("rm", "-rf", text.join([nami.tmp_dir, "_"], os.path_separator))
     nami.sh("mkdir", text.join([nami.tmp_dir, "_"], os.path_separator))
-    nami.sh("7z", "x", text.join([nami.tmp_dir, "_.zip"], os.path_separator), "-o" + text.join([nami.tmp_dir, "_"], os.path_separator))
+    nami.sh("tar", "zxvf", text.join([nami.tmp_dir, "_.tgz"], os.path_separator), "-C", text.join([nami.tmp_dir, "_"], os.path_separator))
     nami.sh("mv", text.join([nami.tmp_dir, "_", "fzf"], os.path_separator), text.join([nami.cache_dir, "fzf"], os.path_separator))
     nami.write_file(text.join([nami.cache_dir, "vimf"], os.path_separator), "#!/bin/bash\nvim $(fzf)\n")
 }
