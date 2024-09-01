@@ -62,7 +62,7 @@ func NewNami() (*Nami, error) {
 	if err := os.MkdirAll(dir, 0777); err != nil {
 		return nil, err
 	}
-	db, err := bbolt.Open(filepath.Join(s, ".nami", "db"), 0644, nil)
+	db, err := bbolt.Open(filepath.Join(s, ".nami", "db"), 0600, nil)
 	if err != nil {
 		return nil, err
 	}
