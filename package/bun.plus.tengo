@@ -1,0 +1,104 @@
+nami:= import("nami")
+
+nami.write_file(nami.cache_dir+"/_bun_import_url.js", `
+const rx_any = /./;
+const rx_http = /^https?:\/\//;
+const rx_relative_path = /^\.\.?\//;
+
+function load_http_module(href) {
+    return fetch(href).then(function (response) {
+        return response.text().then(function (text) {
+            return (
+                response.ok
+                ? {contents: text, loader: "js"}
+                : Promise.reject(
+                    new Error("Failed to load module '" + href + "': " + text)
+                )
+            );
+        });
+    });
+}
+
+Bun.plugin({
+    name: "http_imports",
+    setup(build) {
+        build.onResolve({filter: rx_relative_path}, function (args) {
+            if (rx_http.test(args.importer)) {
+                return {path: new URL(args.path, args.importer).href};
+            }
+        });
+        build.onLoad({filter: rx_any, namespace: "http"}, function (args) {
+            return load_http_module("http:" + args.path);
+        });
+        build.onLoad({filter: rx_any, namespace: "https"}, function (args) {
+            return load_http_module("https:" + args.path);
+        });
+    }
+});
+`)
+
+nami.write_file(nami.cache_dir+"/bunu", `
+#!/bin/bash
+
+which bun > /dev/null
+if [ $? -ne 0 ]; then
+    nami install bun
+fi
+
+if [[ $1 == https://* ]]; then
+    s=$(date +%s)
+    curl -s "$1" -L -o /tmp/$s.js
+    if [ $? -ne 0 ]; then
+        echo "failed to load file"
+        exit 1
+    fi
+    arg1="/tmp/$s.js"
+    bun --preload $HOME/.nami/bin/_bun_import_url.js "$arg1" "${@:2}"
+else
+    bun --preload $HOME/.nami/bin/_bun_import_url.js "$@"
+fi
+`)
+
+nami.write_file(nami.cache_dir+"/bunj", `
+#!/bin/bash
+
+which bun > /dev/null
+if [ $? -ne 0 ]; then
+    nami install bun
+fi
+
+if [[ $1 == https://* ]]; then
+    s=$(date +%s)
+    curl -s "$1" -L -o /tmp/$s.js
+    if [ $? -ne 0 ]; then
+        echo "failed to load file"
+        exit 1
+    fi
+    arg1="/tmp/$s.js"
+    joker bun --preload $HOME/.nami/bin/_bun_import_url.js "$arg1" "${@:2}"
+else
+    joker bun --preload $HOME/.nami/bin/_bun_import_url.js "$@"
+fi
+`)
+
+nami.write_file(nami.cache_dir+"/bunz", `
+#!/bin/bash
+
+which bun > /dev/null
+if [ $? -ne 0 ]; then
+    nami install bun
+fi
+
+if [[ $1 == https://* ]]; then
+    s=$(date +%s)
+    curl -s "$1" -L -o /tmp/$s.js
+    if [ $? -ne 0 ]; then
+        echo "failed to load file"
+        exit 1
+    fi
+    arg1="/tmp/$s.js"
+    z bun --preload $HOME/.nami/bin/_bun_import_url.js "$arg1" "${@:2}"
+else
+    z bun --preload $HOME/.nami/bin/_bun_import_url.js "$@"
+fi
+`)
