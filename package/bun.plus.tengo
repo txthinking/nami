@@ -37,8 +37,7 @@ Bun.plugin({
 });
 `)
 
-nami.write_file(nami.cache_dir+"/bunu", `
-#!/bin/bash
+nami.write_file(nami.cache_dir+"/bunu", `#!/bin/bash
 
 which bun > /dev/null
 if [ $? -ne 0 ]; then
@@ -59,8 +58,7 @@ else
 fi
 `)
 
-nami.write_file(nami.cache_dir+"/bunj", `
-#!/bin/bash
+nami.write_file(nami.cache_dir+"/bunj", `#!/bin/bash
 
 which bun > /dev/null
 if [ $? -ne 0 ]; then
@@ -81,8 +79,7 @@ else
 fi
 `)
 
-nami.write_file(nami.cache_dir+"/bunz", `
-#!/bin/bash
+nami.write_file(nami.cache_dir+"/bunz", `#!/bin/bash
 
 which bun > /dev/null
 if [ $? -ne 0 ]; then
