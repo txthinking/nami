@@ -34,7 +34,7 @@ s = fmt.sprintf(`zig-%s-%s`, s, v)
 
 m := {}
 m[s] = nami.cache_dir+"/zig"
-err = nami.cp_dir(fmt.sprintf(`https://ziglang.org/builds/%s.tar.xz`, s), m, ["zig/zig"])
+err = nami.cp_dir(fmt.sprintf(`https://ziglang.org/download/%s/%s.tar.xz`, v, s), m, ["zig/zig"])
 if is_error(err) {
     fmt.println(err)
     os.exit(1)
