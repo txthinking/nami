@@ -9,7 +9,7 @@ if !(nami.os == "linux" && nami.arch == "amd64") {
     os.exit(1)
 }
 
-b := nami.sh1("curl", "-L", "https://api.github.com/repos/txthinkinginc/brook-user-system/releases/latest")
+b := nami.sh1("curl", "-L", "https://api.github.com/repos/txthinkinginc/brook-store/releases/latest")
 if is_error(b) {
     fmt.println(b)
     os.exit(1)
@@ -21,4 +21,4 @@ if is_error(err) {
     os.exit(1)
 }
 
-nami.cp(`https://github.com/txthinkinginc/brook-user-system/releases/latest/download/brook-user-system`, nami.cache_dir+`/brook-user-system`)
+nami.cp(`https://github.com/txthinkinginc/brook-store/releases/latest/download/brook-store`, nami.cache_dir+`/brook-store`)
