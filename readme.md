@@ -43,9 +43,8 @@ Defaults        !env_reset
 | --- | --- | --- |
 | 7z | 7-Zip is a file archiver with a high compression ratio. | [Website](https://7-zip.org/) |
 | agg | asciinema gif generator | [Website](https://github.com/asciinema/agg) |
-| brook-manager | A Web UI for fully automatic management of Brook | [Website](https://github.com/txthinking/brook-manager) |
+| brook-store | A brook user system | [Website](https://github.com/txthinkinginc/brook-store) |
 | brook | A cross-platform network tool designed for developers. | [Website](https://github.com/txthinking/brook) |
-| brookscript | Brook One-click script | [Website](https://github.com/txthinking/bash/blob/master/brook.js) |
 | bun | Incredibly fast JavaScript runtime, bundler, transpiler and package manager – all in one. | [Website](https://github.com/oven-sh/bun) |
 | caddy | Fast and extensible multi-platform HTTP/1-2-3 web server with automatic HTTPS | [Website](https://github.com/caddyserver/caddy) |
 | cidr-merger | A simple command line tool to merge ip/ip cidr/ip range, supports IPv4/IPv6 | [Website](https://github.com/zhanhb/cidr-merger) |
@@ -68,9 +67,7 @@ Defaults        !env_reset
 | icnsify | Easily create .icns files (Mac Icons) | [Website](https://github.com/JackMordaunt/icns) |
 | ipatool | Command-line tool that allows searching and downloading app packages (known as ipa files) from the iOS App Store | [Website](https://github.com/majd/ipatool) |
 | ix | command line pastebin. | [Website](http://ix.io/) |
-| jinbe | Jinbe can add auto start command at boot. Zero-Configuration | [Website](https://github.com/txthinking/jinbe) |
 | joker | Joker can turn process into daemon. Zero-Configuration | [Website](https://github.com/txthinking/joker) |
-| jb |  jb = javascript + bash | [Website](https://github.com/txthinking/jb) |
 | jq | Command-line JSON processor | [Website](https://github.com/jqlang/jq) |
 | mad | Generate root CA and derivative certificate for any domains and any IPs | [Website](https://github.com/txthinking/mad) |
 | markdown | markdown converter | [Website](https://github.com/txthinking/markdown) |
@@ -79,6 +76,7 @@ Defaults        !env_reset
 | nami | The easy way to download anything from anywhere | [Website](https://github.com/txthinking/nami) |
 | nico | A HTTP3 web server for reverse proxy and single page application, automatically apply for ssl certificate, Zero-Configuration. | [Website](https://github.com/txthinking/nico) |
 | ninja | a small build system with a focus on speed | [Website](https://github.com/ninja-build/ninja) |
+| nsq | A realtime distributed messaging platform | [Website](https://github.com/nsqio/nsq) |
 | node | Node.js is an open-source, cross-platform JavaScript runtime environment. | [Website](https://nodejs.org) |
 | protoc | Protocol Buffers - Google's data interchange format | [Website](https://github.com/protocolbuffers/protobuf) |
 | protoc-gen-js | protoc-gen-js executable | [Website](https://github.com/protocolbuffers/protobuf-javascript) |
@@ -89,6 +87,7 @@ Defaults        !env_reset
 | tengo | A fast script language for Go | [Website](https://github.com/d5/tengo) |
 | tun2brook | Proxy all traffic just one line command. tun2socks, tun2brook. IPv4 and IPv6, TCP and UDP. | [Website](https://github.com/txthinking/tun2brook) |
 | yt-dlp | Command-line program to download videos from YouTube.com and other video sites | [Website](https://github.com/ytdl-org/youtube-dl/) |
+| z | a process manager | [Website](https://github.com/txthinking/z) |
 | zig | Zig is a general-purpose programming language and toolchain for maintaining robust, optimal and reusable software. | [Website](https://ziglang.org/) |
 | zigup | Download and manage zig compilers. | [Website](https://github.com/marler8997/zigup) |
 | zoro | zoro can help you expose local server to external network. Support both TCP/UDP, of course support HTTP. Zero-Configuration | [Website](https://github.com/txthinking/zoro) |
