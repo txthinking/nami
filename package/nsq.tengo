@@ -31,16 +31,16 @@ if nami.os == "linux" && nami.arch == "amd64" {
 }
 if nami.os == "darwin" && nami.arch == "arm64" {
     m := {}
-    m["nsq-1.3.0.darwin-amd64.go1.21.5/bin/nsq_to_file"] = nami.cache_dir + `/nsq_to_file`
-    m["nsq-1.3.0.darwin-amd64.go1.21.5/bin/nsqlookupd"] = nami.cache_dir + `/nsqlookupd`
-    m["nsq-1.3.0.darwin-amd64.go1.21.5/bin/nsq_tail"] = nami.cache_dir + `/nsq_tail`
-    m["nsq-1.3.0.darwin-amd64.go1.21.5/bin/nsqadmin"] = nami.cache_dir + `/nsqadmin`
-    m["nsq-1.3.0.darwin-amd64.go1.21.5/bin/nsq_to_http"] = nami.cache_dir + `/nsq_to_http`
-    m["nsq-1.3.0.darwin-amd64.go1.21.5/bin/nsq_stat"] = nami.cache_dir + `/nsq_stat`
-    m["nsq-1.3.0.darwin-amd64.go1.21.5/bin/nsqd"] = nami.cache_dir + `/nsqd`
-    m["nsq-1.3.0.darwin-amd64.go1.21.5/bin/to_nsq"] = nami.cache_dir + `/to_nsq`
-    m["nsq-1.3.0.darwin-amd64.go1.21.5/bin/nsq_to_nsq"] = nami.cache_dir + `/nsq_to_nsq`
-    err = nami.cp(`https://github.com/nsqio/nsq/releases/download/v1.3.0/nsq-1.3.0.darwin-amd64.go1.21.5.tar.gz`, m)
+    m["nsq-1.3.0.darwin-arm64.go1.21.5/bin/nsq_to_file"] = nami.cache_dir + `/nsq_to_file`
+    m["nsq-1.3.0.darwin-arm64.go1.21.5/bin/nsqlookupd"] = nami.cache_dir + `/nsqlookupd`
+    m["nsq-1.3.0.darwin-arm64.go1.21.5/bin/nsq_tail"] = nami.cache_dir + `/nsq_tail`
+    m["nsq-1.3.0.darwin-arm64.go1.21.5/bin/nsqadmin"] = nami.cache_dir + `/nsqadmin`
+    m["nsq-1.3.0.darwin-arm64.go1.21.5/bin/nsq_to_http"] = nami.cache_dir + `/nsq_to_http`
+    m["nsq-1.3.0.darwin-arm64.go1.21.5/bin/nsq_stat"] = nami.cache_dir + `/nsq_stat`
+    m["nsq-1.3.0.darwin-arm64.go1.21.5/bin/nsqd"] = nami.cache_dir + `/nsqd`
+    m["nsq-1.3.0.darwin-arm64.go1.21.5/bin/to_nsq"] = nami.cache_dir + `/to_nsq`
+    m["nsq-1.3.0.darwin-arm64.go1.21.5/bin/nsq_to_nsq"] = nami.cache_dir + `/nsq_to_nsq`
+    err = nami.cp(`https://github.com/nsqio/nsq/releases/download/v1.3.0/nsq-1.3.0.darwin-arm64.go1.21.5.tar.gz`, m)
 }
 if is_error(err) {
     fmt.println(err)
