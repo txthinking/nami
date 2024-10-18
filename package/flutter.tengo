@@ -3,4 +3,6 @@ fmt := import("fmt")
 text := import("text")
 nami := import("nami")
 
-nami.sh("git", "clone", text.join([nami.home_dir, "flutter"], os.path_separator))
+nami.sh("git", "clone", "https://github.com/flutter/flutter.git", nami.home_dir + "/flutter")
+fmt.println("TODO:")
+fmt.println("export PATH=$HOME/flutter/bin:$PATH")
