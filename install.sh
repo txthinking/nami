@@ -37,13 +37,15 @@ curl -L -o /tmp/nami$sfx "https://github.com/txthinking/nami/releases/latest/dow
 chmod +x /tmp/nami$sfx
 /tmp/nami$sfx install nami
 
-echo 'if [ -d $HOME/.nami/bin ]; then' >>$HOME/.bashrc
-echo '    export PATH=$HOME/.nami/bin:$PATH' >>$HOME/.bashrc
-echo 'fi' >>$HOME/.bashrc
 
-echo 'if [ -d $HOME/.nami/bin ]; then' >>$HOME/.bash_profile
-echo '    export PATH=$HOME/.nami/bin:$PATH' >>$HOME/.bash_profile
-echo 'fi' >>$HOME/.bash_profile
-
-echo source ~/.bashrc >>$HOME/.zshenv
-echo source ~/.bash_profile >>$HOME/.zshenv
+if [ -f $HOME/.bash_profile ]; then
+    echo 'if [ -d $HOME/.nami/bin ]; then' >>$HOME/.bash_profile
+    echo '    export PATH=$HOME/.nami/bin:$PATH' >>$HOME/.bash_profile
+    echo 'fi' >>$HOME/.bash_profile
+    echo source ~/.bash_profile >>$HOME/.zshenv
+elif [ -f $HOME/.bashrc ]; then
+    echo 'if [ -d $HOME/.nami/bin ]; then' >>$HOME/.bashrc
+    echo '    export PATH=$HOME/.nami/bin:$PATH' >>$HOME/.bashrc
+    echo 'fi' >>$HOME/.bashrc
+    echo source ~/.bashrc >>$HOME/.zshenv
+fi
