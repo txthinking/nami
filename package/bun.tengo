@@ -75,6 +75,18 @@ if nami.os == "linux" && nami.arch == "arm64" {
     nami.sh("7z", "x", text.join([nami.tmp_dir, "_.zip"], os.path_separator), "-o" + text.join([nami.tmp_dir, "_"], os.path_separator))
     nami.sh("mv", text.join([nami.tmp_dir, "_", "bun-linux-aarch64", "bun"], os.path_separator), text.join([nami.cache_dir, "bun"], os.path_separator))
 }
+if nami.os == "windows" && nami.arch == "amd64" {
+    got = true
+    err := nami.sh("curl", "-L", "--progress-bar", "https://github.com/oven-sh/bun/releases/latest/download/bun-windows-x64.zip", "-o", text.join([nami.tmp_dir, "_.zip"], os.path_separator))
+    if is_error(err) {
+        fmt.println(err)
+        os.exit(1)
+    }
+    nami.sh("rm", "-rf", text.join([nami.tmp_dir, "_"], os.path_separator))
+    nami.sh("mkdir", text.join([nami.tmp_dir, "_"], os.path_separator))
+    nami.sh("7z", "x", text.join([nami.tmp_dir, "_.zip"], os.path_separator), "-o" + text.join([nami.tmp_dir, "_"], os.path_separator))
+    nami.sh("mv", text.join([nami.tmp_dir, "_", "bun-windows-x64", "bun.exe"], os.path_separator), text.join([nami.cache_dir, "bun.exe"], os.path_separator))
+}
 if !got {
     fmt.println("bun does not support your OS or Arch now. PR welcome: https://github.com/txthinking/nami/blob/master/package")
     os.exit(1)
