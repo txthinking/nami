@@ -42,72 +42,21 @@ if nami.os == "windows" && nami.arch == "amd64" {
         os.exit(1)
     }
 }
-if nami.os == "linux" && (nami.arch == "amd64" || nami.arch == "arm64") {
+if nami.os == "linux" && nami.arch == "arm64" {
     got = true
-	i := []
-	c := []
-    joker := nami.sh1("which", "joker")
-    if joker != "" {
-        s := nami.sh1("joker", "list")
-		l := text.split(s, "\n")
-		for v in l {
-			l1 := text.re_split(`\s+`, text.trim_space(v), -1)
-			if is_error(l1) || len(l1) < 5 {
-				continue
-			}
-			if !text.has_suffix(l1[4], "brook") {
-				continue
-			}
-			i = append(i, l1[0])
-			c = append(c, text.join(enum.map(l1[4:], func(_, v){return "'"+v+"'"}), " "))
-		}
-		for v in i {
-			_ := nami.sh("joker", "stop", v)
-		}
-		err := nami.sh("sleep", "3")
-		if is_error(err) {
-			fmt.println(err)
-			os.exit(1)
-		}
-    }
-    if nami.arch == "amd64" {
-        err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://github.com/txthinking/brook/releases/latest/download/brook_linux_amd64`, `-o`, text.join([nami.cache_dir, "brook"], os.path_separator))
-        if is_error(err) {
-            fmt.println(err)
-            os.exit(1)
-        }
-    }
-    if nami.arch == "arm64" {
-        err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://github.com/txthinking/brook/releases/latest/download/brook_linux_arm64`, `-o`, text.join([nami.cache_dir, "brook"], os.path_separator))
-        if is_error(err) {
-            fmt.println(err)
-            os.exit(1)
-        }
-    }
-	err := nami.sh("cp", text.join([nami.cache_dir, "brook"], os.path_separator), text.join([nami.bin_dir, "brook"], os.path_separator))
+    err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://github.com/txthinking/brook/releases/latest/download/brook_linux_arm64`, `-o`, text.join([nami.cache_dir, "brook"], os.path_separator))
     if is_error(err) {
         fmt.println(err)
         os.exit(1)
     }
-	err = nami.sh("cp", text.join([nami.cache_dir, "brook"], os.path_separator), text.join([nami.copied_dir, "brook"], os.path_separator))
+}
+if nami.os == "linux" && nami.arch == "amd64" {
+    got = true
+    err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://github.com/txthinking/brook/releases/latest/download/brook_linux_amd64`, `-o`, text.join([nami.cache_dir, "brook"], os.path_separator))
     if is_error(err) {
         fmt.println(err)
         os.exit(1)
     }
-	err = nami.sh("chmod", "+x", text.join([nami.bin_dir, "brook"], os.path_separator))
-    if is_error(err) {
-        fmt.println(err)
-        os.exit(1)
-    }
-	if joker != "" {
-		for v in c {
-			err := nami.sh("sh", "-c", "joker " + v)
-			if is_error(err) {
-				fmt.println(err)
-				os.exit(1)
-			}
-		}
-	}
 }
 if !got {
     fmt.println("brook does not support your OS or Arch now. PR welcome: https://github.com/txthinking/nami/blob/master/package")
