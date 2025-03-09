@@ -28,12 +28,12 @@ f := func(){
         return
     }
     if nami.os == "linux" && nami.arch == "amd64" {
-        s := "curl-linux-x86_64-"+v+".tar.xz"
+        s := "curl-linux-x86_64-musl-"+v+".tar.xz"
         nami.cp("https://github.com/stunnel/static-curl/releases/latest/download/"+s, {curl: nami.cache_dir + "/curl"})
         return
     }
     if nami.os == "linux" && nami.arch == "arm64" {
-        s := "curl-linux-aarch64-"+v+".tar.xz"
+        s := "curl-linux-aarch64-musl-"+v+".tar.xz"
         nami.cp("https://github.com/stunnel/static-curl/releases/latest/download/"+s, {curl: nami.cache_dir + "/curl"})
         return
     }
