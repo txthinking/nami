@@ -22,12 +22,12 @@ if is_error(err) {
 }
 
 if nami.os == "darwin" && nami.arch == "arm64" {
-    err = nami.cp(fmt.sprintf(`https://github.com/protocolbuffers/protobuf-javascript/releases/latest/download/protobuf-javascript-%s-osx-aarch_64.tar.gz`, v[1:]), {
+    err = nami.cp(fmt.sprintf(`https://github.com/protocolbuffers/protobuf-javascript/releases/latest/download/protobuf-javascript-%s-osx-aarch_64.zip`, v[1:]), {
         "bin/protoc-gen-js": nami.cache_dir + `/protoc-gen-js`
     })
 }
 if nami.os == "darwin" && nami.arch == "amd64" {
-    err = nami.cp(fmt.sprintf(`https://github.com/protocolbuffers/protobuf-javascript/releases/latest/download/protobuf-javascript-%s-osx-x86_64.tar.gz`, v[1:]), {
+    err = nami.cp(fmt.sprintf(`https://github.com/protocolbuffers/protobuf-javascript/releases/latest/download/protobuf-javascript-%s-osx-x86_64.zip`, v[1:]), {
         "bin/protoc-gen-js": nami.cache_dir + `/protoc-gen-js`
     })
 }
