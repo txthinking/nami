@@ -49,6 +49,7 @@ f := func(){
         nami.sh("mv", "/tmp/_/*", "/tmp/_/curl")
         nami.sh("mv", "/tmp/_/curl/bin/curl.exe", nami.cache_dir + "/curl.exe")
         nami.sh("mv", "/tmp/_/curl/bin/curl-ca-bundle.crt", nami.cache_dir + "/curl-ca-bundle.crt")
+        return
     }
     fmt.println("curl does not support your OS or Arch now. PR welcome: https://github.com/txthinking/nami/blob/master/package")
     os.exit(1)
