@@ -1,0 +1,35 @@
+os := import("os")
+fmt := import("fmt")
+text := import("text")
+nami := import("nami")
+json := import("json")
+
+b := nami.sh1("curl", "-L", "https://api.github.com/repos/zigtools/zls/releases/latest")
+if is_error(b) {
+    fmt.println(b)
+    os.exit(1)
+}
+v := json.decode(b).tag_name
+err := nami.write_file(nami.cache_dir + "/version", v)
+if is_error(err) {
+    fmt.println(err)
+    os.exit(1)
+}
+
+got := false
+if nami.os == "darwin" && nami.arch == "arm64" {
+    got = true
+    nami.cp("https://github.com/zigtools/zls/releases/latest/download/zls-aarch64-macos.tar.xz", {
+	"zls": nami.cache_dir+"/zls"
+    })
+}
+if nami.os == "linux" && nami.arch == "amd64" {
+    got = true
+    nami.cp("https://github.com/zigtools/zls/releases/latest/download/zls-x86_64-linux.tar.xz", {
+	"zls": nami.cache_dir+"/zls"
+    })
+}
+if !got {
+    fmt.println("zls does not support your OS or Arch now. PR welcome: https://github.com/txthinking/nami/blob/master/package")
+    os.exit(1)
+}
