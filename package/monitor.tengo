@@ -1,0 +1,19 @@
+os := import("os")
+fmt := import("fmt")
+text := import("text")
+nami := import("nami")
+json := import("json")
+
+got := false
+if nami.os == "linux" && nami.arch == "arm64" {
+    got = true
+    nami.cp("https://github.com/txthinking/bash/releases/latest/download/monitor_linux_arm64", nami.cache_dir+"/monitor")
+}
+if nami.os == "linux" && nami.arch == "amd64" {
+    got = true
+    nami.cp("https://github.com/txthinking/bash/releases/latest/download/monitor_linux_amd64", nami.cache_dir+"/monitor")
+}
+if !got {
+    fmt.println("monitor does not support your OS or Arch now. PR welcome: https://github.com/txthinking/nami/blob/master/package")
+    os.exit(1)
+}
