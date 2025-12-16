@@ -23,7 +23,7 @@ if is_error(err) {
 
 s := ""
 if nami.os == "linux" && nami.arch == "amd64" {
-    s = "nvim-linux64"
+    s = "nvim-linux-x86_64"
 }
 if nami.os == "darwin" && nami.arch == "arm64" {
     s = "nvim-macos-arm64"
