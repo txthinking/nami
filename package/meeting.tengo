@@ -1,0 +1,15 @@
+os := import("os")
+fmt := import("fmt")
+text := import("text")
+nami := import("nami")
+json := import("json")
+
+got := false
+if nami.os == "linux" && nami.arch == "amd64" {
+    got = true
+    nami.cp("https://github.com/txthinkinginc/meeting/releases/latest/download/meeting_linux_amd64", nami.cache_dir+"/meeting")
+}
+if !got {
+    fmt.println("meeting does not support your OS or Arch now. PR welcome: https://github.com/txthinking/nami/blob/master/package")
+    os.exit(1)
+}
