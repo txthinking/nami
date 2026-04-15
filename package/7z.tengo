@@ -11,10 +11,10 @@ if is_error(b) {
 }
 v := text.trim_space(string(b))
 if nami.os == "darwin" {
-    v = "21.07"
+    v = "26.00"
 }
 if nami.os == "linux" {
-    v = "23.01"
+    v = "26.00"
 }
 err := nami.write_file(text.join([nami.cache_dir, "version"], os.path_separator), v)
 if is_error(err) {
@@ -25,7 +25,7 @@ if is_error(err) {
 got := false
 if nami.os == "darwin" {
     got = true
-    err := nami.sh("curl", "-L", "--progress-bar", "https://7-zip.org/a/7z"+text.replace(v, ".", "", 1)+"-mac.tar.xz", "-o", text.join([nami.tmp_dir, "_.txz"], os.path_separator))
+    err := nami.sh("curl", "-L", "--progress-bar", "https://github.com/ip7z/7zip/releases/download/26.00/7z2600-mac.tar.xz", "-o", text.join([nami.tmp_dir, "_.txz"], os.path_separator))
     if is_error(err) {
         fmt.println(err)
         os.exit(1)
@@ -37,7 +37,7 @@ if nami.os == "darwin" {
 }
 if nami.os == "linux" && nami.arch == "amd64" {
     got = true
-    err := nami.sh("curl", "-L", "--progress-bar", "https://7-zip.org/a/7z"+text.replace(v, ".", "", 1)+"-linux-x64.tar.xz", "-o", text.join([nami.tmp_dir, "_.txz"], os.path_separator))
+    err := nami.sh("curl", "-L", "--progress-bar", "https://github.com/ip7z/7zip/releases/download/26.00/7z2600-linux-x64.tar.xz", "-o", text.join([nami.tmp_dir, "_.txz"], os.path_separator))
     if is_error(err) {
         fmt.println(err)
         os.exit(1)
@@ -49,7 +49,7 @@ if nami.os == "linux" && nami.arch == "amd64" {
 }
 if nami.os == "linux" && nami.arch == "arm64" {
     got = true
-    err := nami.sh("curl", "-L", "--progress-bar", "https://7-zip.org/a/7z"+text.replace(v, ".", "", 1)+"-linux-arm64.tar.xz", "-o", text.join([nami.tmp_dir, "_.txz"], os.path_separator))
+    err := nami.sh("curl", "-L", "--progress-bar", "https://github.com/ip7z/7zip/releases/download/26.00/7z2600-linux-arm64.tar.xz", "-o", text.join([nami.tmp_dir, "_.txz"], os.path_separator))
     if is_error(err) {
         fmt.println(err)
         os.exit(1)
