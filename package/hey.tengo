@@ -22,7 +22,7 @@ if nami.os == "darwin" {
     if nami.arch == "arm64" {
         fmt.println("There is no arm64 version, will download amd64 version for you!")
     }
-    err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://hey-release.s3.us-east-2.amazonaws.com/hey_darwin_amd64`, `-o`, text.join([nami.cache_dir, "hey"], os.path_separator))
+    err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://storage.googleapis.com/hey-releases/hey_darwin_amd64`, `-o`, text.join([nami.cache_dir, "hey"], os.path_separator))
     if is_error(err) {
         fmt.println(err)
         os.exit(1)
@@ -30,7 +30,7 @@ if nami.os == "darwin" {
 }
 if nami.os == "linux" && nami.arch == "amd64" {
     got = true
-    err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://hey-release.s3.us-east-2.amazonaws.com/hey_linux_amd64`, `-o`, text.join([nami.cache_dir, "hey"], os.path_separator))
+    err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://storage.googleapis.com/hey-releases/hey_linux_amd64`, `-o`, text.join([nami.cache_dir, "hey"], os.path_separator))
     if is_error(err) {
         fmt.println(err)
         os.exit(1)
@@ -38,7 +38,7 @@ if nami.os == "linux" && nami.arch == "amd64" {
 }
 if nami.os == "windows" && nami.arch == "amd64" {
     got = true
-    err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://hey-release.s3.us-east-2.amazonaws.com/hey_windows_amd64`, `-o`, text.join([nami.cache_dir, "hey.exe"], os.path_separator))
+    err := nami.sh(`curl`, `-L`, `--progress-bar`, `https://storage.googleapis.com/hey-releases/hey_windows_amd64`, `-o`, text.join([nami.cache_dir, "hey.exe"], os.path_separator))
     if is_error(err) {
         fmt.println(err)
         os.exit(1)
